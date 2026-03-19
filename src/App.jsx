@@ -1,5 +1,5 @@
-import Settings from "./Settings"
-import Nav from './Nav.jsx'
+import Settings from "./pages/Settings.jsx"
+import Nav from './components/Nav.jsx'
 function App() {
 
   return (
