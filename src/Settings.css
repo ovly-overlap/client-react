@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+:root{
+    --black : #2d2d2d;
+    --blue : #077EFF;
+    --white : #FFFFFF;
+    --nav-1 : #EA63F1;
+    --nav-2 : #F8F1F9;
+    --gray-2 : #9DABBE;
+    --outline-3 : #EFF3F4;
+    --button-3 : #616FF4;
+    --lightMode-background : #FAFAFA;
+}
+*{
+    color:var(--black);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 500;
+    box-sizing: border-box;
+}
+body{
+    background-color: var(--lightMode-background);
+}
+.setting-section{
+    margin: 30px 0px 0px 287px;
+}
+.profile-card{
+    background-color: var(--white);
+    border-radius: 15px;
+    border: 3px var(--outline-3) solid;
+    width: 1170px;
+    height: 400px;
+    
+}
+.profile-content{
+    padding: 30px 0px 0px 40px;
+    display: flex;
+    /* justify-content: flex-end; */
+
+}
+.title{
+    margin:20px 0px 0px 30px;
+    font-weight: 700;
+    font-size:24px;
+}
+.input{
+    border-width: 1.8px;
+    border-radius: 9px;
+    height: 40px;
+    width: 500px;
+    border-style:solid;
+    border-color: var(--gray-2);
+    
+}
+
+.profile-info{
+    padding-left: 40px;
+    display: flex;
+    flex-direction: column;
+
+}
+.sub-title{
+    font-weight: 700;
+    font-size: 20px;
+    margin:0px 0px 10px 0px;
+}
+.upload-btn {
+    font-size: px;
+    padding-top: 20px;
+    text-align: center;
+    width: 100px;
+    font-weight: 700;
+    cursor: pointer;
+    color: var(--blue);
+    text-decoration: underline;
+}
+
+#file{
+    display: none;
+}
+.save-btn button{
+    font-weight: 700;
+    font-size: 20px;
+    background-color: var(--button-3);
+    color:var(--white);
+    border: none;
+    border-radius: 15px;
+    width: 200px;
+    height: 50px;
+}
+.save-btn{
+    padding-top: 40px;
+}
+input{
+    padding-left: 20px;
+    box-sizing: border-box;
+}
+textarea{
+    padding-top:20px;
+    padding-left: 20px;
+    box-sizing: border-box;
+
+}
+.introduce .sub-title{
+    margin-top: 15px;
+}
+.introduce textarea{
+    height: 90px;
+}
+.warning{
+    font-size: 16px;
+    color:red;
+    margin:8px 0px 0px 0px;
+}
+textarea::placeholder {
+ 	color: var(--gray-2);
+    font-size: 16px;
+}

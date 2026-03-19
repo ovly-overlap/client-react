@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+@font-face {
+  font-family: 'Nunito';
+  font-style: italic;
+  font-weight: 200 1000;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/nunito/v32/XRXX3I6Li01BKofIMNaORs71cA.woff2) format('woff2');
+}
+:root{
+    --black : #2d2d2d;
+    --white : #FFFFFF;
+    --nav-1 : #EA63F1;
+    --nav-2 : #F8F1F9;
+    --outline-3 : #EFF3F4;
+    --lightMode-background : #FAFAFA;
+}
+body{
+    background: var(--lightMode-background);
+}
+nav{
+    background-color: var(--white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    border: 3px solid var(--outline-3);
+    border-radius: 0px 40px 40px 0px;
+    left:0;
+    top:0;
+    height: 100vh;
+    width: 235px;
+}
+.ovly-logo{
+    margin:15px 15px 0px 0px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+}
+.ovly-logo span{
+    font-weight: 800;
+    letter-spacing: 5px;
+    font-size: 40px;
+}
+.nav-button button{
+    background-color: var(--white);
+    color:var(--black);
+    border: none;
+    width: 200px;
+    height: 70px;
+    margin: 15px 20px 0px 15px;
+    cursor: pointer;
+    font-size: 20px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 35px;
+}
+.timeline{
+    letter-spacing: 3px;
+}
+.nav-button button img{
+    margin-right: 20px;
+    width: 20px;
+}
+.nav-button button:hover{
+    color:var(--nav-1);
+    font-weight: 800;
+    background-color: var(--nav-2);
+}
