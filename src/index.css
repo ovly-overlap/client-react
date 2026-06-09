@@ -1,13 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
-@font-face {
-  font-family: 'Nunito';
-  font-style: italic;
-  font-weight: 200 1000;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/nunito/v32/XRXX3I6Li01BKofIMNaORs71cA.woff2) format('woff2');
-}
-
 :root {
   --black: #2d2d2d;
   --white: #FFFFFF;
@@ -24,10 +16,13 @@
 
 * {
   margin:0;
+  padding:0;
   color: var(--black);
   font-family: 'Nunito', sans-serif;
   font-weight: 400;
   box-sizing: border-box;
+  overflow-y: auto;
+  scrollbar-width: none;
 }
 body{
     background: var(--lightMode-background);

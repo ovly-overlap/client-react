@@ -1,7 +1,10 @@
 import './Settings.css'
-import exampleProfile from '../assets/example-profile.svg'
+import exampleProfile from '../../assets/example-profile.svg'
+import downIcon from '../../assets/down-icons.svg'
 function Settings() {
-
+const Answer = () => {
+  
+}
   return (
     <>
       <div className='setting-section'>
@@ -35,10 +38,21 @@ function Settings() {
 
         <div className='screen-theme-card'>
           <p className='title'>화면 테마</p>
-          <form className='screen-theme'>
-            <div className='radio-btn'><input type='radio' name='mode' value='light'/><p>light</p></div>
-            <div className='radio-btn'><input type='radio' name='mode' value='dark'/><p>dark</p></div>
-          </form>
+            <form className='screen-theme'>
+              <div className='radio-btn'><input type='radio' name='mode' value='light'/><p>light</p></div>
+              <div className='radio-btn'><input type='radio' name='mode' value='dark'/><p>dark</p></div>
+            </form>
+          </div>
+
+          <div className='faq-card'>
+            <div className='title'><p>자주 묻는 질문(FAQ)</p></div>
+            <div className='faq-container'>
+                <div className='question'><p>좋아하는 아이돌은 어떻게 추가하나요?</p><button><img src={downIcon}/></button></div>
+                <div className='question'><p>좋아하는 아이돌은 어떻게 추가하나요?</p><button><img src={downIcon}/></button></div>
+                <div className='question'><p>좋아하는 아이돌은 어떻게 추가하나요?</p><button><img src={downIcon}/></button></div>
+                <div className='question'><p>좋아하는 아이돌은 어떻게 추가하나요?</p><button><img src={downIcon}/></button></div>
+                <div className='question'><p>좋아하는 아이돌은 어떻게 추가하나요?</p><button><img src={downIcon}/></button></div>
+              </div>
           </div>
       </div>
     </>

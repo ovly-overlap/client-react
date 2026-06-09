@@ -152,12 +152,28 @@ button{
 }
 .news-card-box{
     display: flex;
+    flex-wrap: wrap;
     gap:18px;
 }
+
 .news-card{
+    flex: 1 1 250px;
+    max-width: 281px;
     padding:15px;
 }
+
 .news-card img{
-    border-radius: 15px;
-    width: 242px;
+    width:100%;
+    border-radius:15px;
+}
+.news-card-text h3{
+    font-weight: bold;
+    font-size: 20px;
+    margin:15px 0px 10px 0px;
+}
+.news-card-text p{
+    margin:0;
+    text-align: left;
+    font-size:16px;
+    word-break: break-word;
 }
