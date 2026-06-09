@@ -1,0 +1,206 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+:root{
+    --black : #2d2d2d;
+    --blue : #077EFF;
+    --white : #FFFFFF;
+    --nav-1 : #EA63F1;
+    --nav-2 : #F8F1F9;
+    --gray-2 : #9DABBE;
+    --light-gray: #F8FAFC;
+    --outline-3 : #EFF3F4;
+    --button-3 : #616FF4;
+    --lightMode-background : #FAFAFA;
+}
+*{
+    color:var(--black);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 500;
+    box-sizing: border-box;
+    margin: 0;
+}
+body{
+    background-color: var(--lightMode-background);
+    -ms-overflow-style: none;
+} */
+
+.setting-section{
+    padding-left:15%;
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-start; 
+}
+.profile-card{
+    margin: 3% auto auto auto;
+    background-color: var(--white);
+    border-radius: 15px;
+    border: 3px var(--outline-3) solid;
+    width: 95%;
+    height: 500px;
+    
+}
+.profile-content{
+    padding: 20px 0px 0px 40px;
+    display: flex;
+}
+.title{
+    margin:20px 0px 10px 30px;
+    font-weight: 700;
+    font-size:24px;
+}
+.input{
+    border-width: 1.8px;
+    border-radius: 9px;
+    height: 50px;
+    width: 100%;
+    border-style:solid;
+    border-color: var(--gray-2); 
+}
+
+.profile-info{
+    padding-left: 40px;
+    display: flex;
+    flex-direction: column;
+    width: 85%;
+
+}
+.sub-title{
+    font-weight: 700;
+    font-size: 20px;
+    padding:0px 0px 10px 0px;
+}
+.upload-btn {
+    font-size: 20px;
+    margin-top: 20px;
+    text-align: center;
+    width: 100px;
+    font-weight: 700;
+    cursor: pointer;
+    color: var(--blue);
+    text-decoration: underline;
+}
+
+#file{
+    display: none;
+}
+.save-btn{
+    margin-left: auto;
+    margin-top: 30px;
+    width: 25%;
+    height: 60px;
+}
+.save-btn button{
+    font-weight: 700;
+    font-size: 20px;
+    background-color: var(--button-3);
+    color:var(--white);
+    border: none;
+    border-radius: 15px;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+input{
+    padding-left: 20px;
+    box-sizing: border-box;
+}
+textarea{
+    padding-top:20px;
+    padding-left: 20px;
+    box-sizing: border-box;
+
+}
+.introduce .sub-title{
+    padding-top: 39px;
+}
+.introduce textarea{
+    height: 100px;
+}
+.warning{
+    font-size: 16px;
+    color:red;
+    margin:8px 0px 0px 0px;
+}
+textarea::placeholder {
+ 	color: var(--gray-2);
+    font-size: 16px;
+}
+.screen-theme-card{
+    margin: 37px auto auto auto;
+    height: 140px;
+    border-radius: 15px;
+    border: 3px var(--outline-3) solid;
+    width: 95%;
+    background-color: var(--white);
+}
+.screen-theme{
+    margin:20px 0px 0px 65px;
+    display: flex;
+    gap: 30px;
+}
+.screen-theme div{
+    font-size: 16px;
+}
+.radio-btn{
+    display: flex;
+}
+.radio-btn input[type="radio"]{
+    width: 20px;
+}
+.radio-btn p{
+    margin:0px 0px 0px 10px;
+    font-size: 24px;
+}
+.faq-card{
+    height: auto;
+    border-radius: 15px;
+    border: 3px var(--outline-3) solid;
+    width: 95%;
+    background-color: var(--white);
+    margin: 37px auto 5% auto;
+}
+.faq-card .title {
+    height: 80px;
+    margin:0;
+    border-bottom: 2px solid var(--outline-3); /* 두께 | 스타일 | 색상 */
+    display: flex;
+    align-items: center;   /* 세로 가운데 */
+}
+.faq-card .title p{
+    padding-left:35px;
+    font-weight: 700;
+    font-size:24px;
+}
+.faq-card .faq-container{
+    height: auto;
+    padding: 5px 35px 5px 35px;
+}
+.faq-container p{
+    font-size: 20px;
+    font-weight: 700;
+    padding-left: 20px;
+}
+.faq-container p::before{
+    content: "Q. ";
+}
+.faq-container div{
+    margin: 10px 0px;
+    height: 60px;
+    border-radius: 15px;
+    background-color: var(--light-gray);
+    display: flex;
+}
+.faq-container button{
+    border:none;
+    background-color:transparent;
+}
+.question{
+    display: flex;
+    align-items: center;
+}
+.question button{
+    /* margin-left: 73%; */
+    cursor: pointer;
+    width: fit-content; 
+    margin-left: auto;
+    margin-right: 30px;
+}
