@@ -13,15 +13,15 @@ nav{
     min-width:200px;
 }
 .ovly-logo{
-    margin:30px 15px 15px 0px;
-    display: flex;
+    margin:30px 10px 15px 0px;
     flex-direction: row;
+    display: flex;
     align-items: center;
 }
-.ovly-logo span{
+.ovly-logo p{
     font-weight: 800;
     letter-spacing: 5px;
-    font-size: 40px;
+    font-size: 32px;
 }
 .nav-button{
     width: 90%;
@@ -50,6 +50,11 @@ nav{
 }
 .nav-button button:hover{
     color:var(--nav-1);
+    font-weight: 800;
+    background-color: var(--nav-2);
+}
+.nav-button button.active {
+    color: var(--nav-1);
     font-weight: 800;
     background-color: var(--nav-2);
 }
