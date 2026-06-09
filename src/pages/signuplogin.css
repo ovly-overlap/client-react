@@ -1,12 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
-
-@font-face {
-  font-family: 'Nunito';
-  font-style: italic;
-  font-weight: 200 1000;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/nunito/v32/XRXX3I6Li01BKofIMNaORs71cA.woff2) format('woff2');
-}
+/* @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
 :root {
   --black: #2d2d2d;
@@ -27,7 +19,7 @@
   font-family: 'Nunito', sans-serif;
   font-weight: 500;
   box-sizing: border-box;
-}
+} */
 
 .card {
   display: flex;
@@ -143,8 +135,6 @@ body {
   outline: 2px solid var(--outline-3);
   border: none;
 }
-
-
 
 .start {
   border-radius: 20px;
