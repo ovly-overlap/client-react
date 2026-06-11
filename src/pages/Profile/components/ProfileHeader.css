@@ -1,29 +1,29 @@
 .ProfileCard{
-    padding:60px 65px;
+    padding:56px 35px;
     background-color: var(--white);
     border-radius: 15px;
     border: 3px var(--outline-3) solid;
     width: 95%;
-    height: 300px;
+    height: 250px;
+    align-content: center;
+    display: flex;
+    flex-direction: row;
 }
 .ProfileInfo{
     display: flex;
-    gap:35px;
+    gap:30px;
     align-items: center;
 }
-.userIntroduction{
+.userInfo{
     display: flex;
     flex-direction: column;
-    gap:63px;
+    gap:25px;
 }
-.userIntroduction p{
+.userInfo p{
     font-weight: bold;
 }
-.userIntroduction .userName{
+.userInfo .userName{
     font-size: 24px;
-}
-.ProfileImage{
-    /* margin-right : 35px; */
 }
 .ProfileImage img{
     width: 120px;
@@ -31,4 +31,63 @@
 .following-Follwer{
     gap:20px;
     display: flex;
+    flex-direction: row;
+}
+.following{
+    align-items: center;
+    gap:7px;
+    display: flex;
+    flex-direction: row;
+}
+.follower{
+    align-items: center;
+    gap:7px;
+    display: flex;
+    flex-direction: row;
+}
+.following-Follwer p{
+    font-size: 16px;
+}
+.followNum {
+    color: var(--gray-1);
+}
+.userIntro{
+    display: flex;
+    flex-direction: column;
+    gap:5px;
+}
+.userIntro p{
+    text-align: left;
+}
+.userIntro .introduction {
+    color:var(--gray-1);
+    font-size: 18px;
+    font-weight: 500;
+}
+.userSet {
+    display:flex;
+    flex-direction: column;
+    margin-left: auto;
+}
+.userSet .follow-btn {
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 18px;
+    padding: 9px 40px;
+    color: var(--white);
+    background-color: var(--button-3);
+    border: 2px solid var(--button-3);
+}
+.userSet .follow-btn.active {
+    color: var(--black);
+    background-color: var(--white);
+    border: 2px solid var(--gray-2);
+}
+.userSet .userBtn{
+    display: flex;
+    align-items: center;
+    gap:20px;
+}
+.userBtn .drop-btn img{
+    width: 20px;
 }
