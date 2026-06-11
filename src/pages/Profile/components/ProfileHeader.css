@@ -1,11 +1,13 @@
 .ProfileCard{
-    padding:56px 35px;
+    padding: 45px 35px;
     background-color: var(--white);
     border-radius: 15px;
     border: 3px var(--outline-3) solid;
     width: 95%;
     height: 250px;
     align-content: center;
+    align-items: center;
+    justify-content: space-between; 
     display: flex;
     flex-direction: row;
 }
@@ -17,39 +19,36 @@
 .userInfo{
     display: flex;
     flex-direction: column;
-    gap:25px;
+    gap:30px;
 }
 .userInfo p{
     font-weight: bold;
+    margin:0;
 }
 .userInfo .userName{
     font-size: 24px;
 }
 .ProfileImage img{
-    width: 120px;
+    width: 150px;
 }
-.following-Follwer{
+.following-Follower{
     gap:20px;
     display: flex;
     flex-direction: row;
 }
-.following{
-    align-items: center;
-    gap:7px;
+.follow-stat {
     display: flex;
     flex-direction: row;
-}
-.follower{
+    gap: 7px;
     align-items: center;
-    gap:7px;
-    display: flex;
-    flex-direction: row;
 }
-.following-Follwer p{
+.followCount {
     font-size: 16px;
+    color: var(--black);
 }
-.followNum {
-    color: var(--gray-1);
+.followLabel{
+    font-size: 16px;
+    color:var(--gray-1);
 }
 .userIntro{
     display: flex;
@@ -67,7 +66,14 @@
 .userSet {
     display:flex;
     flex-direction: column;
-    margin-left: auto;
+    align-items: flex-end;
+    height: 100%;
+    justify-content: space-between; /* 위아래로 배치 */
+}
+.userSet .userBtn{
+    display: flex;
+    align-items: center;
+    gap:15px;
 }
 .userSet .follow-btn {
     font-weight: bold;
@@ -77,17 +83,73 @@
     color: var(--white);
     background-color: var(--button-3);
     border: 2px solid var(--button-3);
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
+
 .userSet .follow-btn.active {
     color: var(--black);
     background-color: var(--white);
     border: 2px solid var(--gray-2);
 }
-.userSet .userBtn{
+
+.userBtn .drop-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
     display: flex;
     align-items: center;
-    gap:20px;
+    justify-content: center;
+    padding: 0;
 }
-.userBtn .drop-btn img{
-    width: 20px;
+
+.userBtn .drop-btn img {
+    width: 24px;
+    height: 24px;
+}
+
+.userFavGroups {
+    display: flex;
+    align-items: center;
+}
+
+.groupBadgeList{
+    display: flex;
+    flex-direction: row;
+    gap:8px;
+}
+
+.groupBadge {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid var(--blue);
+    background-color: #FFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.groupBadge img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.add-group-btn {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray-1);
+    background-color: transparent;
+    border: 2px dashed var(--gray-2);
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.add-group-btn:hover {
+    background-color: var(--outline-3);
+    color: var(--black);
 }
