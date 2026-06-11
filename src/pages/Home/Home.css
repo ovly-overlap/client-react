@@ -8,9 +8,7 @@ button{
     color:var(--gray-2);
 }
 .home{
-    margin-top : 38px;
-    margin-left : 60px;
-    margin-right : 60px;
+    padding: 38px 60px 30px 60px;
 }
 .box{
     display: flex;
@@ -39,11 +37,11 @@ button{
 }
 .mention{
     font-weight: bold;
-    font-size:32px;
+    font-size:30px;
 }
 .sub-mention{
-    color: var(--gray-2);
-    font-size: 20px;
+    color: var(--gray-1);
+    font-size: 16px;
     text-align: left;
 }
 .schedule-mission{
@@ -66,23 +64,22 @@ button{
     align-items: center;
 }
 .schedule-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     gap:50px;
-    padding: 40px 25px;
+    padding: 30px 25px 0px 25px;
+    box-sizing: border-box;
 }
 .schedule-box p{
     text-align: left;
     font-size: 20px;
     font-weight: bold;
 }
-.schedule-box-content{
+.schedule-box-weekLabel{
     display: flex;
     flex-direction: column;
-    gap: 10px;
-}
-.schedule-box button{
-    font-size: 16px;
-    border:none;
-    margin-left: auto;
+    gap: 20px;
 }
 .schedule-box-calender{
     display: flex;
@@ -104,6 +101,7 @@ button{
     align-items: center;
     display: flex;
     flex-direction: column;
+    padding-bottom: 60px;
 }
 .no-schedule-message .no-schedule-message-1{
     font-size: 20px;
