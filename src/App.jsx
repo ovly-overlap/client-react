@@ -3,7 +3,7 @@ import Nav from './components/Nav.jsx'
 import Home from './pages/Home/Home.jsx'
 import Profile from './pages/Profile/ProfilePage.jsx'
 import Settings from './pages/Settings/Settings.jsx'
-import TimeLine from './pages/signup.jsx'
+import TimeLine from './pages/TimeLine.jsx'
 // import Signup from "./pages/Signup.jsx"
 // import Signup from "./pages/signup.jsx"
 // import Login from "./pages/login.jsx"
