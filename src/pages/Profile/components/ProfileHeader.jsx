@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./ProfileHeader.css";
 import "../../../index.css";
 import ExampleProfileImage from "../../../assets/example-profile.svg";
+import nextIcon from "../../../assets/next-icon.svg";
 import kebabIcon from "../../../assets/kebab-icon.svg";
 import BtsIcon from "../../BTS-Logo.png";
 
@@ -51,15 +52,15 @@ export default function Profile() {
 
             <div className="userSet">
                 <div className="userBtn">
-                    <button 
+                    {/* <button 
                         onClick={toggleFollow}
                         className={`follow-btn ${isFollowing ? 'active' : ''}`}
                     >
                         {isFollowing ? '팔로잉' : '팔로우'}
-                    </button>
-                    <button className="drop-btn">
+                    </button> */}
+                    {/* <button className="drop-btn">
                         <img src={kebabIcon} alt="더보기"/>
-                    </button>
+                    </button> */}
                 </div>
 
                 <div className="userFavGroups">
@@ -70,10 +71,12 @@ export default function Profile() {
                                     <img src={group.logo} alt={group.name} />
                                 </div>
                             ))}
+                            <button className="add-group-btn small"><img src={nextIcon}/></button>
                         </div>
                     ) : (
-                        <button className="add-group-btn" onClick={handleAddGroup}>
-                            + 최애 그룹 추가하기
+                        <button className="add-group-btn big" onClick={handleAddGroup}>
+                            <span className="add-group-label">최애 팬덤 설정하러가기</span>
+                            <img src={nextIcon}/>
                         </button>
                     )}
                 </div>
@@ -81,4 +84,8 @@ export default function Profile() {
         </div>
         </>
     )
+}
+
+const style = {
+    
 }
