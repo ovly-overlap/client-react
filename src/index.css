@@ -13,6 +13,10 @@
   --gray-2: #9DABBE;
   --red: #FF4D4D;
   --blue: #077EFF;
+  --button-1-top: #616FF4;
+  --button-1-bottom: #F46FE7;
+  --outline-2-top : #F597B6;
+  --outline-2-bottom : #A3B3FA;
 }
 
 * {
@@ -27,4 +31,14 @@
 }
 body{
     background: var(--lightMode-background);
+}
+img{
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+}
+button{
+    cursor: pointer;
 }
