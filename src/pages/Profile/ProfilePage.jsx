@@ -1,4 +1,3 @@
-import "./ProfilePage.css";
 import ProfileHeader from "./components/ProfileHeader.jsx";
 import Todo from "./components/Todo.jsx";
 import Diary from "./components/Diary.jsx";
@@ -6,12 +5,18 @@ import Calendar from "./components/Calendar.jsx";
 export default function ProfilePage() {
     return (
         <>
-        <div className="profile-section">
+        <div style={style.profileSection}>
             <ProfileHeader />
-            {/* <Todo />
-            <Diary />
+            <Todo />
+            {/* <Diary />
             <Calendar /> */}
         </div>
         </>
     )
+}
+
+const style = {
+    profileSection : {
+        margin: '40px 0px 0px 287px'
+    }
 }
