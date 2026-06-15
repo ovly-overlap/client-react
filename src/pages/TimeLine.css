@@ -1091,11 +1091,7 @@
   cursor: pointer;
 }
 
-/* ==========================================
-   🛠️ 최근 검색어 X 버튼 고도화 (디자인 맞춤 수정)
-   ========================================== */
 
-/* 최근 검색어 행 배치 설정 유지 */
 .chat-box .friend-user {
   display: flex !important;
   flex-direction: row !important;
@@ -1119,7 +1115,6 @@
   color: var(--black) !important;
 }
 
-/* 🔥 [수정] 배경 완전 투명 + gray-1 적용 + 크기 축소 + 두께감 고정 */
 .chat-user .delete,
 .search-delete-btn,
 .chat-box .friend-user .delete,
@@ -1129,20 +1124,18 @@
   visibility: visible !important;    
   opacity: 1 !important;             
   
-  /* 배경 완전 무효화 및 색상 고정 */
   background: transparent !important; 
   background-color: transparent !important; 
-  color: var(--gray-1) !important; /* gray-1 색상 배치 */
+  color: var(--gray-1) !important; 
   border: none !important;
   border-radius: 0 !important;
   
-  /* 영역 및 X 텍스트 크기 규격 조정 */
   width: 20px !important;
   height: 20px !important;
   min-width: 20px !important;
   min-height: 20px !important;
-  font-size: 13px !important;  /* X 아이콘 크기 살짝 줄임 */
-  font-weight: 700 !important; /* 선명하고 두껍게(bold) 배치 */
+  font-size: 13px !important;  
+  font-weight: 700 !important; 
   line-height: 1 !important;
   
   align-items: center !important;
@@ -1156,7 +1149,6 @@
   transition: all 0.2s ease !important;
 }
 
-/* 마우스를 올렸을 때도 파란색 방지 및 투명 상태 유지 */
 .chat-user .delete:hover,
 .search-delete-btn:hover,
 .chat-box .friend-user .delete:hover,
