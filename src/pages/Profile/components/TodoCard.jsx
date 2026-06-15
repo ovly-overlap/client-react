@@ -220,12 +220,14 @@ const style = {
         display: 'block',
     },
     label: {
-        fontSize: '14px',
+        fontSize: '16px',
+        fontWeight : '500',
         color: 'var(--black)',
         flex: 1,
     },
     labelDone: {
-        fontSize: '14px',
+        fontSize: '16px',
+        fontWeight : '500',
         color: 'var(--gray-1)',
         textDecoration: 'line-through',
         flex: 1,
