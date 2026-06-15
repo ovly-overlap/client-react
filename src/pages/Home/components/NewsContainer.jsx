@@ -6,12 +6,12 @@ export default function NewsContainer() {
 
     return (
     <div className="news-container">
-        <div style={styles.newsHeader}>
+        <div style={style.newsHeader}>
             <img src={NewsIcon} alt="news-icon" />
             <p className="title">실시간 뉴스</p>
         </div>
-        <div style={styles.newsBox}>
-            <Link to="/idol-news" style={styles.newsBoxButton}>
+        <div style={style.newsBox}>
+            <Link to="/idol-news" style={style.newsBoxButton}>
                     모두보기
             </Link>
             <NewsCard />
@@ -20,7 +20,7 @@ export default function NewsContainer() {
     );
 }
 
-const styles = {
+const style = {
     newsHeader: {
         display: "flex",
         gap: "15px",

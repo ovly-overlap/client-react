@@ -1,6 +1,6 @@
 import NewsImage from "../../../assets/news-image.svg";
 
-export default function NewsCard() {
+export default function NewsCard({ limit }) {
 
     const newsData = [
         { id: 1, title: "기사 제목 기사 제목 기사 제목 기사 제목", content: "케이팝의 새로운 공식을 예고한 그룹 알파드라이브원(ALPHA DRIVE ONE)이 오늘(12일) 데뷔하며 가요계에 알람을 울렸다.12일 오후 서울 ..." },
@@ -9,15 +9,18 @@ export default function NewsCard() {
         { id: 4, title: "기사 제목", content: "케이팝의 새로운 공식을 예고한 그룹 알파드라이브원(ALPHA DRIVE ONE)이 오늘(12일) 데뷔하며 가요계에 알람을 울렸다.12일 오후 서울 ..." }
     ];
 
+    const displayData = limit ? newsData.slice(0, limit) : newsData;
+
     return (
-        <div style={styles.newsCardBox}>
-            {newsData.map((card) => (
-                <a href="#" key={card.id} style={styles.newsLink}>
-                    <div className="box" style={styles.newsCard}>
-                        <img src={NewsImage} alt="news-image" style={styles.newsCardImg} />
+        <div style={style.newsCardBox}>
+            {/* 💡 newsData 대신 잘라낸 displayData로 map을 돌립니다 */}
+            {displayData.map((card) => (
+                <a href="#" key={card.id} style={style.newsLink}>
+                    <div className="box" style={style.newsCard}>
+                        <img src={NewsImage} alt="news-image" style={style.newsCardImg} />
                         <div>
-                            <h3 style={styles.newsCardTextH3}>{card.title}</h3>
-                            <p style={styles.newsCardTextP}>{card.content}</p>
+                            <h3 style={style.newsCardTextH3}>{card.title}</h3>
+                            <p style={style.newsCardTextP}>{card.content}</p>
                         </div>
                     </div>
                 </a>
@@ -26,7 +29,7 @@ export default function NewsCard() {
     );
 }
 
-const styles = {
+const style = {
     newsCardBox: {
         display: "flex",
         flexWrap: "wrap",
