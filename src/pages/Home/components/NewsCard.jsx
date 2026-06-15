@@ -40,6 +40,11 @@ const style = {
         color: 'inherit'
     },
     newsCard: {
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: "var(--white)",
+        border: "3px solid #EFF3F4",
+        borderRadius: "15px",
         flex: "1 1 250px",
         maxWidth: "280px",
         padding: "15px",

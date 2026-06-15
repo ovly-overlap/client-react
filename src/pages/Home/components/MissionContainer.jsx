@@ -19,7 +19,7 @@ export default function MissionContainer() {
                     <img src={CheckIcon} alt="check-icon" />
                     <p className="title">오늘의 미션</p>
                 </div>
-                <div className={`box`} style={styles.missionBox}>
+                <div style={styles.missionBox}>
                     <div style={styles.missionBoxContent}>
                         {missions.map((item) => (
                             <div key={item.id} style={styles.todo}>
@@ -61,6 +61,11 @@ const styles = {
         gap: "20px",
     },
     missionBox: {
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: "var(--white)",
+        border: "3px solid var(--outline-3)",
+        borderRadius: "15px",
         padding: "28px 25px",
     },
     missionBoxContent: {

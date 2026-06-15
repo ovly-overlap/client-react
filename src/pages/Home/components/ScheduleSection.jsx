@@ -51,7 +51,7 @@ export default function ScheduleSection(){
                 <p className="title">다가오는 일정</p>
             </div>
             <div className="schedule-content">
-                <div className="box schedule-box">
+                <div className="schedule-box">
                     <div className='schedule-box-weekLabel'>
                         <p>{currentYearMonth}</p>
                         <div className="schedule-box-content">
@@ -110,6 +110,9 @@ export default function ScheduleSection(){
                 .schedule-box{
                     display: flex;
                     flex-direction: column;
+                    background-color: var(--white);
+                    border: 3px solid var(--outline-3);
+                    border-radius: 15px;
                     justify-content: flex-start;
                     gap:30px;
                     padding: 30px 25px 30px 25px;
