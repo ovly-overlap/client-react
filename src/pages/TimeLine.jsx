@@ -4,11 +4,10 @@ import post from "../assets/eye-icon.svg";
 import "./TimeLine.css";
 
 const REPORT_REASONS = [
-  "욕설 / 비하",
-  "음란물 / 성적 내용",
-  "허위 정보 / 루머 유포",
-  "도배 / 반복 게시글",
-  "기타",
+  "스팸 및 홍보성 콘텐츠",
+  "음란물 또는 성적 콘텐츠",
+  "혐오 발언 및 괴롭힘",
+  "부적절한 내용 및 기타",
 ];
 
 const INITIAL_FRIENDS = [
@@ -50,6 +49,7 @@ const INITIAL_LIKE_USERS = [
   { id: 16, name: "성호팬", isFollowing: false },
 ];
 
+// 에러 방지를 위해 중복된 id를 고유한 값(1, 2, 3, 4)으로 수정했습니다.
 const INITIAL_POSTS = [
   {
     id: 1,
@@ -100,7 +100,7 @@ const INITIAL_POSTS = [
     ],
   },
   {
-    id: 1,
+    id: 3,
     username: "링링",
     time: "2분 전",
     content:
@@ -128,7 +128,7 @@ const INITIAL_POSTS = [
     ],
   },
   {
-    id: 2,
+    id: 4,
     username: "아레아레RM",
     time: "15분 전",
     content:
@@ -151,47 +151,30 @@ const INITIAL_POSTS = [
 
 export default function TimeLine() {
   const [posts, setPosts] = useState(INITIAL_POSTS);
-
   const [activeTab, setActiveTab] = useState("recommend");
-
   const [friends, setFriends] = useState(INITIAL_FRIENDS);
-
   const [searchHistory, setSearchHistory] = useState(INITIAL_SEARCHES);
-
   const [blockedUsers, setBlockedUsers] = useState([]);
-
   const [likeUsers, setLikeUsers] = useState(INITIAL_LIKE_USERS);
-
   const [selectedPostId, setSelectedPostId] = useState(null);
-
   const [likeModalPostId, setLikeModalPostId] = useState(null);
-
   const [reportModalPostId, setReportModalPostId] = useState(null);
-
   const [selectedReason, setSelectedReason] = useState("");
-
   const [isReportSubmitted, setIsReportSubmitted] = useState(false);
-
   const [commentInput, setCommentInput] = useState("");
-
   const [showBlockConfirm, setShowBlockConfirm] = useState(false);
-
   const [replyViewCommentId, setReplyViewCommentId] = useState(null);
 
-  const selectedPost = posts.find((p) => p.id === selectedPostId);
+  // 크래시 방지: 기존에 누락되었던 핵심 상태(State) 2가지를 정상 선언했습니다.
+  const [showReportReasons, setShowReportReasons] = useState(false);
+  const [activeReplyCommentId, setActiveReplyCommentId] = useState(null);
 
+  const selectedPost = posts.find((p) => p.id === selectedPostId);
   const likeTargetPost = posts.find((p) => p.id === likeModalPostId);
 
   const followingNames = friends
     .filter((friend) => friend.isFollowing)
     .map((friend) => friend.name);
-
-  const REPORT_REASONS = [
-    "스팸 및 홍보성 콘텐츠",
-    "음란물 또는 성적 콘텐츠",
-    "혐오 발언 및 괴롭힘",
-    "부적절한 내용 및 기타",
-  ];
 
   const visiblePosts =
     activeTab === "recommend"
@@ -261,11 +244,9 @@ export default function TimeLine() {
 
   const handleBlockUser = () => {
     const targetPost = posts.find((post) => post.id === reportModalPostId);
-
     if (!targetPost) return;
 
     setBlockedUsers((prev) => [...prev, targetPost.username]);
-
     setReportModalPostId(null);
 
     if (selectedPostId === targetPost.id) {
@@ -275,7 +256,6 @@ export default function TimeLine() {
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
-
     if (!commentInput.trim() || !selectedPostId) return;
 
     const newComment = {
@@ -297,18 +277,16 @@ export default function TimeLine() {
             comments: [newComment, ...postItem.comments],
           };
         }
-
         return postItem;
       })
     );
-
     setCommentInput("");
   };
 
   const handleReplySubmit = (e, commentId) => {
     e.preventDefault();
-
     if (!commentInput.trim() || !selectedPostId) return;
+
     const newReply = {
       id: Date.now(),
       user: "나(User)",
@@ -331,16 +309,13 @@ export default function TimeLine() {
                   replies: [...comment.replies, newReply],
                 };
               }
-
               return comment;
             }),
           };
         }
-
         return postItem;
       })
     );
-
     setCommentInput("");
   };
 
@@ -365,7 +340,6 @@ export default function TimeLine() {
                 ),
               };
             }
-
             return comment;
           });
         } else {
@@ -397,9 +371,7 @@ export default function TimeLine() {
         >
           추천
         </p>
-
         <span>|</span>
-
         <p
           className={activeTab === "following" ? "active" : ""}
           onClick={() => setActiveTab("following")}
@@ -427,13 +399,11 @@ export default function TimeLine() {
                 <div className="post-top2">
                   <div className="post-profile">
                     <img src={profile} alt="" />
-
                     <div>
                       <h4>{item.username}</h4>
                       <span>{item.time}</span>
                     </div>
                   </div>
-
                   <div
                     className="more"
                     onClick={(e) => openReportModal(e, item.id)}
@@ -444,7 +414,6 @@ export default function TimeLine() {
 
                 <div className="post-center">
                   <p>{item.content}</p>
-
                   <div
                     className={`post-images ${
                       item.images.length === 2 ? "two" : ""
@@ -459,7 +428,6 @@ export default function TimeLine() {
                           </div>
                         );
                       }
-
                       return <img key={index} src={imgSrc} alt="" />;
                     })}
                   </div>
@@ -468,13 +436,10 @@ export default function TimeLine() {
                 <div className="post-bottom">
                   <div
                     onClick={(e) => openLikeModal(e, item.id)}
-                    style={{
-                      cursor: "pointer",
-                    }}
+                    style={{ cursor: "pointer" }}
                   >
                     💜 {item.likes}
                   </div>
-
                   <div>💬 {item.commentsCount}</div>
                 </div>
               </div>
@@ -491,32 +456,28 @@ export default function TimeLine() {
             <div className="chat-box">
               <div className="chat-top">
                 <span>최근 검색어</span>
-
                 <span
-                  style={{
-                    cursor: "pointer",
-                  }}
+                  style={{ cursor: "pointer" }}
                   onClick={handleClearSearchHistory}
                 >
                   모두지우기
                 </span>
               </div>
 
+              {/* 최근 검색어 요소를 추천 친구(friend-user) 레이아웃 클래스와 구조로 100% 일치시켰습니다. */}
               {searchHistory.map((item, index) => (
-                <div key={index} className="chat-user">
-                  <div className="chat-left">
+                <div key={index} className="friend-user">
+                  <div className="friend-left">
                     <img src={profile} alt="" />
                     <p>{item}</p>
                   </div>
-
-                  <span
+                  {/* 팔로우 버튼 대신 동일한 스타일 규격의 X 삭제 버튼을 배치했습니다. */}
+                  <button
                     onClick={() => handleRemoveSearchItem(item)}
-                    style={{
-                      cursor: "pointer",
-                    }}
+                    className="search-delete-btn"
                   >
-                    x
-                  </span>
+                    ✕
+                  </button>
                 </div>
               ))}
             </div>
@@ -524,15 +485,12 @@ export default function TimeLine() {
 
           <div className="friend-box">
             <h3>추천 친구</h3>
-
             {friends.map((friend) => (
               <div key={friend.id} className="friend-user">
                 <div className="friend-left">
                   <img src={profile} alt="" />
-
                   <p>{friend.name}</p>
                 </div>
-
                 <button
                   onClick={() => handleFollowToggle(friend.name)}
                   className={friend.isFollowing ? "following-btn" : ""}
@@ -558,13 +516,11 @@ export default function TimeLine() {
               <div className="post-top2">
                 <div className="post-profile">
                   <img src={profile} alt="" />
-
                   <div>
                     <h4>{selectedPost.username}</h4>
                     <span>{selectedPost.time}</span>
                   </div>
                 </div>
-
                 <div
                   className="more"
                   onClick={(e) => openReportModal(e, selectedPost.id)}
@@ -575,7 +531,6 @@ export default function TimeLine() {
 
               <div className="post-center">
                 <p className="modal-detail-text">{selectedPost.content}</p>
-
                 <div className="modal-image-grid">
                   {selectedPost.images.map((imgSrc, idx) => (
                     <div key={idx} className="modal-image-item">
@@ -588,13 +543,10 @@ export default function TimeLine() {
               <div className="post-bottom">
                 <div
                   onClick={(e) => openLikeModal(e, selectedPost.id)}
-                  style={{
-                    cursor: "pointer",
-                  }}
+                  style={{ cursor: "pointer" }}
                 >
                   💜 {selectedPost.likes}
                 </div>
-
                 <div>💬 {selectedPost.commentsCount}</div>
               </div>
             </div>
@@ -603,7 +555,6 @@ export default function TimeLine() {
               {!replyViewCommentId ? (
                 <>
                   <h3 className="modal-comments-title">댓글</h3>
-
                   <form
                     className={`modal-comment-write ${
                       commentInput.trim() ? "has-text" : ""
@@ -615,7 +566,6 @@ export default function TimeLine() {
                       onChange={(e) => setCommentInput(e.target.value)}
                       placeholder="댓글을 입력하세요."
                     />
-
                     <div className="modal-comment-btns">
                       <button
                         type="button"
@@ -624,7 +574,6 @@ export default function TimeLine() {
                       >
                         취소
                       </button>
-
                       <button type="submit" className="btn-submit">
                         등록
                       </button>
@@ -639,19 +588,17 @@ export default function TimeLine() {
                     {selectedPost.comments.map((comment) => (
                       <div key={comment.id} className="modal-comment-item">
                         <img src={profile} alt="" />
-
                         <div className="comment-body">
                           <div className="comment-user-info">
                             <h5>{comment.user}</h5>
                             <span>{comment.time}</span>
                           </div>
-
                           <p>{comment.text}</p>
-
                           <div className="comment-actions">
                             💜 {comment.likes}
                             <span
                               onClick={() => setReplyViewCommentId(comment.id)}
+                              style={{ cursor: "pointer" }}
                             >
                               답글
                               {comment.replies.length > 0 &&
@@ -668,6 +615,7 @@ export default function TimeLine() {
                   <div
                     className="reply-page-header"
                     onClick={() => setReplyViewCommentId(null)}
+                    style={{ cursor: "pointer" }}
                   >
                     ← 전체 댓글 보기
                   </div>
@@ -677,13 +625,11 @@ export default function TimeLine() {
                     .map((comment) => (
                       <div key={comment.id} className="reply-parent-card">
                         <img src={profile} alt="" />
-
                         <div className="comment-body">
                           <div className="comment-user-info">
                             <h5>{comment.user}</h5>
                             <span>{comment.time}</span>
                           </div>
-
                           <p>{comment.text}</p>
                         </div>
                       </div>
@@ -700,7 +646,6 @@ export default function TimeLine() {
                       onChange={(e) => setCommentInput(e.target.value)}
                       placeholder="답글을 입력하세요."
                     />
-
                     <div className="modal-comment-btns">
                       <button
                         type="button"
@@ -709,7 +654,6 @@ export default function TimeLine() {
                       >
                         취소
                       </button>
-
                       <button type="submit" className="btn-submit">
                         등록
                       </button>
@@ -717,7 +661,7 @@ export default function TimeLine() {
                   </form>
 
                   <div className="modal-comments-count">
-                    전체 답글
+                    전체 답글{" "}
                     {
                       selectedPost.comments.find(
                         (c) => c.id === replyViewCommentId
@@ -731,14 +675,11 @@ export default function TimeLine() {
                       ?.replies.map((reply) => (
                         <div key={reply.id} className="modal-comment-item">
                           <img src={profile} alt="" />
-
                           <div className="comment-body">
                             <div className="comment-user-info">
                               <h5>{reply.user}</h5>
-
                               <span>{reply.time}</span>
                             </div>
-
                             <p>{reply.text}</p>
                           </div>
                         </div>
@@ -762,7 +703,6 @@ export default function TimeLine() {
           >
             <div className="like-modal-header">
               <h3>좋아요</h3>
-
               <button
                 className="like-modal-close-btn"
                 onClick={() => setLikeModalPostId(null)}
@@ -774,7 +714,6 @@ export default function TimeLine() {
             <div className="like-modal-count-box">
               💜 {likeTargetPost.likes}
             </div>
-
             <div className="like-public-text">
               좋아요를 누른 모든 사용자가 공개됩니다.
             </div>
@@ -784,10 +723,8 @@ export default function TimeLine() {
                 <div key={user.id} className="like-user-item">
                   <div className="like-user-info">
                     <img src={profile} alt="" />
-
                     <p>{user.name}</p>
                   </div>
-
                   <button
                     onClick={() => handleLikeUserFollow(user.id)}
                     className={
@@ -817,7 +754,6 @@ export default function TimeLine() {
             className="report-modal-container"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* 1단계: 차단 확인 창이 켜졌을 때 */}
             {showBlockConfirm ? (
               <>
                 <h3>사용자를 차단할까요?</h3>
@@ -840,7 +776,6 @@ export default function TimeLine() {
                 </div>
               </>
             ) : showReportReasons ? (
-              /* 2단계: 신고 버튼을 눌러 사유 선택 창이 켜졌을 때 (CSS 스타일 완벽 반영) */
               <>
                 <div className="report-icon-wrap">⚠️</div>
                 <h3>신고하기</h3>
@@ -849,12 +784,7 @@ export default function TimeLine() {
                 </p>
 
                 <div className="report-options-list">
-                  {[
-                    "스팸 및 홍보성 콘텐츠",
-                    "음란물 또는 성적 콘텐츠",
-                    "혐오 발언 및 괴롭힘",
-                    "부적절한 내용 및 기타",
-                  ].map((reason) => (
+                  {REPORT_REASONS.map((reason) => (
                     <label
                       key={reason}
                       className={`report-option-item ${
@@ -879,7 +809,6 @@ export default function TimeLine() {
                     disabled={!selectedReason}
                     onClick={() => {
                       alert(`[${selectedReason}] 사유로 신고되었습니다.`);
-                      // 여기에 실제 신고 API 함수를 넣으시면 됩니다 (예: handleReportSubmit())
                       setReportModalPostId(null);
                       setShowReportReasons(false);
                       setSelectedReason("");
@@ -899,7 +828,6 @@ export default function TimeLine() {
                 </div>
               </>
             ) : (
-              /* 3단계: 기본 게시물 관리창 (가장 먼저 뜨는 화면) */
               <>
                 <h3>게시물 관리</h3>
                 <div className="report-btn-group">
