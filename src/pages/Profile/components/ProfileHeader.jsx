@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./ProfileHeader.css";
 import "../../../index.css";
 import ExampleProfileImage from "../../../assets/example-profile.svg";
-import nextIcon from "../../../assets/next-icon.svg";
+import coloredNextIcon from "../../../assets/colored-next-icon.svg";
 import kebabIcon from "../../../assets/kebab-icon.svg";
 import BtsIcon from "../../BTS-Logo.png";
 
@@ -71,12 +71,12 @@ export default function Profile() {
                                     <img src={group.logo} alt={group.name} />
                                 </div>
                             ))}
-                            <button className="add-group-btn small"><img src={nextIcon}/></button>
+                            <button className="add-group-btn small"><img src={coloredNextIcon}/></button>
                         </div>
                     ) : (
                         <button className="add-group-btn big" onClick={handleAddGroup}>
                             <span className="add-group-label">최애 팬덤 설정하러가기</span>
-                            <img src={nextIcon}/>
+                            <img src={coloredNextIcon}/>
                         </button>
                     )}
                 </div>

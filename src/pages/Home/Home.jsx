@@ -8,30 +8,51 @@ import MiniLogo from "../../assets/mini-logo.svg";
 import CalendarIcon from "../../assets/calendar-icon.svg";
 import CheckIcon from "../../assets/check-icon.svg";
 import AlarmIcon from "../../assets/alarm-icon.svg";
-function Home(){
+
+export default function Home(){
     return(
         <>
-        <div className='home-section'>
-            <div className="home">
-                <div className="header-container">
+        <div style={style.homeSection}>
+            <div style={style.home}>
+                <div style={style.headerContainer} className="header-container">
                     <div className='header'>
                         <div className="header-hello">
-                            <p className="mention">안녕하세요, OOO님!</p>
+                            <p className="mention">안녕하세요, USER님!</p>
                             <img src={MiniLogo} alt="logo"/>
                         </div>
                         <p className="sub-mention">오늘도 당신의 아티스트를 응원해 보세요.</p>
                     </div>
-                    <div className="alarm-button"><button><img src={AlarmIcon}/></button></div>
+                    <div className="alarm-button">
+                        <button style={style.alarmBtn}><img src={AlarmIcon}/></button>
+                    </div>
                 </div>
             
                 <div className="schedule-mission">
                     <ScheduleSection/>
                     <MissionContainer/>
-                </div> {/* schedule-mission */}
+                </div> 
                 <NewsContainer/>
             </div>
         </div>
         </>
     )
 }
-export default Home
+
+const style = {
+    homeSection: {
+        marginLeft: "240px"
+    },
+    home: {
+        padding: "38px 60px 30px 60px"
+    },
+    alarmBtn: {
+        border:"none",
+        backgroundColor:"transparent",
+        color:"var(--gray-2)"
+    },
+    headerContainer: {
+        display: "flex",
+        alignItems: "center",
+        marginBottom: "60px"
+    },
+}

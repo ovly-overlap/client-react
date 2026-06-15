@@ -31,6 +31,7 @@
 }
 body{
     background: var(--lightMode-background);
+    -webkit-user-select: none; /* 크롬, 사파리, 오페라 */
 }
 img{
   -webkit-user-drag: none;
