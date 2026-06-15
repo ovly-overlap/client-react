@@ -41,6 +41,8 @@ const style = {
         fontSize : '20px'
     },
     plusButton : {
+        border: "none",
+        backgroundColor:'transparent',
         display : 'flex',
         alignItems : 'center',
         justifyContent : 'center'
@@ -48,14 +50,5 @@ const style = {
     plusButtonImg : {
         width : '22px',
         height: '22px'
-    },addInput: {
-        border: 'none',
-        borderBottom: '1px solid var(--outline-3)',
-        outline: 'none',
-        fontSize: '14px',
-        color: 'var(--gray-2)',
-        padding: '8px 4px',
-        width: '100%',
-        backgroundColor: 'transparent',
     },
 }
