@@ -5,7 +5,7 @@ import "../../../index.css";
 import ExampleProfileImage from "../../../assets/example-profile.svg";
 import coloredNextIcon from "../../../assets/colored-next-icon.svg";
 import kebabIcon from "../../../assets/kebab-icon.svg";
-import BtsIcon from "../../BTS-Logo.png";
+import BtsIcon from "../../../assets/BTS-Logo.png";
 
 export default function Profile() {
     const [isFollowing, setFollowing] = useState(false);
