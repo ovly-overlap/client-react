@@ -8,6 +8,8 @@ export default function TodoCard({ todos, setTodos, showInput, setShowInput }) {
     const [editValue, setEditValue] = useState('');
     const [inputValue, setInputValue] = useState('');
     const [menuCoords, setMenuCoords] = useState({ top: 0, left: 0 });
+    const [memoEditingId, setMemoEditingId] = useState(null);
+    const [memoInputValue, setMemoInputValue] = useState('');
 
     const toggleDone = (id) => {
         setTodos(todos.map(t => t.id === id ? { ...t, done: !t.done } : t));
@@ -33,13 +35,31 @@ export default function TodoCard({ todos, setTodos, showInput, setShowInput }) {
 
     const handleAdd = (e) => {
         if (e.key === 'Enter' && inputValue.trim()) {
-            setTodos([...todos, { id: Date.now(), label: inputValue.trim(), done: false }]);
+            setTodos([...todos, { id: Date.now(), label: inputValue.trim(), done: false, memo: '' }]);
             setInputValue('');
             setShowInput(false);
         }
         if (e.key === 'Escape') {
             setInputValue('');
             setShowInput(false);
+        }
+    };
+
+    const startAddMemo = (todo) => {
+        setMemoEditingId(todo.id);
+        setMemoInputValue(todo.memo || '');
+        setOpenMenuId(null);
+    };
+
+    const handleMemoAdd = (e, id) => {
+        if (e.key === 'Enter') {
+            setTodos(todos.map(t => t.id === id ? { ...t, memo: memoInputValue.trim() } : t));
+            setMemoEditingId(null);
+            setMemoInputValue('');
+        }
+        if (e.key === 'Escape') {
+            setMemoEditingId(null);
+            setMemoInputValue('');
         }
     };
 
@@ -60,7 +80,7 @@ export default function TodoCard({ todos, setTodos, showInput, setShowInput }) {
     };
 
     return (
-        <div style={style.todoCard} onClick={() => setOpenMenuId(null)}>
+        <div style={style.todoCard} onClick={() => { setOpenMenuId(null); }}>
             <style>{`
                 .todo-item-row .kebab-btn { opacity: 0; transition: opacity 0.15s; }
                 .todo-item-row:hover .kebab-btn,
@@ -75,60 +95,82 @@ export default function TodoCard({ todos, setTodos, showInput, setShowInput }) {
                         <li
                             key={todo.id}
                             className={`todo-item-row ${openMenuId === todo.id ? 'menu-open' : ''}`}
-                            style={style.todoItem}
+                            style={{ ...style.todoItem, flexDirection: 'column', alignItems: 'flex-start' }}
                         >
-                            <div
-                                style={todo.done ? style.checkboxDone : style.checkbox}
-                                onClick={(e) => { e.stopPropagation(); toggleDone(todo.id); }}
-                            >
-                                {todo.done && (
-                                    <img 
-                                        src={checkboxCheckIcon} 
-                                        alt="checked" 
-                                        style={style.checkIcon} 
+                            <div style={{ display: 'flex', width: '100%', alignItems: 'center', gap: '10px' }}>
+                                <div
+                                    style={todo.done ? style.checkboxDone : style.checkbox}
+                                    onClick={(e) => { e.stopPropagation(); toggleDone(todo.id); }}
+                                >
+                                    {todo.done && (
+                                        <img 
+                                            src={checkboxCheckIcon} 
+                                            alt="checked" 
+                                            style={style.checkIcon} 
+                                        />
+                                    )}
+                                </div>
+
+                                {editingId === todo.id ? (
+                                    <input
+                                        autoFocus
+                                        value={editValue}
+                                        onChange={e => setEditValue(e.target.value)}
+                                        onKeyDown={e => e.key === 'Enter' && confirmEdit(todo.id)}
+                                        onBlur={() => confirmEdit(todo.id)}
+                                        style={style.editInput}
                                     />
+                                ) : (
+                                    <span style={todo.done ? style.labelDone : style.label}>
+                                        {todo.label}
+                                    </span>
                                 )}
+                                
+                                <div style={style.kebabWrapper}>
+                                    <button
+                                        type="button"
+                                        className="kebab-btn"
+                                        style={style.kebabBtn}
+                                        onClick={(e) => handleKebabClick(e, todo.id)}
+                                    >
+                                        ⋮
+                                    </button>
+                                    
+                                    {openMenuId === todo.id && createPortal(
+                                        <div 
+                                            style={{ 
+                                                ...style.portalMenu, 
+                                                top: `${menuCoords.top}px`, 
+                                                left: `${menuCoords.left}px` 
+                                            }}
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            <div style={style.menuItem} onClick={() => startEdit(todo)}>수정</div>
+                                            <div style={style.menuItem} onClick={() => startAddMemo(todo)}>메모 추가</div>
+                                            <div style={{ ...style.menuItem, color: 'var(--red)', border: 'none' }} onClick={() => deleteTodo(todo.id)}>삭제</div>
+                                        </div>,
+                                        document.body
+                                    )}
+                                </div>
                             </div>
 
-                            {editingId === todo.id ? (
-                                <input
-                                    autoFocus
-                                    value={editValue}
-                                    onChange={e => setEditValue(e.target.value)}
-                                    onKeyDown={e => e.key === 'Enter' && confirmEdit(todo.id)}
-                                    onBlur={() => confirmEdit(todo.id)}
-                                    style={style.editInput}
-                                />
-                            ) : (
-                                <span style={todo.done ? style.labelDone : style.label}>
-                                    {todo.label}
-                                </span>
-                            )}
-                            
-                            <div style={style.kebabWrapper}>
-                                <button
-                                    type="button"
-                                    className="kebab-btn"
-                                    style={style.kebabBtn}
-                                    onClick={(e) => handleKebabClick(e, todo.id)}
-                                >
-                                    ⋮
-                                </button>
-                                
-                                {openMenuId === todo.id && createPortal(
-                                    <div 
-                                        style={{ 
-                                            ...style.portalMenu, 
-                                            top: `${menuCoords.top}px`, 
-                                            left: `${menuCoords.left}px` 
-                                        }}
-                                        onClick={(e) => e.stopPropagation()}
-                                    >
-                                        <div style={style.menuItem} onClick={() => startEdit(todo)}>수정</div>
-                                        <div style={style.menuItem}>메모 추가</div>
-                                        <div style={{ ...style.menuItem, color: '#E05050', border: 'none' }} onClick={() => deleteTodo(todo.id)}>삭제</div>
-                                    </div>,
-                                    document.body
+                            <div style={{ paddingLeft: '27px', width: '100%', marginTop: '2px' }}>
+                                {memoEditingId === todo.id ? (
+                                    <input
+                                        autoFocus
+                                        placeholder="메모를 입력하고 Enter를 누르세요"
+                                        value={memoInputValue}
+                                        onChange={e => setMemoInputValue(e.target.value)}
+                                        onKeyDown={e => handleMemoAdd(e, todo.id)}
+                                        onBlur={() => setMemoEditingId(null)}
+                                        style={style.memoInput} 
+                                    />
+                                ) : (
+                                    todo.memo && (
+                                        <div style={style.memoText}>
+                                            {todo.memo}
+                                        </div>
+                                    )
                                 )}
                             </div>
                         </li>
@@ -152,7 +194,6 @@ export default function TodoCard({ todos, setTodos, showInput, setShowInput }) {
         </div>
     );
 }
-
 const style = {
     todoCard: {
         border: '3px solid var(--outline-3)',
@@ -180,9 +221,22 @@ const style = {
     },
     todoItem: {
         display: 'flex',
-        alignItems: 'center',
-        gap: '12px',
-        padding: '13px 0',
+        padding: '10px 0',
+    },
+    memoInput: {
+        width: '80%',
+        padding: '4px 8px',
+        fontSize: '14px',
+        border: '1px solid #ddd',
+        borderRadius: '4px',
+        outline: 'none',
+        color: 'var(--gray-2)',
+    },
+    memoText: {
+        fontSize: '14px',
+        color: 'var(--gray-2)',
+        borderRadius: '4px',
+        display: 'inline-block',
     },
     checkbox: {
         width: '18px',
@@ -267,7 +321,7 @@ const style = {
         border: 'none',
         borderBottom: '1px solid var(--outline-2)',
         outline: 'none',
-        fontSize: '14px',
+        fontSize: '15px',
         color: 'var(--gray-1)',
         background: 'transparent',
         padding: '2px 0',
@@ -280,7 +334,7 @@ const style = {
     addInput: {
         border: 'none',
         outline: 'none',
-        fontSize: '14px',
+        fontSize: '16px',
         color: 'var(--gray-2)',
         padding: '8px 4px',
         width: '100%',

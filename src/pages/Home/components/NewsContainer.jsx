@@ -25,6 +25,7 @@ const style = {
         display: "flex",
         gap: "15px",
         alignItems: "center",
+        overflow: "hidden",
     },
     newsBox: {
         display: "flex",

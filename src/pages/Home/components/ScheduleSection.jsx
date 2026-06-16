@@ -106,6 +106,7 @@ export default function ScheduleSection(){
                     display: flex;
                     gap : 15px;
                     align-items: center;
+                    overflow: hidden; 
                 }
                 .schedule-box{
                     display: flex;

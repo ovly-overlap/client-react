@@ -1,10 +1,11 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import "./ProfileHeader.css";
 import "../../../index.css";
 import ExampleProfileImage from "../../../assets/example-profile.svg";
 import coloredNextIcon from "../../../assets/colored-next-icon.svg";
 import kebabIcon from "../../../assets/kebab-icon.svg";
-import BtsIcon from "../../BTS-Logo.png";
+import BtsIcon from "../../../assets/BTS-Logo.png";
 
 export default function Profile() {
     const [isFollowing, setFollowing] = useState(false);
@@ -71,13 +72,13 @@ export default function Profile() {
                                     <img src={group.logo} alt={group.name} />
                                 </div>
                             ))}
-                            <button className="add-group-btn small"><img src={coloredNextIcon}/></button>
+                            <Link to="/fav-groups" className="add-group-btn small"><img src={coloredNextIcon}/></Link>
                         </div>
                     ) : (
-                        <button className="add-group-btn big" onClick={handleAddGroup}>
+                        <Link to="/fav-groups" className="add-group-btn big" onClick={handleAddGroup}>
                             <span className="add-group-label">최애 팬덤 설정하러가기</span>
                             <img src={coloredNextIcon}/>
-                        </button>
+                        </Link>
                     )}
                 </div>
             </div>
