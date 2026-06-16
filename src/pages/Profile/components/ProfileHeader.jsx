@@ -7,7 +7,7 @@ import coloredNextIcon from "../../../assets/colored-next-icon.svg";
 import kebabIcon from "../../../assets/kebab-icon.svg";
 import BtsIcon from "../../../assets/BTS-Logo.png";
 
-export default function Profile( {isMyProfile = false} ) {
+export default function ProfileHeader({isMyProfile=false, userName="주라미"}) {
     const [isFollowing, setFollowing] = useState(false);
 
     const [favGroups, setFavGroups] = useState([
@@ -15,14 +15,10 @@ export default function Profile( {isMyProfile = false} ) {
         {id: 2, name: "BOYNEXTDOOR", logo: BtsIcon},
         {id: 3, name: "BIGBANG", logo: BtsIcon},
         {id: 4, name: "NCT", logo: BtsIcon}
-        
     ]);
 
     const toggleFollow = () => {
         setFollowing(!isFollowing);
-    };
-
-    const handleAddGroup = () => {
     };
 
     return (
@@ -34,7 +30,7 @@ export default function Profile( {isMyProfile = false} ) {
                 </div>
                 <div className="userInfo">
                     <div className="userIntro">
-                        <p className="userName">USERNAME</p>
+                        <p className="userName">{isMyProfile ? "myUserName" : (userName || "이름 없음")}</p>
                         <p className="introduction">소개글</p>
                     </div>
                     <div className="following-Follower">
@@ -74,15 +70,16 @@ export default function Profile( {isMyProfile = false} ) {
                                     <img src={group.logo} alt={group.name} />
                                 </div>
                             ))}
-                            {isMyProfile && (
-                                <Link to="/fav-groups" className="add-group-btn small">
-                                    <img src={coloredNextIcon} alt="추가"/>
-                                </Link>
-                            )}
+                            <Link to="/fav-groups" 
+                                state={{isMyProfile: isMyProfile, userName: userName}}
+                                className="add-group-btn small"
+                            >
+                                <img src={coloredNextIcon} alt="더보기"/>
+                            </Link>
                         </div>
                     ) : (
                         isMyProfile && (
-                            <Link to="/fav-groups" className="add-group-btn big">
+                            <Link to="/fav-groups"  className="add-group-btn big" >
                                 <span className="add-group-label">최애 팬덤 설정하러가기</span>
                                 <img src={coloredNextIcon} alt="이동"/>
                             </Link>
