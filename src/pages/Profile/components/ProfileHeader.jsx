@@ -7,7 +7,7 @@ import coloredNextIcon from "../../../assets/colored-next-icon.svg";
 import kebabIcon from "../../../assets/kebab-icon.svg";
 import BtsIcon from "../../../assets/BTS-Logo.png";
 
-export default function Profile() {
+export default function Profile( {isMyProfile = false} ) {
     const [isFollowing, setFollowing] = useState(false);
 
     const [favGroups, setFavGroups] = useState([
@@ -23,7 +23,6 @@ export default function Profile() {
     };
 
     const handleAddGroup = () => {
-        // 최애 그룹 추가 페이지로 이동
     };
 
     return (
@@ -50,18 +49,21 @@ export default function Profile() {
                     </div>
                 </div>
             </div>
-
             <div className="userSet">
                 <div className="userBtn">
-                    {/* <button 
-                        onClick={toggleFollow}
-                        className={`follow-btn ${isFollowing ? 'active' : ''}`}
-                    >
-                        {isFollowing ? '팔로잉' : '팔로우'}
-                    </button> */}
-                    {/* <button className="drop-btn">
-                        <img src={kebabIcon} alt="더보기"/>
-                    </button> */}
+                    {!isMyProfile && (
+                        <>
+                            <button 
+                                onClick={toggleFollow}
+                                className={`follow-btn ${isFollowing ? 'active' : ''}`}
+                            >
+                                {isFollowing ? '팔로잉' : '팔로우'}
+                            </button>
+                            <button className="drop-btn">
+                                <img src={kebabIcon} alt="더보기"/>
+                            </button>
+                        </>
+                    )}
                 </div>
 
                 <div className="userFavGroups">
@@ -72,19 +74,25 @@ export default function Profile() {
                                     <img src={group.logo} alt={group.name} />
                                 </div>
                             ))}
-                            <Link to="/fav-groups" className="add-group-btn small"><img src={coloredNextIcon}/></Link>
+                            {isMyProfile && (
+                                <Link to="/fav-groups" className="add-group-btn small">
+                                    <img src={coloredNextIcon} alt="추가"/>
+                                </Link>
+                            )}
                         </div>
                     ) : (
-                        <Link to="/fav-groups" className="add-group-btn big" onClick={handleAddGroup}>
-                            <span className="add-group-label">최애 팬덤 설정하러가기</span>
-                            <img src={coloredNextIcon}/>
-                        </Link>
+                        isMyProfile && (
+                            <Link to="/fav-groups" className="add-group-btn big">
+                                <span className="add-group-label">최애 팬덤 설정하러가기</span>
+                                <img src={coloredNextIcon} alt="이동"/>
+                            </Link>
+                        )
                     )}
                 </div>
             </div>
         </div>
         </>
-    )
+    );
 }
 
 const style = {
