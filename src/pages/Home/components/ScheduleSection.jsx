@@ -163,11 +163,11 @@ export default function ScheduleSection(){
                 }
 
                 .schedule-box-calender .day.active {
-                    border: 3px solid #5C62F7;
+                    border: 3px solid #7C62DA;
                     background-color: #F0F2FF;
                 }
                 .schedule-box-calender .day.active p {
-                    color: #5C62F7;
+                    color: #7C62DA;
                 }
 
                 .schedule-list-container {
