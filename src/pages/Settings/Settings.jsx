@@ -62,14 +62,14 @@ const handleSave = () => {
               </div>
           </div> 
         </div>
-
+{/* 
         <div className='screen-theme-card'>
           <p className='setting-title'>화면 테마</p>
             <form className='screen-theme'>
               <div className='radio-btn'><input type='radio' name='mode' value='light'/><p>light</p></div>
               <div className='radio-btn'><input type='radio' name='mode' value='dark'/><p>dark</p></div>
             </form>
-          </div>
+          </div> */}
 
           <div className='faq-card'>
             <div className='setting-title'><p>자주 묻는 질문(FAQ)</p></div>
