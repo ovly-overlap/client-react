@@ -1,0 +1,180 @@
+/* 1. 캘린더 전체 카드 프레임 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+@font-face {
+  font-family: 'Nunito';
+  font-style: italic;
+  font-weight: 200 1000;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/nunito/v32/XRXX3I6Li01BKofIMNaORs71cA.woff2) format('woff2');
+}
+
+:root {
+  --black: #2d2d2d;
+  --white: #FFFFFF;
+  --nav-1: #EA63F1;
+  --nav-2: #F8F1F9;
+  --outline-3: #EFF3F4;
+  --lightMode-background: #FAFAFA;
+  --gray-1: #7E7E7E;
+  --button-3: #616FF4;
+  --light-gray: #F8FAFC;
+  --gray-2: #9DABBE;
+  --red: #FF4D4D;
+}
+
+/* 헤더와 카드를 수직으로 정렬해주는 최외곽 컨테이너 */
+.calendar-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 760px; /* 🎯 겉박스가 옆으로 더 길어지도록 최대 가로폭을 확장했습니다 */
+}
+
+.ovly-calendar-card {
+  width: 100%;
+  background: var(--white);
+  border: 3px solid var(--outline-3);
+  border-radius: 20px;
+  padding: 35px;
+  box-sizing: border-box;
+}
+  
+/* 2. 상단 년도/월 컨트롤러 영역 */
+.calendar-control-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px; 
+  padding-left: 5px;
+}
+
+.calendar-control-header .arrow-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+}
+
+.calendar-control-header .arrow-svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.calendar-control-header .arrow-svg.next {
+  transform: rotate(180deg);
+}
+
+.calendar-control-header .year-month-text {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--black);
+  letter-spacing: -0.5px;
+}
+  
+/* 3. 메인 달력 박스 */
+.calendar-main-box {
+  width: 100%;
+}
+  
+/* 4. 요일 헤더 라인 (월 ~ 일) */
+.calendar-weekday-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  margin-bottom: 20px;
+}
+  
+.calendar-weekday-header .weekday {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--black);
+  padding-bottom: 5px;
+}
+  
+/* 토요일 파란색, 일요일 빨간색 처리 */
+.calendar-weekday-header .weekday.sat,
+.day-cell.sat .day-text {
+  color: var(--button-3);
+}
+  
+.calendar-weekday-header .weekday.sun,
+.day-cell.sun .day-text {
+  color: var(--red);
+}
+  
+.calendar-days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 14px; 
+}
+  
+/* 6. 개별 날짜 카드 기본 스타일 */
+.day-cell {
+  position: relative;
+  /* 🎯 안쪽 네모칸들은 원래 원하셨던 세로로 길쭉한 비율(90x100)로 복구했습니다! */
+  aspect-ratio: 90 / 100; 
+  background-color: var(--light-gray); 
+  border-radius: 14px;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+  
+/* 앞쪽 빈 칸 투명화 */
+.day-cell.empty {
+  background: transparent;
+}
+  
+/* 날짜 글자 스타일 */
+.day-cell .day-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gray-2);
+}
+  
+/* 사진넣음 */
+.day-cell.has-bg-image {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+  
+/* 사진 위에 숫자가 얹어지므로 글씨 흰색 처리 및 그림자 */
+.day-cell.has-bg-image .day-text {
+  color: var(--white);
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+}
+  
+.day-cell.highlighted-day {
+  background: var(--light-gray); 
+  z-index: 1;
+}
+  
+.day-cell.highlighted-day::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 14px;
+  padding: 2.5px; 
+  background: linear-gradient(#616FF4, #F46FE7); 
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+  
+.day-cell.highlighted-day .day-text {
+  background: linear-gradient(#616FF4, #F46FE7);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}

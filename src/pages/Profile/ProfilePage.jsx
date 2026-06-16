@@ -8,8 +8,8 @@ export default function ProfilePage() {
         <div style={style.profileSection}>
             <ProfileHeader />
             <Todo />
-            {/* <Diary />
-            <Calendar /> */}
+            {/* <Diary /> */}
+            <Calendar />
         </div>
         </>
     )
