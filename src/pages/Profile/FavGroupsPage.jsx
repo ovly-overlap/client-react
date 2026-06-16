@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import prevIcon from "../../assets/prev-icon.svg"
 import coloredHeartIcon from "../../assets/colored-heart-icon.svg"
@@ -7,45 +7,52 @@ import btsLogo from "../../assets/BTS-Logo.png"
 import FandomCard from "./components/FandomCard";
 
 export default function FavGroupsPage() {
-    const [isFollowing, setFollowing] = useState(false);
-    const [isFandomExist, setIsFandomExist] = useState(true);
+    const location = useLocation();
+    
+    const isMyProfile = location.state?.isMyProfile ?? true; 
+    const userName = location.state?.userName ?? "나";
 
-    const toggleFollow = () => {
-        setFollowing(!isFollowing);
-    };
+    const [isFandomExist, setIsFandomExist] = useState(true);
 
     return (
         <>
         <div style={style.favGroupSection}>
             <div style={style.favGroupCard}>
                 <div style={style.favGroupHeader}>
-                    <Link to="/profile" style={style.prevIconBtn}>
+                    <Link to={isMyProfile ? "/profile" : "/other-user-profile"} style={style.prevIconBtn}>
                         <img src={prevIcon} alt="prev-icon" style={style.prevIconImg} />
                     </Link>
 
                     <div style={style.titleWrapper}>
                         <img src={coloredHeartIcon} alt="heart-icon" style={style.heartIcon} />
-                        <p style={style.title}>나의 관심 팬덤</p>
+                        <p style={style.title}>
+                            {isMyProfile ? "나의 관심 팬덤" : `${userName}님의 관심 팬덤`}
+                        </p>
                     </div>
                 </div>
-                <SearchBar placeholder={"팬덤 이름을 검색해보세요"}/>  
-                    {isFandomExist ? (
-                        <div style={style.fandomGrid}>
-                            {Array.from({ length: 9 }).map((_, index) => (
-                                <FandomCard 
-                                    key={index} 
-                                    logo={btsLogo} 
-                                    name="BTS" 
-                                />
-                            ))}
-                        </div>
-                    ) : (
-                        <div style={style.emptyStateContainer}>
-                            <p style={style.noScheduleMsg1}>아직 관심 팬덤이 없어요!</p>
-                            <p style={style.noScheduleMsg2}>관심있는 팬덤을 검색해서 추가해보세요.</p>
-                        </div>
-                    )}
 
+                {isMyProfile && <SearchBar placeholder={"팬덤 이름을 검색해보세요"}/>}  
+
+                {isFandomExist ? (
+                    <div style={style.fandomGrid}>
+                        {Array.from({ length: 9 }).map((_, index) => (
+                            <FandomCard 
+                                key={index} 
+                                logo={btsLogo} 
+                                name="BTS" 
+                            />
+                        ))}
+                    </div>
+                ) : (
+                    <div style={style.emptyStateContainer}>
+                        <p style={style.noScheduleMsg1}>
+                            {isMyProfile ? "아직 관심 팬덤이 없어요!" : "아직 관심 팬덤이 없어요."}
+                        </p>
+                        {isMyProfile && (
+                            <p style={style.noScheduleMsg2}>관심있는 팬덤을 검색해서 추가해보세요.</p>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
         </>

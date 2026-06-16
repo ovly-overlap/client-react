@@ -164,8 +164,3 @@
         -webkit-background-clip: text;   
         -webkit-text-fill-color: transparent; 
 }
-
-.add-group-btn:hover {
-    /* background-color: var(--nav-1); */
-    color: var(--black);
-}

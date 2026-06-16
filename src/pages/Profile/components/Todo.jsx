@@ -3,27 +3,31 @@ import plusBtn from "../../../assets/plus-icon.svg";
 import TodoCard from "./TodoCard.jsx";
 import { dummyTodos } from "../dummyTodos.js";
 
-    export default function Todo() {
-        const [showInput, setShowInput] = useState(false);
-        const [todos, setTodos] = useState(dummyTodos);
-    
-        return (
-            <div style={style.todoSection}>
-                <div style={style.todoBtnDiv}>
-                    <span style={style.todoText}>해야 할 일</span>
+export default function Todo({ isMyProfile = false }) {
+    const [showInput, setShowInput] = useState(false);
+    const [todos, setTodos] = useState(dummyTodos);
+
+    return (
+        <div style={style.todoSection}>
+            <div style={style.todoBtnDiv}>
+                <span style={style.todoText}>해야 할 일</span>
+                {isMyProfile && (
                     <button style={style.plusButton} onClick={() => setShowInput(true)}>
                         <img src={plusBtn} alt="plusButton" style={style.plusButtonImg} />
                     </button>
-                </div>
-                <TodoCard
-                    todos={todos}
-                    setTodos={setTodos}
-                    showInput={showInput}
-                    setShowInput={setShowInput}
-                />
+                )}
             </div>
-        );
-    }
+            <TodoCard
+                todos={todos}
+                setTodos={setTodos}
+                showInput={showInput}
+                setShowInput={setShowInput}
+                isMyProfile={isMyProfile}
+            />
+        </div>
+    );
+}
+
 const style = {
     todoSection : {
         display : 'flex',

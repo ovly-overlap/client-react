@@ -8,7 +8,7 @@ export default function MissionContainer() {
         { id: 1, mission: "아티스트 스케줄 추가하기", isCompleted: false },
         { id: 2, mission: "뉴스 시청하기", isCompleted: false },
         { id: 3, mission: "오늘의 일기 작성하기", isCompleted: false },
-        { id: 4, mission: "친구 팔로우하기", isCompleted: true }, // 예시로 하나는 완료 처리
+        { id: 4, mission: "친구 팔로우하기", isCompleted: true }, 
         { id: 5, mission: "게시물에 댓글 남기기", isCompleted: false },
     ]);
 
@@ -17,7 +17,7 @@ export default function MissionContainer() {
             <div style={styles.mission}>
                 <div className="schedule-header">
                     <img src={CheckIcon} alt="check-icon" />
-                    <p className="title">오늘의 미션</p>
+                    <p style={styles.title}>오늘의 미션</p>
                 </div>
                 <div style={styles.missionBox}>
                     <div style={styles.missionBoxContent}>
@@ -59,6 +59,10 @@ const styles = {
         display: "flex",
         flexDirection: "column",
         gap: "20px",
+    },
+    title: {
+        fontWeight: "bold",
+        fontSize:"24px",
     },
     missionBox: {
         display: "flex",
@@ -107,7 +111,7 @@ const styles = {
         textDecoration: "none",
     },
     completedLabel: {
-        color: "var(--gray-1)",              // 연한 회색으로 변경
-        textDecoration: "line-through", // 중앙에 회색 가로선 추가
+        color: "var(--gray-1)",    
+        textDecoration: "line-through", 
     }
 };
