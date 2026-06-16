@@ -28,10 +28,17 @@
   box-sizing: border-box;
   overflow-y: auto;
   scrollbar-width: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;   
+  -ms-user-select: none;     
+  user-select: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
 }
 body{
     background: var(--lightMode-background);
-    -webkit-user-select: none; /* 크롬, 사파리, 오페라 */
 }
 img{
   -webkit-user-drag: none;
