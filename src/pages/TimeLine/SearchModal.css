@@ -1,0 +1,194 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+@font-face {
+  font-family: 'Nunito';
+  font-style: italic;
+  font-weight: 200 1000;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/nunito/v32/XRXX3I6Li01BKofIMNaORs71cA.woff2) format('woff2');
+}
+
+:root {
+  --black: #2d2d2d;
+  --white: #FFFFFF;
+  --nav-1: #EA63F1;
+  --nav-2: #F8F1F9;
+  --outline-3: #EFF3F4;
+  --lightMode-background: #FAFAFA;
+  --gray-1: #7E7E7E;
+  --button-3: #616FF4;
+  --light-gray: #F8FAFC;
+  --gray-2: #9DABBE;
+  --red: #FF4D4D;
+}
+
+/* 전체 기본 폰트 패밀리 지정 */
+body, input, button {
+  font-family: 'Noto Sans KR', 'Nunito', sans-serif;
+}
+
+.search-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* 2. 크기 터짐 방지 반응형 모달 컨테이너 */
+.search-modal-container {
+  width: 90%;
+  max-width: 1200px; 
+  height: 85vh; 
+  max-height: 880px;
+  background-color: var(--white);
+  border-radius: 20px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* 3. 상단 타이틀 헤더 */
+.search-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 28px 0;
+  margin: 0 30px; 
+  border-bottom: 1px solid var(--outline-3);
+}
+
+.search-modal-back-btn {
+  position: absolute;
+  left: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.back-arrow-img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.search-modal-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--black);
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.search-input-wrapper {
+  padding: 24px 0 12px 0; 
+}
+
+.search-results-content {
+  flex: 1;
+  padding: 12px 30px 36px 30px;
+  overflow-y: auto;
+}
+
+.search-results-content::-webkit-scrollbar {
+  width: 6px;
+}
+.search-results-content::-webkit-scrollbar-thumb {
+  background-color: var(--outline-3);
+  border-radius: 3px;
+}
+
+.search-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr)); 
+  gap: 32px; 
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.user-search-card {
+  position: relative;
+  width: 100%; 
+  background-color: var(--white);
+  padding: 44px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.user-search-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 16px; 
+  padding: 2px; 
+  background: linear-gradient(#F597B6 0%, #A3B3FA 100%); 
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+}
+
+.avatar-wrapper {
+  width: 80px; 
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 25px;
+  background-color: var(--light-gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--outline-3);
+}
+
+.user-card-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-card-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 25px; 
+  text-align: center;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 팔로우 버튼 기본 스타일 */
+.user-card-follow-btn {
+  width: 82%;
+  height: 38px; 
+  background-color: var(--button-3); 
+  color: var(--white);
+  border: none;
+  border-radius: 20px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.user-card-follow-btn.active {
+  background-color: var(--outline-3); 
+  color: var(--gray-1);                
+  font-weight: 600;
+}

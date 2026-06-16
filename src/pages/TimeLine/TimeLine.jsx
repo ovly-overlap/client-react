@@ -1,7 +1,9 @@
 import { useState } from "react";
-import profile from "../assets/profile-icon.svg";
-import post from "../assets/eye-icon.svg";
+import profile from "../../assets/profile-icon.svg";
+import post from "../../assets/eye-icon.svg";
+import Nav from "../../components/Nav";
 import "./TimeLine.css";
+import SearchModal from "../TimeLine/SearchModal";
 
 const REPORT_REASONS = [
   "스팸 및 홍보성 콘텐츠",
@@ -11,24 +13,24 @@ const REPORT_REASONS = [
 ];
 
 const INITIAL_FRIENDS = [
-  {
-    id: 1,
-    name: "Jin라면먹고싶다",
-    isFollowing: true,
-  },
-  {
-    id: 2,
-    name: "으아내정신",
-    isFollowing: false,
-  },
-  {
-    id: 3,
-    name: "성호어깨에치여사망",
-    isFollowing: false,
-  },
+  { id: 1, name: "Jin라면먹고싶다", isFollowing: true },
+  { id: 2, name: "으아내정신", isFollowing: false },
+  { id: 3, name: "성호어깨에치여사망", isFollowing: false },
+  { id: 4, name: "성호어깨에치여사망", isFollowing: true },
+  { id: 5, name: "성호어깨에치여사망", isFollowing: false },
 ];
 
-const INITIAL_SEARCHES = ["망개떡", "우나기", "ChristmasTree"];
+const INITIAL_SEARCHES = [
+  "망개떡",
+  "우나기",
+  "ChristmasTree",
+  "ChristmasTree",
+  "ChristmasTree",
+  "ChristmasTree",
+  "ChristmasTree",
+  "ChristmasTree",
+  "ChristmasTree",
+];
 
 const INITIAL_LIKE_USERS = [
   { id: 1, name: "성호어깨에치여사망", isFollowing: true },
@@ -49,7 +51,6 @@ const INITIAL_LIKE_USERS = [
   { id: 16, name: "성호팬", isFollowing: false },
 ];
 
-// 에러 방지를 위해 중복된 id를 고유한 값(1, 2, 3, 4)으로 수정했습니다.
 const INITIAL_POSTS = [
   {
     id: 1,
@@ -57,7 +58,7 @@ const INITIAL_POSTS = [
     time: "2분 전",
     content:
       "아 진짜 리쿠 너무 잘생겼어요 미친!! 게다가 오늘 브넥도 상남자여서 진짜 너무 좋아요❤️",
-    images: [post, post, post, post, post, post],
+    images: [post],
     likes: "7,654",
     commentsCount: 778,
     comments: [
@@ -105,7 +106,23 @@ const INITIAL_POSTS = [
     time: "2분 전",
     content:
       "아 진짜 리쿠 너무 잘생겼어요 미친!! 게다가 오늘 브넥도 상남자여서 진짜 너무 좋아요❤️",
-    images: [post, post, post, post, post, post],
+    images: [
+      post,
+      post,
+      post,
+      post,
+      post,
+      post,
+      post,
+      post,
+      post,
+      post,
+      post,
+      post,
+      post,
+      post,
+      post,
+    ],
     likes: "7,654",
     commentsCount: 778,
     comments: [
@@ -150,6 +167,7 @@ const INITIAL_POSTS = [
 ];
 
 export default function TimeLine() {
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [posts, setPosts] = useState(INITIAL_POSTS);
   const [activeTab, setActiveTab] = useState("recommend");
   const [friends, setFriends] = useState(INITIAL_FRIENDS);
@@ -165,7 +183,6 @@ export default function TimeLine() {
   const [showBlockConfirm, setShowBlockConfirm] = useState(false);
   const [replyViewCommentId, setReplyViewCommentId] = useState(null);
 
-  // 크래시 방지: 기존에 누락되었던 핵심 상태(State) 2가지를 정상 선언했습니다.
   const [showReportReasons, setShowReportReasons] = useState(false);
   const [activeReplyCommentId, setActiveReplyCommentId] = useState(null);
 
@@ -203,19 +220,11 @@ export default function TimeLine() {
     setShowBlockConfirm(false);
   };
 
-  const handleReportSubmit = () => {
-    if (!selectedReason) return;
-    setIsReportSubmitted(true);
-  };
-
-  const handleFollowToggle = (name) => {
+  const handleFollowToggle = (id) => {
     setFriends((prev) =>
       prev.map((friend) =>
-        friend.name === name
-          ? {
-              ...friend,
-              isFollowing: !friend.isFollowing,
-            }
+        friend.id === id
+          ? { ...friend, isFollowing: !friend.isFollowing }
           : friend
       )
     );
@@ -224,12 +233,7 @@ export default function TimeLine() {
   const handleLikeUserFollow = (userId) => {
     setLikeUsers((prev) =>
       prev.map((user) =>
-        user.id === userId
-          ? {
-              ...user,
-              isFollowing: !user.isFollowing,
-            }
-          : user
+        user.id === userId ? { ...user, isFollowing: !user.isFollowing } : user
       )
     );
   };
@@ -238,8 +242,10 @@ export default function TimeLine() {
     setSearchHistory([]);
   };
 
-  const handleRemoveSearchItem = (name) => {
-    setSearchHistory((prev) => prev.filter((item) => item !== name));
+  const handleRemoveSearchItem = (targetIndex) => {
+    setSearchHistory((prev) =>
+      prev.filter((_, index) => index !== targetIndex)
+    );
   };
 
   const handleBlockUser = () => {
@@ -363,6 +369,7 @@ export default function TimeLine() {
 
   return (
     <div className="timeline">
+      <Nav />
       <div className="timeline-top">
         <p
           className={activeTab === "recommend" ? "active" : ""}
@@ -416,7 +423,11 @@ export default function TimeLine() {
                   <p>{item.content}</p>
                   <div
                     className={`post-images ${
-                      item.images.length === 2 ? "two" : ""
+                      item.images.length === 1
+                        ? "one"
+                        : item.images.length === 2
+                        ? "two"
+                        : ""
                     }`}
                   >
                     {item.images.slice(0, 3).map((imgSrc, index) => {
@@ -448,14 +459,18 @@ export default function TimeLine() {
         </div>
 
         <div className="timeline-right">
-          <div className="search-card">
+          <div 
+            className="search-card" 
+            onClick={() => setIsSearchModalOpen(true)}
+            style={{ cursor: "pointer" }}
+          >
             <div className="search-box">
-              <input type="text" placeholder="검색" />
+              <input type="text" placeholder="검색" readOnly />
             </div>
 
-            <div className="chat-box">
+            <div className="chat-box" onClick={(e) => e.stopPropagation()}>
               <div className="chat-top">
-                <span>최근 검색어</span>
+                <div></div>
                 <span
                   style={{ cursor: "pointer" }}
                   onClick={handleClearSearchHistory}
@@ -464,16 +479,14 @@ export default function TimeLine() {
                 </span>
               </div>
 
-              {/* 최근 검색어 요소를 추천 친구(friend-user) 레이아웃 클래스와 구조로 100% 일치시켰습니다. */}
               {searchHistory.map((item, index) => (
                 <div key={index} className="friend-user">
                   <div className="friend-left">
                     <img src={profile} alt="" />
                     <p>{item}</p>
                   </div>
-                  {/* 팔로우 버튼 대신 동일한 스타일 규격의 X 삭제 버튼을 배치했습니다. */}
                   <button
-                    onClick={() => handleRemoveSearchItem(item)}
+                    onClick={() => handleRemoveSearchItem(index)}
                     className="search-delete-btn"
                   >
                     ✕
@@ -492,7 +505,7 @@ export default function TimeLine() {
                   <p>{friend.name}</p>
                 </div>
                 <button
-                  onClick={() => handleFollowToggle(friend.name)}
+                  onClick={() => handleFollowToggle(friend.id)}
                   className={friend.isFollowing ? "following-btn" : ""}
                 >
                   {friend.isFollowing ? "팔로잉" : "팔로우"}
@@ -503,6 +516,13 @@ export default function TimeLine() {
         </div>
       </div>
 
+      {/* 🌟 2. 타임라인 최하단 전역 영역에 검색 모달 컴포넌트 배치 */}
+      <SearchModal
+        isOpen={isSearchModalOpen}
+        onClose={() => setIsSearchModalOpen(false)}
+      />
+
+      {/* 게시물 상세 + 댓글 레이아웃 모달 */}
       {selectedPost && (
         <div
           className="modal-overlay"
@@ -555,6 +575,7 @@ export default function TimeLine() {
               {!replyViewCommentId ? (
                 <>
                   <h3 className="modal-comments-title">댓글</h3>
+
                   <form
                     className={`modal-comment-write ${
                       commentInput.trim() ? "has-text" : ""
@@ -580,34 +601,50 @@ export default function TimeLine() {
                     </div>
                   </form>
 
-                  <div className="modal-comments-count">
-                    댓글 {selectedPost.commentsCount}
-                  </div>
+                  <div className="comment-scroll-area">
+                    <div className="modal-comments-count">
+                      댓글 {selectedPost.commentsCount}
+                    </div>
 
-                  <div className="modal-comment-list">
-                    {selectedPost.comments.map((comment) => (
-                      <div key={comment.id} className="modal-comment-item">
-                        <img src={profile} alt="" />
-                        <div className="comment-body">
-                          <div className="comment-user-info">
-                            <h5>{comment.user}</h5>
-                            <span>{comment.time}</span>
-                          </div>
-                          <p>{comment.text}</p>
-                          <div className="comment-actions">
-                            💜 {comment.likes}
-                            <span
-                              onClick={() => setReplyViewCommentId(comment.id)}
-                              style={{ cursor: "pointer" }}
-                            >
-                              답글
-                              {comment.replies.length > 0 &&
-                                ` ${comment.replies.length}`}
-                            </span>
+                    <div className="modal-comment-list">
+                      {selectedPost.comments.map((comment) => (
+                        <div key={comment.id} className="modal-comment-item">
+                          <img src={profile} alt="" />
+                          <div className="comment-body">
+                            <div className="comment-user-info">
+                              <h5>{comment.user}</h5>
+                              <span>{comment.time}</span>
+                            </div>
+                            <p className="modal-comment-text">{comment.text}</p>
+                            <div className="comment-actions">
+                              💜 {comment.likes}
+                              <span
+                                onClick={() =>
+                                  setReplyViewCommentId(comment.id)
+                                }
+                                style={{ cursor: "pointer" }}
+                              >
+                                답글{" "}
+                                {comment.replies.length > 0 &&
+                                  ` ${comment.replies.length}`}
+                              </span>
+                              <span
+                                onClick={() =>
+                                  handleCommentDelete(comment.id, false)
+                                }
+                                style={{
+                                  cursor: "pointer",
+                                  color: "red",
+                                  marginLeft: "10px",
+                                }}
+                              >
+                                삭제
+                              </span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 </>
               ) : (
@@ -630,7 +667,7 @@ export default function TimeLine() {
                             <h5>{comment.user}</h5>
                             <span>{comment.time}</span>
                           </div>
-                          <p>{comment.text}</p>
+                          <p className="modal-comment-text">{comment.text}</p>
                         </div>
                       </div>
                     ))}
@@ -660,30 +697,46 @@ export default function TimeLine() {
                     </div>
                   </form>
 
-                  <div className="modal-comments-count">
-                    전체 답글{" "}
-                    {
-                      selectedPost.comments.find(
-                        (c) => c.id === replyViewCommentId
-                      )?.replies.length
-                    }
-                  </div>
+                  <div className="comment-scroll-area">
+                    <div className="modal-comments-count">
+                      전체 답글{" "}
+                      {
+                        selectedPost.comments.find(
+                          (c) => c.id === replyViewCommentId
+                        )?.replies.length
+                      }
+                    </div>
 
-                  <div className="modal-comment-list">
-                    {selectedPost.comments
-                      .find((c) => c.id === replyViewCommentId)
-                      ?.replies.map((reply) => (
-                        <div key={reply.id} className="modal-comment-item">
-                          <img src={profile} alt="" />
-                          <div className="comment-body">
-                            <div className="comment-user-info">
-                              <h5>{reply.user}</h5>
-                              <span>{reply.time}</span>
+                    <div className="modal-comment-list">
+                      {selectedPost.comments
+                        .find((c) => c.id === replyViewCommentId)
+                        ?.replies.map((reply) => (
+                          <div key={reply.id} className="modal-comment-item">
+                            <img src={profile} alt="" />
+                            <div className="comment-body">
+                              <div className="comment-user-info">
+                                <h5>{reply.user}</h5>
+                                <span>{reply.time}</span>
+                              </div>
+                              <p className="modal-comment-text">{reply.text}</p>
+                              <div className="comment-actions">
+                                <span
+                                  onClick={() =>
+                                    handleCommentDelete(
+                                      reply.id,
+                                      true,
+                                      replyViewCommentId
+                                    )
+                                  }
+                                  style={{ cursor: "pointer", color: "red" }}
+                                >
+                                  삭제
+                                </span>
+                              </div>
                             </div>
-                            <p>{reply.text}</p>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                    </div>
                   </div>
                 </>
               )}
@@ -692,6 +745,7 @@ export default function TimeLine() {
         </div>
       )}
 
+      {/* 좋아요 명단 모달 */}
       {likeModalPostId && likeTargetPost && (
         <div
           className="like-modal-overlay"
@@ -710,14 +764,12 @@ export default function TimeLine() {
                 ✕
               </button>
             </div>
-
             <div className="like-modal-count-box">
               💜 {likeTargetPost.likes}
             </div>
             <div className="like-public-text">
               좋아요를 누른 모든 사용자가 공개됩니다.
             </div>
-
             <div className="like-user-list">
               {likeUsers.map((user) => (
                 <div key={user.id} className="like-user-item">
@@ -740,6 +792,7 @@ export default function TimeLine() {
         </div>
       )}
 
+      {/* 신고/차단 관련 모달 */}
       {reportModalPostId && (
         <div
           className="report-modal-overlay"
@@ -782,7 +835,6 @@ export default function TimeLine() {
                 <p className="report-sub-text">
                   사유를 선택하시면 신고 처리가 완료됩니다.
                 </p>
-
                 <div className="report-options-list">
                   {REPORT_REASONS.map((reason) => (
                     <label
@@ -802,7 +854,6 @@ export default function TimeLine() {
                     </label>
                   ))}
                 </div>
-
                 <div className="report-btn-group">
                   <button
                     className="btn-report-action"
