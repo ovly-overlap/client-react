@@ -8,7 +8,7 @@ export default function NewsContainer() {
     <div className="news-container">
         <div style={style.newsHeader}>
             <img src={NewsIcon} alt="news-icon" />
-            <p className="title">실시간 뉴스</p>
+            <p style={style.title}>실시간 뉴스</p>
         </div>
         <div style={style.newsBox}>
             <Link to="/idol-news" style={style.newsBoxButton}>
@@ -26,6 +26,10 @@ const style = {
         gap: "15px",
         alignItems: "center",
         overflow: "hidden",
+    },
+    title: {
+        fontWeight: "bold",
+        fontSize:"24px",
     },
     newsBox: {
         display: "flex",

@@ -108,6 +108,10 @@ export default function ScheduleSection(){
                     align-items: center;
                     overflow: hidden; 
                 }
+                .title{
+                    font-weight: bold;
+                    font-size:24px;
+                }
                 .schedule-box{
                     display: flex;
                     flex-direction: column;
@@ -163,11 +167,11 @@ export default function ScheduleSection(){
                 }
 
                 .schedule-box-calender .day.active {
-                    border: 3px solid #7C62DA;
+                    border: 3px solid #A6B2F8;
                     background-color: #F0F2FF;
                 }
                 .schedule-box-calender .day.active p {
-                    color: #7C62DA;
+                    color: #A6B2F8;
                 }
 
                 .schedule-list-container {
