@@ -18,7 +18,7 @@ function App() {
       <Nav />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/profile" element={<Profile isMyProfile={true}/>} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/timeline" element={<TimeLine />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/idol-news" element={<IdolNews />} />

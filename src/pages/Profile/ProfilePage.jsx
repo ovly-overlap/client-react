@@ -6,8 +6,8 @@ export default function ProfilePage() {
     return (
         <>
         <div style={style.profileSection}>
-            <ProfileHeader />
-            <Todo />
+            <ProfileHeader isMyProfile={true}/>
+            <Todo isMyProfile={true}/>
             {/* <Diary />
             <Calendar /> */}
         </div>

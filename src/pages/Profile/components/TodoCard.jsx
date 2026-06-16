@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import checkboxCheckIcon from "../../../assets/checkbox-check-icon.svg";
-
-export default function TodoCard({ todos, setTodos, showInput, setShowInput }) {
+export default function TodoCard({ todos, setTodos, showInput, setShowInput, isMyProfile=false }) {
+    // TODO : useRef
     const [openMenuId, setOpenMenuId] = useState(null);
     const [editingId, setEditingId] = useState(null);
     const [editValue, setEditValue] = useState('');
@@ -12,6 +12,7 @@ export default function TodoCard({ todos, setTodos, showInput, setShowInput }) {
     const [memoInputValue, setMemoInputValue] = useState('');
 
     const toggleDone = (id) => {
+        if (!isMyProfile) return;
         setTodos(todos.map(t => t.id === id ? { ...t, done: !t.done } : t));
     };
 
@@ -99,7 +100,10 @@ export default function TodoCard({ todos, setTodos, showInput, setShowInput }) {
                         >
                             <div style={{ display: 'flex', width: '100%', alignItems: 'center', gap: '10px' }}>
                                 <div
-                                    style={todo.done ? style.checkboxDone : style.checkbox}
+                                    style={{
+                                        ...(todo.done ? style.checkboxDone : style.checkbox),
+                                        cursor: isMyProfile ? 'pointer' : 'default'
+                                    }}
                                     onClick={(e) => { e.stopPropagation(); toggleDone(todo.id); }}
                                 >
                                     {todo.done && (
@@ -125,33 +129,34 @@ export default function TodoCard({ todos, setTodos, showInput, setShowInput }) {
                                         {todo.label}
                                     </span>
                                 )}
-                                
-                                <div style={style.kebabWrapper}>
-                                    <button
-                                        type="button"
-                                        className="kebab-btn"
-                                        style={style.kebabBtn}
-                                        onClick={(e) => handleKebabClick(e, todo.id)}
-                                    >
-                                        ⋮
-                                    </button>
-                                    
-                                    {openMenuId === todo.id && createPortal(
-                                        <div 
-                                            style={{ 
-                                                ...style.portalMenu, 
-                                                top: `${menuCoords.top}px`, 
-                                                left: `${menuCoords.left}px` 
-                                            }}
-                                            onClick={(e) => e.stopPropagation()}
+                                {isMyProfile && (
+                                    <div style={style.kebabWrapper}>
+                                        <button
+                                            type="button"
+                                            className="kebab-btn"
+                                            style={style.kebabBtn}
+                                            onClick={(e) => handleKebabClick(e, todo.id)}
                                         >
-                                            <div style={style.menuItem} onClick={() => startEdit(todo)}>수정</div>
-                                            <div style={style.menuItem} onClick={() => startAddMemo(todo)}>메모 추가</div>
-                                            <div style={{ ...style.menuItem, color: 'var(--red)', border: 'none' }} onClick={() => deleteTodo(todo.id)}>삭제</div>
-                                        </div>,
-                                        document.body
-                                    )}
-                                </div>
+                                            ⋮
+                                        </button>
+                                        
+                                        {openMenuId === todo.id && createPortal(
+                                            <div 
+                                                style={{ 
+                                                    ...style.portalMenu, 
+                                                    top: `${menuCoords.top}px`, 
+                                                    left: `${menuCoords.left}px` 
+                                                }}
+                                                onClick={(e) => e.stopPropagation()}
+                                            >
+                                                <div style={style.menuItem} onClick={() => startEdit(todo)}>수정</div>
+                                                <div style={style.menuItem} onClick={() => startAddMemo(todo)}>메모 추가</div>
+                                                <div style={{ ...style.menuItem, color: 'var(--red)', border: 'none' }} onClick={() => deleteTodo(todo.id)}>삭제</div>
+                                            </div>,
+                                            document.body
+                                        )}
+                                    </div>
+                                )}
                             </div>
 
                             <div style={{ paddingLeft: '27px', width: '100%', marginTop: '2px' }}>
@@ -178,7 +183,7 @@ export default function TodoCard({ todos, setTodos, showInput, setShowInput }) {
                 </ul>
             )}
 
-            {showInput && (
+            {isMyProfile && showInput && (
                 <div style={style.inputWrapper}>
                     <input
                         autoFocus

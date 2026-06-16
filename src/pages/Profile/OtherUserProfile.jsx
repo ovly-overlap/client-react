@@ -7,7 +7,7 @@ export default function OtherUserProfile() {
         <>
         <div style={style.profileSection}>
             <ProfileHeader isMyProfile={false}/>
-            <Todo />
+            <Todo isMyProfile={false}/>
             {/* <Diary />
             <Calendar /> */}
         </div>
