@@ -5,6 +5,7 @@ import Profile from './pages/Profile/ProfilePage.jsx'
 import Settings from './pages/Settings/Settings.jsx'
 import TimeLine from './pages/TimeLine.jsx'
 import IdolNews from './pages/Home/IdolNews.jsx'
+import FavGroupsPage from './pages/Profile/FavGroupsPage.jsx'
 // import Signup from "./pages/Signup.jsx"
 // import Signup from "./pages/signup.jsx"
 // import Login from "./pages/login.jsx"
@@ -20,6 +21,7 @@ function App() {
         <Route path="/timeline" element={<TimeLine />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/idol-news" element={<IdolNews />} />
+        <Route path="/fav-groups" element={<FavGroupsPage />}/>
       </Routes>
     </BrowserRouter>
   )
