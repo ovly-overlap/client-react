@@ -1,11 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import plusBtn from "../../../assets/plus-icon.svg";
 import TodoCard from "./TodoCard.jsx";
-import { dummyTodos } from "../dummyTodos.js";
+import { getCurrentUser, updateCurrentUser } from "../../../utils/localStorage.js";
 
 export default function Todo({ isMyProfile = false }) {
+    const currentUser = getCurrentUser();
+    const currentUserId = currentUser?.id;
     const [showInput, setShowInput] = useState(false);
-    const [todos, setTodos] = useState(dummyTodos);
+    const [todos, setTodos] = useState(() => currentUser?.todos ?? []);
+
+    useEffect(() => {
+        if (isMyProfile && currentUserId) {
+            updateCurrentUser({ todos });
+        }
+    }, [todos, isMyProfile, currentUserId]);
 
     return (
         <div style={style.todoSection}>

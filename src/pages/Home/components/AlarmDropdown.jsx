@@ -1,64 +1,28 @@
-// components/AlarmDropdown.jsx
-import React from "react";
 import DummyProfile from "../../../assets/dummy-profile.svg"
-import { useState } from "react";
 
-const initialAlarmData = [
-  {
-    id: 1,
-    type: "FOLLOW",
-    message: "<strong>주라미</strong>님이 팔로우했습니다.",
-    timeLabel: "2분 전",
-    senderAvatar: "https://example.com/jurami.jpg",
-    isUnread: true,
-  },
-  {
-    id: 2,
-    type: "SCHEDULE",
-    message: "곧 <strong>영등포 팬싸인회</strong> 일정이 다가옵니다.",
-    timeLabel: "15분 전",
-    isUnread: true,
-  },
-  {
-    id: 3,
-    type: "COMMENT",
-    message: "<strong>주라미</strong>님이 당신의 게시물에 댓글을 달았습니다.",
-    timeLabel: "2026.03.14 06:12",
-    senderAvatar: "https://example.com/jurami.jpg",
-    isUnread: true,
-  },
-  {
-    id: 4,
-    type: "HEART",
-    message: "<strong>주라미</strong>님이 당신의 게시물에 하트를 눌렀습니다.",
-    timeLabel: "2026.03.03 06:12",
-    senderAvatar: "https://example.com/jurami.jpg",
-    isUnread: false,
-  },
-];
-
-export default function AlarmDropdown({ onClose }) {
+export default function AlarmDropdown({alarms, onReadAll, onReadItem, onClose}) {
   const myAvatar = DummyProfile; 
-
-  const [alarms, setAlarms] = useState(initialAlarmData);
-
-  const handleReadAll = () => {
-    setAlarms((prevAlarms) =>
-      prevAlarms.map((item) => ({
-        ...item,
-        isUnread: false, 
-      }))
-    );
-  };
 
   return (
     <>
+      <style>{`
+        .type-user strong {
+          font-weight: 700 !important;
+          color: var(--black) !important;
+        }
+
+        .type-schedule strong {
+          font-weight: 800 !important; 
+          color: var(--black) !important; 
+        }
+      `}</style>
+
       <div style={alarmStyle.overlay} onClick={onClose} />
       
       <div style={alarmStyle.container}>
         <div style={alarmStyle.header}>
           <span style={alarmStyle.title}>알림</span>
-          <button style={alarmStyle.readAllBtn} onClick={handleReadAll}>
+          <button style={alarmStyle.readAllBtn} onClick={onReadAll}>
             모두 읽음
           </button>
         </div>
@@ -66,9 +30,14 @@ export default function AlarmDropdown({ onClose }) {
         <div style={alarmStyle.contentList}>
           {alarms.map((item) => {
             const avatarUrl = item.type === "SCHEDULE" ? myAvatar : item.senderAvatar;
+            const messageClass = item.type === "SCHEDULE" ? "type-schedule" : "type-user";
 
             return (
-              <div key={item.id} style={alarmStyle.item}>
+              <div 
+                key={item.id} 
+                style={{ ...alarmStyle.item, cursor: "pointer" }} 
+                onClick={() => onReadItem(item.id)}
+              >
                 <div 
                   style={{
                     ...alarmStyle.avatar,
@@ -80,6 +49,7 @@ export default function AlarmDropdown({ onClose }) {
                 
                 <div style={alarmStyle.itemText}>
                   <p 
+                    className={messageClass}
                     style={alarmStyle.message} 
                     dangerouslySetInnerHTML={{ __html: item.message }} 
                   />

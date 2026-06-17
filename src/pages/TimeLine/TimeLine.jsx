@@ -1,7 +1,6 @@
 import { useState } from "react";
 import profile from "../../assets/profile-icon.svg";
 import post from "../../assets/eye-icon.svg";
-import Nav from "../../components/Nav";
 import "./TimeLine.css";
 import SearchModal from "../TimeLine/SearchModal";
 
@@ -178,7 +177,6 @@ export default function TimeLine() {
   const [likeModalPostId, setLikeModalPostId] = useState(null);
   const [reportModalPostId, setReportModalPostId] = useState(null);
   const [selectedReason, setSelectedReason] = useState("");
-  const [isReportSubmitted, setIsReportSubmitted] = useState(false);
   const [commentInput, setCommentInput] = useState("");
   const [showBlockConfirm, setShowBlockConfirm] = useState(false);
   const [replyViewCommentId, setReplyViewCommentId] = useState(null);
@@ -216,7 +214,6 @@ export default function TimeLine() {
     e.stopPropagation();
     setReportModalPostId(postId);
     setSelectedReason("");
-    setIsReportSubmitted(false);
     setShowBlockConfirm(false);
   };
 
@@ -369,7 +366,6 @@ export default function TimeLine() {
 
   return (
     <div className="timeline">
-      <Nav />
       <div className="timeline-top">
         <p
           className={activeTab === "recommend" ? "active" : ""}
