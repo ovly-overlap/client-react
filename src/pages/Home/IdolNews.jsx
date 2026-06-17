@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import prevIcon from "../../assets/prev-icon.svg"
-import SearchBar from "../../components/Searchbar";
+import SearchBar from "../../components/SearchBarar";
 import TrendingNewsContainer from "./components/TrendingNewsContainer";
 
 
@@ -28,7 +28,6 @@ export default function IdolNews () {
                 />
 
                 <TrendingNewsContainer />
-
             </div>
         </div>
         </>
@@ -59,8 +58,8 @@ const style = {
         justifyContent: "center",
         position: "relative", 
         width: "100%",
-        borderBottom: "2px solid var(--outline-3)", // 이미지 속 은은한 회색 선
-        paddingBottom: "16px",             // 글자와 회색 선 사이의 안쪽 여백
+        borderBottom: "2px solid var(--outline-3)", 
+        paddingBottom: "16px",  
         marginBottom: "20px",
     },
     prevIconBtn: {
