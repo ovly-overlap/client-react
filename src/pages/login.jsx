@@ -29,8 +29,10 @@ function Login() {
         <div className='card'>
         <form className='signupForm' onSubmit={handleSubmit}>
         <div className='upupup'>
-          <img src={logo} alt='ovlylogo' className='LOGO'/>
-          <span className='title'>ovly</span>
+          <div className="upupupMention">
+            <img src={logo} alt='ovlylogo' className='LOGO'/>
+            <span className='title'>ovly</span>
+          </div>
           <p className='subtitle'>최애 아티스트와 함께하는 특별한 공간</p>
         </div>
         <br />

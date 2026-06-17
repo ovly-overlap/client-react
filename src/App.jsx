@@ -7,8 +7,8 @@ import TimeLine from './pages/TimeLine/TimeLine.jsx'
 import IdolNews from './pages/Home/IdolNews.jsx'
 import FavGroupsPage from './pages/Profile/FavGroupsPage.jsx'
 import OtherUserProfile from './pages/Profile/OtherUserProfile.jsx'
-import Signup from "./pages/signup.jsx"
-import Login from "./pages/login.jsx"
+import Signup from "./pages/Signup.jsx"
+import Login from "./pages/Login.jsx"
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { getCurrentUser } from './utils/localStorage.js'
 
