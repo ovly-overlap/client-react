@@ -40,6 +40,11 @@
   align-items: center;
   width: 100%;
 }
+.upupupMention {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
 .title {
   margin-top: -20px;
