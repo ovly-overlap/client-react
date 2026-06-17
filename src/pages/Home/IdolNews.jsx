@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import prevIcon from "../../assets/prev-icon.svg"
-import SearchBar from "../../components/SearchBarar";
+import SearchBar from "../../components/SearchBar";
 import TrendingNewsContainer from "./components/TrendingNewsContainer";
 
 
