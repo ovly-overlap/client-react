@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import logo from '../assets/Logo-image.svg';
-import "./signuplogin.css";
+import "./Signuplogin.css";
 import { useState } from "react";
 import { createUser, isUserIdAvailable } from "../utils/localStorage.js";
 
