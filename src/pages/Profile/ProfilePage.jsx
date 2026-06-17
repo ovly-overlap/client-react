@@ -10,12 +10,14 @@ export default function ProfilePage() {
     const isMyProfile = location.state?.isMyProfile ?? true; 
     const userName = location.state?.userName ?? currentUser?.id ?? "guest";
     const introduce = currentUser?.introduce ?? "로그인하면 자기소개가 표시돼요.";
+    const favGroups = currentUser?.favGroups ?? [];
 
     return (
         <>
         <div style={style.profileSection}>
-            <ProfileHeader isMyProfile={isMyProfile} userName={userName} introduce={introduce} />
+            <ProfileHeader isMyProfile={isMyProfile} userName={userName} introduce={introduce} favGroups={favGroups} />
             <Todo isMyProfile={isMyProfile}/>
+            {isMyProfile && <Diary />}
             <Calendar />
         </div>
         </>

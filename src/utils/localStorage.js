@@ -4,6 +4,9 @@ const CURRENT_USER_KEY = "ovly-current-user-id";
 const defaultUserData = {
   introduce: "안녕하세요! ovly에서 최애 기록을 남기고 있어요.",
   todos: [],
+  favGroups: [],
+  diaries: [],
+  missionHistory: {},
 };
 
 const readJson = (key, fallback) => {
@@ -93,3 +96,49 @@ export const updateCurrentUser = (updates) => {
 };
 
 export const isUserIdAvailable = (userId) => !getUsers()[userId];
+
+export const getTodayKey = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = `${today.getMonth() + 1}`.padStart(2, "0");
+  const day = `${today.getDate()}`.padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+};
+
+export const markMissionCompleted = (missionKey) => {
+  const currentUser = getCurrentUser();
+
+  if (!currentUser) {
+    return null;
+  }
+
+  const todayKey = getTodayKey();
+  const todayHistory = currentUser.missionHistory?.[todayKey] ?? {};
+
+  return updateCurrentUser({
+    missionHistory: {
+      ...(currentUser.missionHistory ?? {}),
+      [todayKey]: {
+        ...todayHistory,
+        [missionKey]: true,
+      },
+    },
+  });
+};
+
+export const getTodayMissionProgress = () => {
+  const currentUser = getCurrentUser();
+  const todayKey = getTodayKey();
+  const todayHistory = currentUser?.missionHistory?.[todayKey] ?? {};
+  const todos = currentUser?.todos ?? [];
+  const diaries = currentUser?.diaries ?? [];
+
+  return {
+    scheduleAdded: todos.some((todo) => todo.createdAt === todayKey),
+    newsViewed: Boolean(todayHistory.newsViewed),
+    diaryWritten: diaries.some((diary) => diary.date === todayKey) || Boolean(todayHistory.diaryWritten),
+    friendFollowed: Boolean(todayHistory.friendFollowed),
+    commentWritten: Boolean(todayHistory.commentWritten),
+  };
+};

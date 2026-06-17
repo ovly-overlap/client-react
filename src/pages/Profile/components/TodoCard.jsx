@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import checkboxCheckIcon from "../../../assets/checkbox-check-icon.svg";
+import { getTodayKey } from "../../../utils/localStorage.js";
 
-const getTodayValue = () => new Date().toISOString().slice(0, 10);
+const getTodayValue = () => getTodayKey();
 
 export default function TodoCard({ todos, setTodos, showInput, setShowInput, isMyProfile=false }) {
     // TODO : useRef
@@ -53,6 +54,7 @@ export default function TodoCard({ todos, setTodos, showInput, setShowInput, isM
                 id: Date.now(),
                 label: inputValue.trim(),
                 date: dateValue,
+                createdAt: getTodayKey(),
                 done: false,
                 memo: '',
             },

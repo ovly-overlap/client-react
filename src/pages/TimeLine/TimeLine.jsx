@@ -3,6 +3,7 @@ import profile from "../../assets/profile-icon.svg";
 import post from "../../assets/eye-icon.svg";
 import "./TimeLine.css";
 import SearchModal from "../TimeLine/SearchModal";
+import { markMissionCompleted } from "../../utils/localStorage.js";
 
 const REPORT_REASONS = [
   "스팸 및 홍보성 콘텐츠",
@@ -218,6 +219,12 @@ export default function TimeLine() {
   };
 
   const handleFollowToggle = (id) => {
+    const targetFriend = friends.find((friend) => friend.id === id);
+
+    if (targetFriend && !targetFriend.isFollowing) {
+      markMissionCompleted("friendFollowed");
+    }
+
     setFriends((prev) =>
       prev.map((friend) =>
         friend.id === id
@@ -228,6 +235,12 @@ export default function TimeLine() {
   };
 
   const handleLikeUserFollow = (userId) => {
+    const targetUser = likeUsers.find((user) => user.id === userId);
+
+    if (targetUser && !targetUser.isFollowing) {
+      markMissionCompleted("friendFollowed");
+    }
+
     setLikeUsers((prev) =>
       prev.map((user) =>
         user.id === userId ? { ...user, isFollowing: !user.isFollowing } : user
@@ -283,6 +296,7 @@ export default function TimeLine() {
         return postItem;
       })
     );
+    markMissionCompleted("commentWritten");
     setCommentInput("");
   };
 
@@ -319,6 +333,7 @@ export default function TimeLine() {
         return postItem;
       })
     );
+    markMissionCompleted("commentWritten");
     setCommentInput("");
   };
 
