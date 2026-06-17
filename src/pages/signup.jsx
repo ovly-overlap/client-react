@@ -1,10 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from '../assets/Logo-image.svg';
 import "./signuplogin.css";
 import { useState } from "react";
+import { createUser, isUserIdAvailable } from "../utils/localStorage.js";
 
 function Signup() {
+  const navigate = useNavigate();
   const [ userid , setUserid ] = useState("");
+  const [ password , setPassword ] = useState("");
+  const [ confirmPw , setConfirmPw ] = useState("");
   const [ error , setError ] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const [isAvailable, setIsAvailable] = useState(null);
@@ -28,29 +32,23 @@ function Signup() {
     setError(errorMsg);
   }
 
-  const doublecheck = async () => {
+  const doublecheck = () => {
     if (error || !userid) {
       setError("아이디를 다시 확인해주세요.");
       return;
     }
-  
-    try {
-      const res = await fetch(`/api/check-userid?userid=${userid}`);
-      const data = await res.json();
-  
-      if (data.exists) {
-        setError("이미 존재하는 아이디입니다.");
-        setIsAvailable(false);
-      } else {
-        setError("사용 가능한 아이디입니다.");
-        setIsAvailable(true);
-      }
-  
-      setIsChecked(true);
-    } catch (err) {
-      setError("서버 오류");
+
+    if (isUserIdAvailable(userid)) {
+      setError("사용 가능한 아이디입니다.");
+      setIsAvailable(true);
+    } else {
+      setError("이미 존재하는 아이디입니다.");
+      setIsAvailable(false);
     }
+
+    setIsChecked(true);
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
   
@@ -63,6 +61,25 @@ function Signup() {
       setError("사용할 수 없는 아이디입니다.");
       return;
     }
+
+    if (password.length < 4) {
+      setError("비밀번호는 4글자 이상 입력해주세요.");
+      return;
+    }
+
+    if (password !== confirmPw) {
+      setError("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
+    const result = createUser({ id: userid, password });
+
+    if (!result.ok) {
+      setError(result.message);
+      return;
+    }
+
+    navigate("/");
   
   };
 
@@ -86,11 +103,11 @@ function Signup() {
         </div>
         <div>
           <label className='ididid' htmlFor="password">비밀번호</label>
-          <input type="password" id='password' name='password' required placeholder='비밀번호를 입력해주세요.' />
+          <input type="password" id='password' name='password' required placeholder='비밀번호를 입력해주세요.' value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
         <div>
           <label className='ididid' htmlFor="confirmpw">비밀번호 확인</label>
-          <input type="password" id='confirmpw' name='confirmpw' required placeholder='비밀번호를 입력해주세요.' />
+          <input type="password" id='confirmpw' name='confirmpw' required placeholder='비밀번호를 입력해주세요.' value={confirmPw} onChange={(e) => setConfirmPw(e.target.value)} />
         </div>
         <button className='start' type='submit'>시작하기</button>
         <p>이미 계정이 있으신가요? <Link to="/login">로그인</Link></p>

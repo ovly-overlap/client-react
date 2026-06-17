@@ -1,16 +1,15 @@
-import { useState } from "react";
 import CheckIcon from "../../../assets/check-icon.svg";
 import CheckboxCheckIcon from "../../../assets/checkbox-check-icon.svg"
 
 export default function MissionContainer() {
 
-    const [missions, setMissions] = useState([
+    const missions = [
         { id: 1, mission: "아티스트 스케줄 추가하기", isCompleted: false },
         { id: 2, mission: "뉴스 시청하기", isCompleted: false },
         { id: 3, mission: "오늘의 일기 작성하기", isCompleted: false },
         { id: 4, mission: "친구 팔로우하기", isCompleted: true }, 
         { id: 5, mission: "게시물에 댓글 남기기", isCompleted: false },
-    ]);
+    ];
 
     return (
         <div style={styles.missionContainer}>

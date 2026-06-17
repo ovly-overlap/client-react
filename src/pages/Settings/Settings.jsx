@@ -1,24 +1,77 @@
 import React, { useState } from 'react';
 import './Settings.css'
-import '../../index.css'
 import exampleProfile from '../../assets/example-profile.svg'
 import downIcon from '../../assets/down-icons.svg'
+import upIcon from '../../assets/up-icon.svg'
+import { getCurrentUser, getUsers, updateCurrentUser } from '../../utils/localStorage.js';
+
+const defaultUser = {
+  id: 'guest',
+  introduce: '로그인하면 자기소개를 저장할 수 있어요.'
+};
 
 export default function Settings() {
 
-const user = {
-  id: '주라미',
-  introduce: '안녕하세요 주라미에요 저는 BTS 지민 좋아해요. 맞팔해요~😍'
-}
+const [savedProfile] = useState(() => getCurrentUser() ?? defaultUser);
+const [savedUserId, setSavedUserId] = useState(savedProfile.id);
+const [userId, setUserId] = useState(savedProfile.id);
+const [userIntro, setUserIntro] = useState(savedProfile.introduce);
+const [openedFaqIndex, setOpenedFaqIndex] = useState(null);
 
-const [userId, setUserId] = useState('');
-const [userIntro, setUserIntro] = useState('');
+const faqs = [
+  {
+    question: '좋아하는 아이돌 그룹은 어떻게 추가하나요?',
+    answer: '프로필에서 관심 팬덤을 검색하여 추가하실 수 있습니다.',
+  },
+  {
+    question: '프로필 사진은 어떻게 변경하나요?',
+    answer: '프로필 설정에서 프로필 사진 버튼을 누른 뒤 원하는 이미지를 선택하시면 됩니다.',
+  },
+  {
+    question: '관심 팬덤을 삭제할 수 있나요?',
+    answer: '프로필의 관심 팬덤 목록에서 삭제하고 싶은 팬덤을 선택하여 제거할 수 있습니다.',
+  },
+  {
+    question: '아이돌 일정 알림은 어디에서 확인하나요?',
+    answer: '홈 화면의 알림 아이콘을 누르면 등록된 아이돌의 주요 일정 알림을 확인할 수 있습니다.',
+  },
+  {
+    question: '타임라인에서 다른 팬의 글을 볼 수 있나요?',
+    answer: '타임라인에서 같은 팬덤을 좋아하는 사용자들의 글과 활동을 확인할 수 있습니다.',
+  },
+];
+
+const handleFaqToggle = (index) => {
+  setOpenedFaqIndex((prevIndex) => (prevIndex === index ? null : index));
+};
 
 const handleSave = () => {
-  if (!userId) {
+  const trimmedUserId = userId.trim();
+  const users = getUsers();
+
+  if (!trimmedUserId) {
     alert('아이디를 입력해주세요!');
     return;
   }
+
+  if (trimmedUserId !== savedUserId && users[trimmedUserId]) {
+    alert('이미 사용 중인 아이디입니다.');
+    return;
+  }
+
+  const updatedUser = updateCurrentUser({
+    id: trimmedUserId,
+    introduce: userIntro,
+  });
+
+  if (!updatedUser) {
+    alert('먼저 회원가입 또는 로그인을 해주세요.');
+    return;
+  }
+
+  setUserId(trimmedUserId);
+  setSavedUserId(trimmedUserId);
+  alert('저장되었습니다.');
   
 };
   return (
@@ -74,11 +127,26 @@ const handleSave = () => {
           <div className='faq-card'>
             <div className='setting-title'><p>자주 묻는 질문(FAQ)</p></div>
             <div className='faq-container'>
-                <div className='question'><p>좋아하는 아이돌은 어떻게 추가하나요?</p><button><img src={downIcon}/></button></div>
-                <div className='question'><p>좋아하는 아이돌은 어떻게 추가하나요?</p><button><img src={downIcon}/></button></div>
-                <div className='question'><p>좋아하는 아이돌은 어떻게 추가하나요?</p><button><img src={downIcon}/></button></div>
-                <div className='question'><p>좋아하는 아이돌은 어떻게 추가하나요?</p><button><img src={downIcon}/></button></div>
-                <div className='question'><p>좋아하는 아이돌은 어떻게 추가하나요?</p><button><img src={downIcon}/></button></div>
+                {faqs.map((faq, index) => {
+                  const isOpen = openedFaqIndex === index;
+
+                  return (
+                    <div className={`faq-item ${isOpen ? 'open' : ''}`} key={`${faq.question}-${index}`}>
+                      <div className='question'>
+                        <p>{faq.question}</p>
+                        <button
+                          type='button'
+                          onClick={() => handleFaqToggle(index)}
+                          aria-expanded={isOpen}
+                          aria-label={isOpen ? '답변 닫기' : '답변 열기'}
+                        >
+                          <img src={isOpen ? upIcon : downIcon} alt='' />
+                        </button>
+                      </div>
+                      {isOpen && <p className='answer'>{faq.answer}</p>}
+                    </div>
+                  );
+                })}
               </div>
           </div>
       </div>

@@ -12,7 +12,7 @@ export default function FavGroupsPage() {
     const isMyProfile = location.state?.isMyProfile ?? true; 
     const userName = location.state?.userName ?? "나";
 
-    const [isFandomExist, setIsFandomExist] = useState(true);
+    const [isFandomExist] = useState(true);
 
     return (
         <>

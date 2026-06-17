@@ -9,15 +9,32 @@ import MiniLogo from "../../assets/mini-logo.svg";
 import CalendarIcon from "../../assets/calendar-icon.svg";
 import CheckIcon from "../../assets/check-icon.svg";
 import AlarmIcon from "../../assets/alarm-icon.svg";
+import alarmFillIcon from "../../assets/alarm-fill-icon.svg"
 import AlarmDropdown from "./components/AlarmDropdown.jsx";
 
-export default function Home(){
-    // 알람창 열림/닫힘 상태 관리
-    const [isAlarmOpen, setIsAlarmOpen] = useState(false);
+    const initialAlarmData = [
+        { id: 1, type: "FOLLOW", message: "<strong>주라미</strong>님이 팔로우했습니다.", timeLabel: "2분 전", senderAvatar: "https://example.com/jurami.jpg", isUnread: true },
+        { id: 2, type: "SCHEDULE", message: "곧 <strong>영등포 팬싸인회</strong> 일정이 다가옵니다.", timeLabel: "15분 전", isUnread: true },
+        { id: 3, type: "COMMENT", message: "<strong>주라미</strong>님이 당신의 게시물에 댓글을 달았습니다.", timeLabel: "2026.03.14 06:12", senderAvatar: "https://example.com/jurami.jpg", isUnread: true },
+        { id: 4, type: "HEART", message: "<strong>주라미</strong>님이 당신의 게시물에 하트를 눌렀습니다.", timeLabel: "2026.03.03 06:12", senderAvatar: "https://example.com/jurami.jpg", isUnread: false },
+    ];
 
-    // 알람 버튼 클릭 핸들러
-    const toggleAlarm = () => {
-        setIsAlarmOpen((prev) => !prev);
+export default function Home(){
+    const [isAlarmOpen, setIsAlarmOpen] = useState(false);
+    const [alarms, setAlarms] = useState(initialAlarmData);
+    const hasUnread = alarms.some((item) => item.isUnread);
+    const toggleAlarm = () => { setIsAlarmOpen((prev) => !prev); };
+    const handleReadAll = () => {
+        setAlarms((prevAlarms) =>
+            prevAlarms.map((item) => ({ ...item, isUnread: false, }))
+        );
+    };
+    const handleReadItem = (id) => {
+        setAlarms((prevAlarms) =>
+            prevAlarms.map((item) => 
+                item.id === id ? { ...item, isUnread: false } : item
+            )
+        );
     };
 
     return(
@@ -33,9 +50,8 @@ export default function Home(){
                         <p style={style.subMention}>오늘도 당신의 아티스트를 응원해 보세요.</p>
                     </div>
                     <div style={style.alarmBtnDiv}>
-                        {/* 클릭 이벤트 바인딩 */}
                         <button style={style.alarmBtn} onClick={toggleAlarm}>
-                            <img src={AlarmIcon} alt="alarm"/>
+                            <img src={hasUnread ? alarmFillIcon : AlarmIcon} alt="alarm"/>                        
                         </button>
                     </div>
                 </div>
@@ -48,9 +64,13 @@ export default function Home(){
             </div>
         </div>
 
-        {/* Portal을 사용해 body 바로 아래에 알람창 띄우기 */}
         {isAlarmOpen && createPortal(
-            <AlarmDropdown onClose={() => setIsAlarmOpen(false)} />,
+            <AlarmDropdown 
+                alarms={alarms} 
+                onReadAll={handleReadAll} 
+                onReadItem={handleReadItem}
+                onClose={() => setIsAlarmOpen(false)} 
+            />,
             document.body
         )}
         </>

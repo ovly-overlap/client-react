@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export default function FandomCard({ logo, name }) {
-    const [isFollowing, setIsFollowing] = useState(false); 
+    const [isFollowing, setIsFollowing] = useState(false);
 
     return (
         <div style={style.fandomCard}>
@@ -15,7 +15,7 @@ export default function FandomCard({ logo, name }) {
                     ...style.followBtn, 
                     ...(isFollowing ? style.followBtnActive : {})
                 }}
-                onClick={() => setIsFollowing(!isFollowing)} // 이제 내 버튼만 바뀜!
+                onClick={() => setIsFollowing(!isFollowing)}
             >
                 {isFollowing ? "팔로잉" : "팔로우"}
             </button>
