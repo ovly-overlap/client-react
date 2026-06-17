@@ -10,12 +10,9 @@ export default function ProfilePage() {
     return (
         <>
         <div style={style.profileSection}>
-            <ProfileHeader />
-            <Todo />
-            {/* <Diary /> */}
-            <Calendar />
             <ProfileHeader isMyProfile={isMyProfile} userName={userName} />
             <Todo isMyProfile={isMyProfile}/>
+            <Calendar />
         </div>
         </>
     )
