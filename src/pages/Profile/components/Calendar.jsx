@@ -7,7 +7,7 @@ import ArrowIcon from "../../../assets/left-arrow-icon.svg";
 const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date()); 
   const currentYear = currentDate.getFullYear();
-  const currentMonth = currentDate.getMonth(); // 0 = 1월, 1 = 2월 ...
+  const currentMonth = currentDate.getMonth();
 
   const today = new Date();
 

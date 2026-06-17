@@ -18,14 +18,23 @@ export default function ProfilePage() {
             <ProfileHeader isMyProfile={isMyProfile} userName={userName} introduce={introduce} favGroups={favGroups} />
             <Todo isMyProfile={isMyProfile}/>
             {isMyProfile && <Diary />}
-            <Calendar />
+            <div style={style.contentLayout}>
+              <Calendar />
+            </div>
+          
         </div>
-        </>
-    )
+    </>
+  );
 }
 
 const style = {
-    profileSection : {
-        margin: '40px 0px 0px 287px'
-    }
+  profileSection: {
+    margin: "40px 0px 0px 287px",
+  },
+  contentLayout: {
+    display: 'flex',
+    flexDirection: 'row',     
+    alignItems: 'flex-start',
+    gap: '40px'
 }
+};
