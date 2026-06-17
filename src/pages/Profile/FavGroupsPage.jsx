@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import prevIcon from "../../assets/prev-icon.svg"
 import coloredHeartIcon from "../../assets/colored-heart-icon.svg"
-import SearchBar from "../../components/SearchBar";
+import SearchBar from "../../components/Searchbar";
 import btsLogo from "../../assets/BTS-Logo.png"
 import FandomCard from "./components/FandomCard";
 
