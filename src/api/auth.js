@@ -1,9 +1,8 @@
 import { api } from "./axios";
-import axios from "axios";
 
 export const getMe = async () => {
     const token = localStorage.getItem("accessToken");
-    const response = await axios.get("auth/me", {
+    const response = await api.get("/auth/me", {
         headers: { Authorization: `Bearer ${token}` },
     });
 

@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { getMe } from "./api/auth.js";
 
 function App() {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState("");
     const [loading, setLoading] = useState(true);
     // const navigate = useNavigate();
 
@@ -65,6 +65,7 @@ function App() {
 
                 {/* 전부 로그인 필요 */}
                 <Route
+                    context={user}
                     element={<ProtectedRoute user={user} loading={loading} />}
                 >
                     <Route path="/" element={<Home />} />
