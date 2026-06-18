@@ -1,9 +1,10 @@
 import { useState } from "react";
 import profile from "../../assets/profile-icon.svg";
-import post from "../../assets/eye-icon.svg";
+import post1 from "../../assets/riwoo.png";
 import "./TimeLine.css";
 import SearchModal from "../TimeLine/SearchModal";
-import { markMissionCompleted } from "../../utils/localStorage.js";
+import HeartIcon from "../../assets/heart-icon.svg";
+import CommentIcon from "../../assets/comment-icon.svg";
 
 const REPORT_REASONS = [
   "스팸 및 홍보성 콘텐츠",
@@ -24,15 +25,9 @@ const INITIAL_SEARCHES = [
   "망개떡",
   "우나기",
   "ChristmasTree",
-  "ChristmasTree",
-  "ChristmasTree",
-  "ChristmasTree",
-  "ChristmasTree",
-  "ChristmasTree",
-  "ChristmasTree",
 ];
 
-const INITIAL_LIKE_USERS = [
+const MOCK_USERS = [
   { id: 1, name: "성호어깨에치여사망", isFollowing: true },
   { id: 2, name: "망개떡", isFollowing: false },
   { id: 3, name: "우나기", isFollowing: false },
@@ -41,14 +36,6 @@ const INITIAL_LIKE_USERS = [
   { id: 6, name: "덕질은행복", isFollowing: false },
   { id: 7, name: "브넥최고", isFollowing: false },
   { id: 8, name: "성호팬", isFollowing: false },
-  { id: 9, name: "성호팬", isFollowing: false },
-  { id: 10, name: "성호팬", isFollowing: false },
-  { id: 11, name: "성호팬", isFollowing: false },
-  { id: 12, name: "성호팬", isFollowing: false },
-  { id: 13, name: "성호팬", isFollowing: false },
-  { id: 14, name: "성호팬", isFollowing: false },
-  { id: 15, name: "성호팬", isFollowing: false },
-  { id: 16, name: "성호팬", isFollowing: false },
 ];
 
 const INITIAL_POSTS = [
@@ -56,26 +43,28 @@ const INITIAL_POSTS = [
     id: 1,
     username: "링링",
     time: "2분 전",
-    content:
-      "아 진짜 리쿠 너무 잘생겼어요 미친!! 게다가 오늘 브넥도 상남자여서 진짜 너무 좋아요❤️",
-    images: [post],
-    likes: "7,654",
-    commentsCount: 778,
+    content: "아 진짜 리우 너무 잘생겼어요 미친!! 게다가 오늘 보넥도 상타서 진짜 너무 좋아요❤️",
+    images: [post1, post1, post1],
+    likedUsers: [MOCK_USERS[0], MOCK_USERS[1], MOCK_USERS[2]], 
     comments: [
       {
         id: 101,
         user: "으아내정신",
         time: "1시간 전",
         text: "I love you, riwoo my dear darling S2",
-        likes: 1,
-        replies: [],
+        likes: 0,
+        isMine: false,
+        replies: [
+          { id: 1011, user: "망개떡", time: "30분 전", text: "저도 동감해요!", likes: 0, isMine: false }
+        ],
       },
       {
         id: 102,
         user: "류류",
         time: "1일 전",
         text: "제발 리우 옷 손민수하고 싶다 저 왼쪽 사진",
-        likes: 10000000,
+        likes: 0,
+        isMine: false,
         replies: [],
       },
     ],
@@ -84,11 +73,9 @@ const INITIAL_POSTS = [
     id: 2,
     username: "아레아레RM",
     time: "15분 전",
-    content:
-      "컴백 너무 기대돼요! X투X 이번벤드에는 티케팅 성공해서 꼭 보러가고 싶어요! 다들 콘서트때 봬요~🍩",
-    images: [post, post],
-    likes: "12",
-    commentsCount: 1,
+    content: "컴백 너무 기대돼요! X투X 이번벤드에는 티케팅 성공해서 꼭 보러가고 싶어요! 다들 콘서트때 봬요~🍩",
+    images: [],
+    likedUsers: [MOCK_USERS[3], MOCK_USERS[4], MOCK_USERS[5], MOCK_USERS[6], MOCK_USERS[7]],
     comments: [
       {
         id: 201,
@@ -96,70 +83,7 @@ const INITIAL_POSTS = [
         time: "30분 전",
         text: "저도 꼭 가고 싶어요ㅠㅠ 티케팅 파이팅!",
         likes: 5,
-        replies: [],
-      },
-    ],
-  },
-  {
-    id: 3,
-    username: "링링",
-    time: "2분 전",
-    content:
-      "아 진짜 리쿠 너무 잘생겼어요 미친!! 게다가 오늘 브넥도 상남자여서 진짜 너무 좋아요❤️",
-    images: [
-      post,
-      post,
-      post,
-      post,
-      post,
-      post,
-      post,
-      post,
-      post,
-      post,
-      post,
-      post,
-      post,
-      post,
-      post,
-    ],
-    likes: "7,654",
-    commentsCount: 778,
-    comments: [
-      {
-        id: 101,
-        user: "으아내정신",
-        time: "1시간 전",
-        text: "I love you, riwoo my dear darling S2",
-        likes: 1,
-        replies: [],
-      },
-      {
-        id: 102,
-        user: "류류",
-        time: "1일 전",
-        text: "제발 리우 옷 손민수하고 싶다 저 왼쪽 사진",
-        likes: 10000000,
-        replies: [],
-      },
-    ],
-  },
-  {
-    id: 4,
-    username: "아레아레RM",
-    time: "15분 전",
-    content:
-      "컴백 너무 기대돼요! X투X 이번벤드에는 티케팅 성공해서 꼭 보러가고 싶어요! 다들 콘서트때 봬요~🍩",
-    images: [post, post],
-    likes: "12",
-    commentsCount: 1,
-    comments: [
-      {
-        id: 201,
-        user: "망개떡",
-        time: "30분 전",
-        text: "저도 꼭 가고 싶어요ㅠㅠ 티케팅 파이팅!",
-        likes: 5,
+        isMine: false,
         replies: [],
       },
     ],
@@ -173,7 +97,6 @@ export default function TimeLine() {
   const [friends, setFriends] = useState(INITIAL_FRIENDS);
   const [searchHistory, setSearchHistory] = useState(INITIAL_SEARCHES);
   const [blockedUsers, setBlockedUsers] = useState([]);
-  const [likeUsers, setLikeUsers] = useState(INITIAL_LIKE_USERS);
   const [selectedPostId, setSelectedPostId] = useState(null);
   const [likeModalPostId, setLikeModalPostId] = useState(null);
   const [reportModalPostId, setReportModalPostId] = useState(null);
@@ -181,10 +104,9 @@ export default function TimeLine() {
   const [commentInput, setCommentInput] = useState("");
   const [showBlockConfirm, setShowBlockConfirm] = useState(false);
   const [replyViewCommentId, setReplyViewCommentId] = useState(null);
-
   const [showReportReasons, setShowReportReasons] = useState(false);
-  const [activeReplyCommentId, setActiveReplyCommentId] = useState(null);
 
+  // 실시간 변경 사항이 모달 내부 컴포넌트까지 완벽히 감지하도록 posts가 바뀔 때마다 동기화 수행
   const selectedPost = posts.find((p) => p.id === selectedPostId);
   const likeTargetPost = posts.find((p) => p.id === likeModalPostId);
 
@@ -201,9 +123,43 @@ export default function TimeLine() {
             !blockedUsers.includes(post.username)
         );
 
+  const getCommentsCount = (postItem) => {
+    if (!postItem || !postItem.comments) return 0;
+    // 부모 댓글 수 + 자식 대댓글 수의 총합을 구하여 아이콘 숫자가 비지 않도록 처리
+    return postItem.comments.reduce((acc, current) => {
+      const replyCount = current.replies ? current.replies.length : 0;
+      return acc + 1 + replyCount;
+    }, 0);
+  };
+
+  const checkIfILiked = (postItem) => {
+    if (!postItem || !postItem.likedUsers) return false;
+    return postItem.likedUsers.some((user) => user.id === "me");
+  };
+
   const handlePostClick = (postItem) => {
     setSelectedPostId(postItem.id);
     setCommentInput("");
+  };
+
+  const handleLikeToggle = (e, postId) => {
+    e.stopPropagation();
+    const myAccount = { id: "me", name: "나(User)", isFollowing: false };
+
+    setPosts((prevPosts) =>
+      prevPosts.map((postItem) => {
+        if (postItem.id === postId) {
+          const hasLiked = postItem.likedUsers.some((u) => u.id === "me");
+          return {
+            ...postItem,
+            likedUsers: hasLiked
+              ? postItem.likedUsers.filter((u) => u.id !== "me")
+              : [...postItem.likedUsers, myAccount],
+          };
+        }
+        return postItem;
+      })
+    );
   };
 
   const openLikeModal = (e, postId) => {
@@ -219,12 +175,6 @@ export default function TimeLine() {
   };
 
   const handleFollowToggle = (id) => {
-    const targetFriend = friends.find((friend) => friend.id === id);
-
-    if (targetFriend && !targetFriend.isFollowing) {
-      markMissionCompleted("friendFollowed");
-    }
-
     setFriends((prev) =>
       prev.map((friend) =>
         friend.id === id
@@ -235,16 +185,13 @@ export default function TimeLine() {
   };
 
   const handleLikeUserFollow = (userId) => {
-    const targetUser = likeUsers.find((user) => user.id === userId);
-
-    if (targetUser && !targetUser.isFollowing) {
-      markMissionCompleted("friendFollowed");
-    }
-
-    setLikeUsers((prev) =>
-      prev.map((user) =>
-        user.id === userId ? { ...user, isFollowing: !user.isFollowing } : user
-      )
+    setPosts((prevPosts) =>
+      prevPosts.map((postItem) => ({
+        ...postItem,
+        likedUsers: postItem.likedUsers.map((user) =>
+          user.id === userId ? { ...user, isFollowing: !user.isFollowing } : user
+        ),
+      }))
     );
   };
 
@@ -270,6 +217,7 @@ export default function TimeLine() {
     }
   };
 
+  // 부모 댓글 등록
   const handleCommentSubmit = (e) => {
     e.preventDefault();
     if (!commentInput.trim() || !selectedPostId) return;
@@ -284,22 +232,21 @@ export default function TimeLine() {
       replies: [],
     };
 
-    setPosts(
-      posts.map((postItem) => {
+    setPosts((prevPosts) =>
+      prevPosts.map((postItem) => {
         if (postItem.id === selectedPostId) {
           return {
             ...postItem,
-            commentsCount: postItem.commentsCount + 1,
             comments: [newComment, ...postItem.comments],
           };
         }
         return postItem;
       })
     );
-    markMissionCompleted("commentWritten");
     setCommentInput("");
   };
 
+  // 대댓글 등록
   const handleReplySubmit = (e, commentId) => {
     e.preventDefault();
     if (!commentInput.trim() || !selectedPostId) return;
@@ -313,17 +260,16 @@ export default function TimeLine() {
       isMine: true,
     };
 
-    setPosts(
-      posts.map((postItem) => {
+    setPosts((prevPosts) =>
+      prevPosts.map((postItem) => {
         if (postItem.id === selectedPostId) {
           return {
             ...postItem,
-            commentsCount: postItem.commentsCount + 1,
             comments: postItem.comments.map((comment) => {
               if (comment.id === commentId) {
                 return {
                   ...comment,
-                  replies: [...comment.replies, newReply],
+                  replies: [...(comment.replies || []), newReply],
                 };
               }
               return comment;
@@ -333,50 +279,37 @@ export default function TimeLine() {
         return postItem;
       })
     );
-    markMissionCompleted("commentWritten");
     setCommentInput("");
   };
 
+  // 댓글 및 대댓글 삭제 기능 완전 정상화
   const handleCommentDelete = (
     commentId,
     isReply = false,
     parentCommentId = null
   ) => {
-    setPosts(
-      posts.map((postItem) => {
+    setPosts((prevPosts) =>
+      prevPosts.map((postItem) => {
         if (postItem.id !== selectedPostId) return postItem;
 
-        let updatedComments = [...postItem.comments];
-
-        if (isReply) {
-          updatedComments = updatedComments.map((comment) => {
-            if (comment.id === parentCommentId) {
-              return {
-                ...comment,
-                replies: comment.replies.filter(
-                  (reply) => reply.id !== commentId
-                ),
-              };
-            }
-            return comment;
-          });
-        } else {
-          updatedComments = updatedComments.filter(
-            (comment) => comment.id !== commentId
-          );
-        }
+        const updatedComments = postItem.comments.map((comment) => {
+          if (isReply && comment.id === parentCommentId) {
+            return {
+              ...comment,
+              replies: (comment.replies || []).filter((reply) => reply.id !== commentId),
+            };
+          }
+          return comment;
+        });
 
         return {
           ...postItem,
-          commentsCount: Math.max(0, postItem.commentsCount - 1),
-          comments: updatedComments,
+          comments: isReply 
+            ? updatedComments 
+            : updatedComments.filter((comment) => comment.id !== commentId),
         };
       })
     );
-
-    if (!isReply && commentId === activeReplyCommentId) {
-      setActiveReplyCommentId(null);
-    }
   };
 
   return (
@@ -434,14 +367,14 @@ export default function TimeLine() {
                   <p>{item.content}</p>
                   <div
                     className={`post-images ${
-                      item.images.length === 1
+                      item.images && item.images.length === 1
                         ? "one"
-                        : item.images.length === 2
+                        : item.images && item.images.length === 2
                         ? "two"
                         : ""
                     }`}
                   >
-                    {item.images.slice(0, 3).map((imgSrc, index) => {
+                    {item.images && item.images.slice(0, 3).map((imgSrc, index) => {
                       if (index === 2 && item.images.length > 3) {
                         return (
                           <div key={index} className="last-image">
@@ -456,13 +389,23 @@ export default function TimeLine() {
                 </div>
 
                 <div className="post-bottom">
-                  <div
-                    onClick={(e) => openLikeModal(e, item.id)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    💜 {item.likes}
+                  <div className="post-stat" onClick={(e) => e.stopPropagation()}>
+                    <img 
+                      src={HeartIcon} 
+                      alt="좋아요" 
+                      className={`stat-icon ${checkIfILiked(item) ? "liked" : ""}`} 
+                      onClick={(e) => handleLikeToggle(e, item.id)}
+                      style={{ cursor: "pointer" }}
+                    />
+                    <span onClick={(e) => openLikeModal(e, item.id)} style={{ cursor: "pointer" }}>
+                      {item.likedUsers.length.toLocaleString()}
+                    </span>
                   </div>
-                  <div>💬 {item.commentsCount}</div>
+
+                  <div className="post-stat">
+                    <img src={CommentIcon} alt="댓글" className="stat-icon" />
+                    {getCommentsCount(item)}
+                  </div>
                 </div>
               </div>
             ))
@@ -470,8 +413,8 @@ export default function TimeLine() {
         </div>
 
         <div className="timeline-right">
-          <div 
-            className="search-card" 
+          <div
+            className="search-card"
             onClick={() => setIsSearchModalOpen(true)}
             style={{ cursor: "pointer" }}
           >
@@ -527,7 +470,6 @@ export default function TimeLine() {
         </div>
       </div>
 
-      {/* 🌟 2. 타임라인 최하단 전역 영역에 검색 모달 컴포넌트 배치 */}
       <SearchModal
         isOpen={isSearchModalOpen}
         onClose={() => setIsSearchModalOpen(false)}
@@ -563,7 +505,7 @@ export default function TimeLine() {
               <div className="post-center">
                 <p className="modal-detail-text">{selectedPost.content}</p>
                 <div className="modal-image-grid">
-                  {selectedPost.images.map((imgSrc, idx) => (
+                  {selectedPost.images && selectedPost.images.map((imgSrc, idx) => (
                     <div key={idx} className="modal-image-item">
                       <img src={imgSrc} alt="" />
                     </div>
@@ -572,13 +514,22 @@ export default function TimeLine() {
               </div>
 
               <div className="post-bottom">
-                <div
-                  onClick={(e) => openLikeModal(e, selectedPost.id)}
-                  style={{ cursor: "pointer" }}
-                >
-                  💜 {selectedPost.likes}
+                <div className="post-stat">
+                  <img 
+                    src={HeartIcon} 
+                    alt="좋아요" 
+                    className={`heart-icon ${checkIfILiked(selectedPost) ? "liked" : ""}`} 
+                    onClick={(e) => handleLikeToggle(e, selectedPost.id)}
+                    style={{ cursor: "pointer" }}
+                  />
+                  <span onClick={(e) => openLikeModal(e, selectedPost.id)} style={{ cursor: "pointer" }}>
+                    {selectedPost.likedUsers.length.toLocaleString()}
+                  </span>
                 </div>
-                <div>💬 {selectedPost.commentsCount}</div>
+                <div className="post-stat">
+                  <img src={CommentIcon} alt="댓글" className="stat-icon" />
+                  <span>{getCommentsCount(selectedPost)}</span>
+                </div>
               </div>
             </div>
 
@@ -614,11 +565,11 @@ export default function TimeLine() {
 
                   <div className="comment-scroll-area">
                     <div className="modal-comments-count">
-                      댓글 {selectedPost.commentsCount}
+                      댓글 {getCommentsCount(selectedPost)}
                     </div>
 
                     <div className="modal-comment-list">
-                      {selectedPost.comments.map((comment) => (
+                      {selectedPost.comments && selectedPost.comments.map((comment) => (
                         <div key={comment.id} className="modal-comment-item">
                           <img src={profile} alt="" />
                           <div className="comment-body">
@@ -628,29 +579,29 @@ export default function TimeLine() {
                             </div>
                             <p className="modal-comment-text">{comment.text}</p>
                             <div className="comment-actions">
-                              💜 {comment.likes}
-                              <span
-                                onClick={() =>
-                                  setReplyViewCommentId(comment.id)
-                                }
-                                style={{ cursor: "pointer" }}
-                              >
-                                답글{" "}
-                                {comment.replies.length > 0 &&
-                                  ` ${comment.replies.length}`}
-                              </span>
-                              <span
-                                onClick={() =>
-                                  handleCommentDelete(comment.id, false)
-                                }
-                                style={{
-                                  cursor: "pointer",
-                                  color: "red",
-                                  marginLeft: "10px",
-                                }}
-                              >
-                                삭제
-                              </span>
+                              <div className="post-stat" style={{ display: "inline-flex", marginRight: "10px" }}>
+                                <img src={HeartIcon} alt="좋아요" className="stat-icon" />
+                                <span>{comment.likes || 0}</span>
+                              </div>
+                              <div className="post-stat" style={{ display: "inline-flex", cursor: "pointer" }} onClick={() => setReplyViewCommentId(comment.id)}>
+                                <img src={CommentIcon} alt="답글" className="stat-icon" />
+                                <span>{comment.replies && comment.replies.length > 0 ? comment.replies.length : 0}</span>
+                              </div>
+                              
+                              {/* [수정] 내가 쓴 댓글(isMine이 true)일 때만 삭제 버튼이 렌더링되도록 수정 */}
+                              {comment.isMine && (
+                                <span
+                                  onClick={() => handleCommentDelete(comment.id, false)}
+                                  style={{
+                                    cursor: "pointer",
+                                    color: "red",
+                                    marginLeft: "10px",
+                                    fontSize: "12px"
+                                  }}
+                                >
+                                  삭제
+                                </span>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -668,7 +619,7 @@ export default function TimeLine() {
                     ← 전체 댓글 보기
                   </div>
 
-                  {selectedPost.comments
+                  {selectedPost.comments && selectedPost.comments
                     .filter((c) => c.id === replyViewCommentId)
                     .map((comment) => (
                       <div key={comment.id} className="reply-parent-card">
@@ -679,6 +630,12 @@ export default function TimeLine() {
                             <span>{comment.time}</span>
                           </div>
                           <p className="modal-comment-text">{comment.text}</p>
+                          <div className="comment-actions" style={{ marginTop: "5px" }}>
+                            <div className="post-stat" style={{ display: "inline-flex" }}>
+                              <img src={HeartIcon} alt="좋아요" className="stat-icon" />
+                              <span>{comment.likes || 0}</span>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -714,14 +671,14 @@ export default function TimeLine() {
                       {
                         selectedPost.comments.find(
                           (c) => c.id === replyViewCommentId
-                        )?.replies.length
+                        )?.replies?.length || 0
                       }
                     </div>
 
                     <div className="modal-comment-list">
                       {selectedPost.comments
                         .find((c) => c.id === replyViewCommentId)
-                        ?.replies.map((reply) => (
+                        ?.replies?.map((reply) => (
                           <div key={reply.id} className="modal-comment-item">
                             <img src={profile} alt="" />
                             <div className="comment-body">
@@ -731,18 +688,26 @@ export default function TimeLine() {
                               </div>
                               <p className="modal-comment-text">{reply.text}</p>
                               <div className="comment-actions">
-                                <span
-                                  onClick={() =>
-                                    handleCommentDelete(
-                                      reply.id,
-                                      true,
-                                      replyViewCommentId
-                                    )
-                                  }
-                                  style={{ cursor: "pointer", color: "red" }}
-                                >
-                                  삭제
-                                </span>
+                                <div className="post-stat" style={{ display: "inline-flex", marginRight: "10px" }}>
+                                  <img src={HeartIcon} alt="좋아요" className="stat-icon" />
+                                  <span>{reply.likes || 0}</span>
+                                </div>
+
+                                {/* [수정] 내가 쓴 답글(isMine이 true)일 때만 삭제 버튼이 렌더링되도록 수정 */}
+                                {reply.isMine && (
+                                  <span
+                                    onClick={() =>
+                                      handleCommentDelete(
+                                        reply.id,
+                                        true,
+                                        replyViewCommentId
+                                      )
+                                    }
+                                    style={{ cursor: "pointer", color: "red", fontSize: "12px" }}
+                                  >
+                                    삭제
+                                  </span>
+                                )}
                               </div>
                             </div>
                           </div>
@@ -776,13 +741,14 @@ export default function TimeLine() {
               </button>
             </div>
             <div className="like-modal-count-box">
-              💜 {likeTargetPost.likes}
+              <img src={HeartIcon} alt="좋아요" className="stat-icon" />
+              {likeTargetPost.likedUsers.length.toLocaleString()}
             </div>
             <div className="like-public-text">
               좋아요를 누른 모든 사용자가 공개됩니다.
             </div>
             <div className="like-user-list">
-              {likeUsers.map((user) => (
+              {likeTargetPost.likedUsers.map((user) => (
                 <div key={user.id} className="like-user-item">
                   <div className="like-user-info">
                     <img src={profile} alt="" />
