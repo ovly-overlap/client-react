@@ -17,7 +17,7 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { getMe } from "./api/auth.js";
 
 function App() {
-    const [user, setUser] = useState("");
+    const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     // const navigate = useNavigate();
 
@@ -38,8 +38,8 @@ function App() {
                 // 🚨 2. getMe() 호출할 때 토큰을 넣어주거나, getMe 내부에서 헤더에 Bearer 토큰을 실어야 합니다.
                 // 예시: const userData = await getMe(token);
                 const res = await getMe();
-                console.log("2. 백엔드 인증 응답 성공res.data:", res);
-                setUser(res);
+                console.log("2. 백엔드 인증 응답 성공res.data:", res.data);
+                setUser(res.data);
             } catch (err) {
                 // 토큰이 만료되었거나 이상하면 로컬스토리지 비우기
                 console.error(

@@ -6,7 +6,7 @@ export const getMe = async () => {
         headers: { Authorization: `Bearer ${token}` },
     });
 
-    return response.data;
+    return response;
 };
 
 export const login = async (username, password) => {

@@ -54,6 +54,7 @@ export default function Home() {
     const [alarms, setAlarms] = useState(initialAlarmData);
     const hasUnread = alarms.some((item) => item.isUnread);
     const user = useOutletContext();
+    console.log(user);
 
     const toggleAlarm = () => {
         setIsAlarmOpen((prev) => !prev);
@@ -79,7 +80,7 @@ export default function Home() {
                         <div style={style.header}>
                             <div style={style.headerHello}>
                                 <p style={style.Mention}>
-                                    안녕하세요, {user}님!
+                                    안녕하세요, {user?.username}님!
                                 </p>
                                 <img src={MiniLogo} alt="logo" />
                             </div>
