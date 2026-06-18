@@ -1,37 +1,15 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
-
-:root {
-  --black: #2d2d2d;
-  --white: #FFFFFF;
-  --nav-1: #EA63F1;
-  --nav-2: #F8F1F9;
-  --outline-3: #EFF3F4;
-  --lightMode-background: #FAFAFA;
-  --gray-1: #7E7E7E;
-  --button-3: #616FF4;
-  --light-gray: #F8FAFC;
-  --gray-2: #9DABBE;
-  --red: #FF4D4D;
-}
-
-* {
-  color: var(--black);
-  font-family: 'Nunito', sans-serif;
-  font-weight: 500;
-  box-sizing: border-box;
-} */
-
 .card {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 90%;
   max-width: 480px;
-  min-height: 700px;
-  height: 700px;
+  min-height: 650px;   /* 최소 높이만 지정 */
+  height: auto;        /* 고정 높이를 풀어서 내용물이 넘쳐도 스크롤 안 생기게 함 */
   background-color: white;
   justify-content: center;
-  
+  padding: 40px 0;     /* 위아래 여백 살짝 주기 */
+  box-sizing: border-box;
 }
 
 .upupup {
@@ -39,18 +17,23 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
+  gap:10px;
 }
+
 .upupupMention {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  align-items: center; 
+}
+
+.upupupMention img{
+  width: 100px;
 }
 
 .title {
-  margin-top: -20px;
-  margin-bottom: -20px;
   font-size: 32px;
   font-weight: bold;
+  line-height: 1;      /* 불필요한 위아래 공백 제거 */
 }
 
 .subtitle {
@@ -109,23 +92,38 @@ body {
   font-size: 16px;
   display: block;
 }
+.idPassSection{
+  display: flex;
+  flex-direction: column;
+  gap:30px;
+}
 .signupForm{
   width: 80%;
 }
 
-#password {
-  border-radius: 20px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  width: 89%;
-  height: 38px;
-  border: none;
-  outline: 2px solid var(--outline-3);
+.idSection {
+  display: flex;
+  flex-direction: column;
+  gap:15px;
 }
 
-#password2{
+.passSection {
+  display: flex;
+  flex-direction: column;
+  gap:15px;
+}
+
+.loginButton{
+  display: flex;
+  flex-direction: column;
+  gap:15px;
+
+}
+
+#password2 {
   border-radius: 20px;
-  width: 89%;
+  width: 100%;             /* 89% -> 100%로 변경 */
+  box-sizing: border-box;  /* 패딩 때문에 삐져나가는 것 방지 */
   height: 38px;
   border: none;
   outline: 2px solid var(--outline-3);
@@ -144,7 +142,7 @@ body {
 .start {
   border-radius: 20px;
   margin-top: 10px;
-  width: 89%;
+  width: 100%;             /* 89% -> 100%로 변경 */
   height: 38px;
   outline: 2px solid var(--outline-3);
   border: none;
@@ -159,7 +157,7 @@ a {
 input {
   padding-left: 20px;
   padding-right: 20px;
-  font-weight: 100px;
+  box-sizing: border-box; 
 }
 
 form:valid .start {
@@ -169,7 +167,8 @@ form:valid .start {
 
 #userid2 {
   border-radius: 20px;
-  width: 89%;
+  width: 100%;             /* 89% -> 100%로 변경 */
+  box-sizing: border-box;  /* 패딩 때문에 삐져나가는 것 방지 */
   height: 38px;
   outline: 2px solid var(--outline-3);
   border: none;
