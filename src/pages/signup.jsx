@@ -138,6 +138,7 @@ function Signup() {
                                 name="password"
                                 required
                                 placeholder="비밀번호를 입력해주세요."
+                                autoComplete="new-password"
                             />
                         </div>
                         <div>
@@ -154,6 +155,7 @@ function Signup() {
                                 }
                                 required
                                 placeholder="비밀번호를 입력해주세요."
+                                autoComplete="new-password"
                             />
                         </div>
                         <button className="start" type="submit">
