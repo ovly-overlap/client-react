@@ -1114,3 +1114,18 @@
 .chat-user .delete:hover {
   color: var(--gray-1) !important; 
 }
+
+
+.stat-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.post-stat,
+.like-modal-count-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
