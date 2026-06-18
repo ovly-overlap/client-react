@@ -5,17 +5,9 @@ import "../../../index.css";
 import ExampleProfileImage from "../../../assets/example-profile.svg";
 import coloredNextIcon from "../../../assets/colored-next-icon.svg";
 import kebabIcon from "../../../assets/kebab-icon.svg";
-import BtsIcon from "../../../assets/BTS-Logo.png";
 
-export default function ProfileHeader({isMyProfile=false, userName="주라미", introduce="소개글"}) {
+export default function ProfileHeader({isMyProfile=false, userName="주라미", introduce="소개글", favGroups=[]}) {
     const [isFollowing, setFollowing] = useState(false);
-
-    const [favGroups] = useState([
-        {id: 1, name: "BTS", logo: BtsIcon},
-        {id: 2, name: "BOYNEXTDOOR", logo: BtsIcon},
-        {id: 3, name: "BIGBANG", logo: BtsIcon},
-        {id: 4, name: "NCT", logo: BtsIcon}
-    ]);
 
     const toggleFollow = () => {
         setFollowing(!isFollowing);

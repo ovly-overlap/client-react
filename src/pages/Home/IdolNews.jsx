@@ -1,13 +1,18 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import prevIcon from "../../assets/prev-icon.svg"
 import SearchBar from "../../components/SearchBar";
 import TrendingNewsContainer from "./components/TrendingNewsContainer";
+import { markMissionCompleted } from "../../utils/localStorage.js";
 
 
 export default function IdolNews () {
     
     const [searchTerm, setSearchTerm] = useState("");
+
+    useEffect(() => {
+        markMissionCompleted("newsViewed");
+    }, []);
 
     return (
         <>

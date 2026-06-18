@@ -125,6 +125,7 @@ export default function TimeLine() {
 
   const getCommentsCount = (postItem) => {
     if (!postItem || !postItem.comments) return 0;
+    // 부모 댓글 수 + 자식 대댓글 수의 총합을 구하여 아이콘 숫자가 비지 않도록 처리
     return postItem.comments.reduce((acc, current) => {
       const replyCount = current.replies ? current.replies.length : 0;
       return acc + 1 + replyCount;
