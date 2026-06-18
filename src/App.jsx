@@ -14,7 +14,6 @@ import { useEffect, useState } from "react";
 import Login from "./pages/login.jsx";
 import Signup from "./pages/Signup.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
-import { useNavigate } from "react-router-dom";
 import { getMe } from "./api/auth.js";
 
 function App() {

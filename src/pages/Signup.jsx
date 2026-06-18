@@ -4,7 +4,6 @@ import { useState } from "react";
 import { api } from "../api/axios";
 import { Link, useNavigate } from "react-router-dom";
 import "./signuplogin.css";
-import { createUser, isUserIdAvailable } from "../utils/localStorage.js";
 
 function Signup() {
     const navigate = useNavigate();
