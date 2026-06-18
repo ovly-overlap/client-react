@@ -2,11 +2,13 @@ import { Link } from "react-router-dom";
 import logo from "../assets/Logo-image.svg";
 import "./signuplogin.css";
 import { useState } from "react";
+import { loginUser } from "../utils/localStorage.js";
 import { api } from "../api/axios.js";
 
 function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -75,17 +77,17 @@ function Login() {
                                 <input
                                     type="password"
                                     id="password2"
-                                    name="password2"
+                                    name="password"
                                     required
                                     placeholder="비밀번호를 입력해주세요."
-                                    value={password ?? ""}
+                                    value={password}
                                     onChange={(e) =>
                                         setPassword(e.target.value)
                                     }
                                 />
                             </div>
                         </div>
-                        {/* {error && <p className="errorMsg">{error}</p>} */}
+                        {error && <p className="errorMsg">{error}</p>}
                         <div className="loginButton">
                             <button className="start" type="submit">
                                 로그인
