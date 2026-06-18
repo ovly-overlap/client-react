@@ -11,7 +11,6 @@ export default function TodoCard({ todos, setTodos, showInput, setShowInput, isM
     const [editingId, setEditingId] = useState(null);
     const [editValue, setEditValue] = useState('');
     const [inputValue, setInputValue] = useState('');
-    const [dateValue, setDateValue] = useState(getTodayValue);
     const [menuCoords, setMenuCoords] = useState({ top: 0, left: 0 });
     const [memoEditingId, setMemoEditingId] = useState(null);
     const [memoInputValue, setMemoInputValue] = useState('');
@@ -41,19 +40,16 @@ export default function TodoCard({ todos, setTodos, showInput, setShowInput, isM
 
     const resetAddInput = () => {
         setInputValue('');
-        setDateValue(getTodayValue());
         setShowInput(false);
     };
 
     const addTodo = () => {
-        if (!inputValue.trim() || !dateValue) return;
 
         setTodos([
             ...todos,
             {
                 id: Date.now(),
                 label: inputValue.trim(),
-                date: dateValue,
                 createdAt: getTodayKey(),
                 done: false,
                 memo: '',
@@ -185,11 +181,6 @@ export default function TodoCard({ todos, setTodos, showInput, setShowInput, isM
                             </div>
 
                             <div style={{ paddingLeft: '27px', width: '100%', marginTop: '2px' }}>
-                                {todo.date && (
-                                    <div style={style.dateText}>
-                                        {todo.date}
-                                    </div>
-                                )}
                                 {memoEditingId === todo.id ? (
                                     <input
                                         autoFocus
@@ -223,18 +214,6 @@ export default function TodoCard({ todos, setTodos, showInput, setShowInput, isM
                         onKeyDown={handleAdd}
                         style={style.addInput}
                     />
-                    <div style={style.addControls}>
-                        <input
-                            type="date"
-                            value={dateValue}
-                            onChange={e => setDateValue(e.target.value)}
-                            onKeyDown={handleAdd}
-                            style={style.dateInput}
-                        />
-                        <button type="button" onClick={addTodo} style={style.addButton}>
-                            추가
-                        </button>
-                    </div>
                 </div>
             )}
         </div>
@@ -282,11 +261,6 @@ const style = {
         color: 'var(--gray-2)',
         borderRadius: '4px',
         display: 'inline-block',
-    },
-    dateText: {
-        fontSize: '12px',
-        color: 'var(--gray-2)',
-        marginBottom: '2px',
     },
     checkbox: {
         width: '18px',
@@ -390,31 +364,5 @@ const style = {
         width: '100%',
         backgroundColor: 'transparent',
         boxSizing: 'border-box',
-    },
-    addControls: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px',
-        padding: '0 4px 8px',
-    },
-    dateInput: {
-        flex: 1,
-        border: '1px solid var(--outline-3)',
-        borderRadius: '8px',
-        color: 'var(--gray-1)',
-        fontSize: '13px',
-        height: '34px',
-        padding: '0 10px',
-    },
-    addButton: {
-        border: 'none',
-        borderRadius: '8px',
-        backgroundColor: 'var(--button-3)',
-        color: 'var(--white)',
-        cursor: 'pointer',
-        fontSize: '13px',
-        fontWeight: 700,
-        height: '34px',
-        padding: '0 14px',
     },
 };
