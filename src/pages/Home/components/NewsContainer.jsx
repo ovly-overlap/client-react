@@ -4,24 +4,23 @@ import NewsCard from "./NewsCard.jsx";
 import { markMissionCompleted } from "../../../utils/localStorage.js";
 
 export default function NewsContainer() {
-
     return (
-    <div className="news-container">
-        <div style={style.newsHeader}>
-            <img src={NewsIcon} alt="news-icon" />
-            <p style={style.title}>실시간 뉴스</p>
-        </div>
-        <div style={style.newsBox}>
-            <Link
-                to="/idol-news"
-                style={style.newsBoxButton}
-                onClick={() => markMissionCompleted("newsViewed")}
-            >
+        <div className="news-container">
+            <div style={style.newsHeader}>
+                <img src={NewsIcon} alt="news-icon" />
+                <p style={style.title}>실시간 뉴스</p>
+            </div>
+            <div style={style.newsBox}>
+                <Link
+                    to="/idol-news"
+                    style={style.newsBoxButton}
+                    onClick={() => markMissionCompleted("newsViewed")}
+                >
                     모두보기
-            </Link>
-            <NewsCard />
+                </Link>
+                <NewsCard />
+            </div>
         </div>
-    </div>
     );
 }
 
@@ -34,7 +33,7 @@ const style = {
     },
     title: {
         fontWeight: "bold",
-        fontSize:"24px",
+        fontSize: "24px",
     },
     newsBox: {
         display: "flex",
@@ -43,7 +42,7 @@ const style = {
     },
     newsBoxButton: {
         color: "var(--gray-2)",
-        textDecoration : "none",
+        textDecoration: "none",
         fontSize: "20px",
         marginLeft: "auto",
     },

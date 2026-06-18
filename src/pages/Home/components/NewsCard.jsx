@@ -1,23 +1,41 @@
 import NewsImage from "../../../assets/news-image.svg";
+import { useState, useEffect } from "react";
+import { api } from "../../../api/axios";
 
-export default function NewsCard({ limit }) {
+export default function NewsCard({ limit, keyword = null }) {
+    const [newsData, setNewsData] = useState([]);
 
-    const newsData = [
-        { id: 1, title: "기사 제목 기사 제목 기사 제목 기사 제목", content: "케이팝의 새로운 공식을 예고한 그룹 알파드라이브원(ALPHA DRIVE ONE)이 오늘(12일) 데뷔하며 가요계에 알람을 울렸다.12일 오후 서울 ..." },
-        { id: 2, title: "기사 제목", content: "케이팝의 새로운 공식을 예고한 그룹 알파드라이브원(ALPHA DRIVE ONE)이 오늘(12일) 데뷔하며 가요계에 알람을 울렸다.12일 오후 서울 ..." },
-        { id: 3, title: "기사 제목", content: "케이팝의 새로운 공식을 예고한 그룹 알파드라이브원(ALPHA DRIVE ONE)이 오늘(12일) 데뷔하며 가요계에 알람을 울렸다.12일 오후 서울 ..." },
-        { id: 4, title: "기사 제목", content: "케이팝의 새로운 공식을 예고한 그룹 알파드라이브원(ALPHA DRIVE ONE)이 오늘(12일) 데뷔하며 가요계에 알람을 울렸다.12일 오후 서울 ..." }
-    ];
+    useEffect(() => {
+        const fetchNews = async () => {
+            try {
+                let res;
+                if (keyword) {
+                    res = await api.get(`/news/search?keyword=${keyword}`);
+                } else {
+                    res = await api.get(`/news?limit=${limit}`);
+                }
 
-    const displayData = limit ? newsData.slice(0, limit) : newsData;
+                console.log(res.data);
+                setNewsData(res.data.items);
+            } catch (err) {
+                console.error("뉴스 데이터를 가져오는 중 에러 발생:", err);
+            }
+        };
+
+        fetchNews();
+    }, [limit, keyword]);
 
     return (
         <div style={style.newsCardBox}>
             {/* 💡 newsData 대신 잘라낸 displayData로 map을 돌립니다 */}
-            {displayData.map((card) => (
-                <a href="#" key={card.id} style={style.newsLink}>
+            {newsData.map((card) => (
+                <a href={card.url} key={card.id} style={style.newsLink}>
                     <div className="box" style={style.newsCard}>
-                        <img src={NewsImage} alt="news-image" style={style.newsCardImg} />
+                        <img
+                            src={card.image_url}
+                            alt="news-image"
+                            style={style.newsCardImg}
+                        />
                         <div>
                             <h3 style={style.newsCardTextH3}>{card.title}</h3>
                             <p style={style.newsCardTextP}>{card.content}</p>
@@ -36,8 +54,8 @@ const style = {
         gap: "18px",
     },
     newsLink: {
-        textDecoration: 'none', 
-        color: 'inherit'
+        textDecoration: "none",
+        color: "inherit",
     },
     newsCard: {
         display: "flex",
@@ -51,6 +69,9 @@ const style = {
     },
     newsCardImg: {
         width: "100%",
+        height: "160px", // ⭕ 이미지 높이를 정적으로 고정 (원하는 높이로 조절 가능)
+        objectFit: "cover", // ⭕ 중요: 이미지 비율을 유지하면서 영역을 꽉 채움 (찌러짐 방지)
+        objectPosition: "center", // 이미지의 중앙이 보이도록 정렬
         borderRadius: "15px",
     },
     newsCardTextH3: {
@@ -58,7 +79,7 @@ const style = {
         fontSize: "20px",
         margin: "15px 0px 10px 0px",
         display: "-webkit-box",
-        WebkitLineClamp: 1, 
+        WebkitLineClamp: 1,
         WebkitBoxOrient: "vertical",
         overflow: "hidden",
         textOverflow: "ellipsis",
@@ -68,9 +89,9 @@ const style = {
         textAlign: "left",
         fontSize: "16px",
         wordBreak: "break-word",
-        lineHeight: "1.4", 
+        lineHeight: "1.4",
         display: "-webkit-box",
-        WebkitLineClamp: 4, 
+        WebkitLineClamp: 4,
         WebkitBoxOrient: "vertical",
         overflow: "hidden",
         textOverflow: "ellipsis",
