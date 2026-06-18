@@ -5,17 +5,9 @@ import "../../../index.css";
 import ExampleProfileImage from "../../../assets/example-profile.svg";
 import coloredNextIcon from "../../../assets/colored-next-icon.svg";
 import kebabIcon from "../../../assets/kebab-icon.svg";
-import BtsIcon from "../../../assets/BTS-Logo.png";
 
-export default function ProfileHeader({isMyProfile=false, userName="주라미"}) {
+export default function ProfileHeader({isMyProfile=false, userName="주라미", introduce="소개글", favGroups=[]}) {
     const [isFollowing, setFollowing] = useState(false);
-
-    const [favGroups, setFavGroups] = useState([
-        {id: 1, name: "BTS", logo: BtsIcon},
-        {id: 2, name: "BOYNEXTDOOR", logo: BtsIcon},
-        {id: 3, name: "BIGBANG", logo: BtsIcon},
-        {id: 4, name: "NCT", logo: BtsIcon}
-    ]);
 
     const toggleFollow = () => {
         setFollowing(!isFollowing);
@@ -30,8 +22,8 @@ export default function ProfileHeader({isMyProfile=false, userName="주라미"})
                 </div>
                 <div className="userInfo">
                     <div className="userIntro">
-                        <p className="userName">{isMyProfile ? "myUserName" : (userName || "이름 없음")}</p>
-                        <p className="introduction">소개글</p>
+                        <p className="userName">{userName || "이름 없음"}</p>
+                        <p className="introduction">{introduce || "소개글"}</p>
                     </div>
                     <div className="following-Follower">
                         <div className="follow-stat">
@@ -92,6 +84,3 @@ export default function ProfileHeader({isMyProfile=false, userName="주라미"})
     );
 }
 
-const style = {
-    
-}

@@ -1,47 +1,66 @@
 import CalendarIcon from '../../../assets/calendar-icon.svg'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+import { getCurrentUser } from '../../../utils/localStorage.js';
+
+const toDateValue = (date) => {
+    const year = date.getFullYear();
+    const month = `${date.getMonth() + 1}`.padStart(2, '0');
+    const day = `${date.getDate()}`.padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
+
+const parseDateValue = (dateValue) => {
+    const [year, month, day] = dateValue.split('-').map(Number);
+    return new Date(year, month - 1, day);
+};
+
+const getCurrentScheduleDates = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1;
+    const currentDayOfWeek = today.getDay();
+    const daysToSubtract = currentDayOfWeek === 0 ? 6 : currentDayOfWeek - 1;
+    const monday = new Date(today);
+    monday.setDate(today.getDate() - daysToSubtract);
+
+    const weekDays = [];
+    for (let i = 0; i < 7; i++) {
+        const nextDay = new Date(monday);
+        nextDay.setDate(monday.getDate() + i);
+        weekDays.push({
+            dateValue: toDateValue(nextDay),
+            day: nextDay.getDate(),
+        });
+    }
+
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+
+    return {
+        currentYearMonth: `${year}년 ${month}월`,
+        weekDays,
+        todayDate: toDateValue(today),
+        weekStart: toDateValue(monday),
+        weekEnd: toDateValue(sunday),
+    };
+};
 
 export default function ScheduleSection(){
-    const [currentYearMonth, setCurrentYearMonth] = useState("");
-    const [weekDays, setWeekDays] = useState([]);
-    const [todayDate, setTodayDate] = useState(new Date().getDate());
-    
-    const [selectedDate, setSelectedDate] = useState(new Date().getDate());
-
-    const scheduleData = [
-        { id: 1, date: 15, title: "지민 생카", memo: "오전 10:00 / 홍대카페" },
-        { id: 2, date: 16, title: "앨범깡 방송 시청", memo: "오후 01:00 / 방구석에서" },
-        { id: 3, date: 15, title: "굿즈 통판 입금", memo: "오후 06:00 / 은행 점검시간 피하기" },
-        { id: 4, date: 17, title: "스포 라이브", memo: "오후 08:00 / 알림 켜두기" },
-        { id: 5, date: 15, title: "투표 마감", memo: "오후 11:59 / 최애 어플 들어가서 하트 털기" },
-        { id: 6, date: 18, title: "영등포 팬싸인회", memo: "오후 02:00 / 타임스퀘어 / 응원봉, 포카, 핫팩, 보조 배터리 챙기기" }
-    ];
-
-    useEffect(() => {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = today.getMonth() + 1; 
-        setCurrentYearMonth(`${year}년 ${month}월`);
-
-        const currentDayOfWeek = today.getDay(); 
-        const daysToSubtract = currentDayOfWeek === 0 ? 6 : currentDayOfWeek - 1;
-        
-        const monday = new Date(today);
-        monday.setDate(today.getDate() - daysToSubtract);
-
-        const days = [];
-        for (let i = 0; i < 7; i++) {
-            const nextDay = new Date(monday);
-            nextDay.setDate(monday.getDate() + i);
-            days.push(nextDay.getDate());
-        }
-    
-        setWeekDays(days);
-        setTodayDate(today.getDate());
-    }, []);
+    const [{ currentYearMonth, weekDays, todayDate, weekStart, weekEnd }] = useState(getCurrentScheduleDates);
+    const [selectedDate, setSelectedDate] = useState(todayDate);
+    const currentUser = getCurrentUser();
+    const scheduleData = (currentUser?.todos ?? [])
+        .filter((todo) => todo.date && todo.date >= weekStart && todo.date <= weekEnd)
+        .map((todo) => ({
+            id: todo.id,
+            date: todo.date,
+            day: parseDateValue(todo.date).getDate(),
+            title: todo.label,
+            memo: todo.memo || '프로필 해야 할 일',
+        }));
 
     const filteredSchedules = scheduleData.filter(item => item.date === selectedDate);
-    const hasSchedule = (day) => scheduleData.some(item => item.date === day);
+    const hasSchedule = (dateValue) => scheduleData.some(item => item.date === dateValue);
 
     return(
         <>
@@ -56,18 +75,18 @@ export default function ScheduleSection(){
                         <p>{currentYearMonth}</p>
                         <div className="schedule-box-content">
                             <div className="schedule-box-calender">
-                                {weekDays.map((day, index) => {
-                                    const isScheduled = hasSchedule(day);
-                                    const isSelected = selectedDate === day;
+                                {weekDays.map((dayItem, index) => {
+                                    const isScheduled = hasSchedule(dayItem.dateValue);
+                                    const isSelected = selectedDate === dayItem.dateValue;
 
                                     return (
                                         <div 
                                             key={index} 
                                             className={`day ${isScheduled ? 'has-event' : ''} ${isSelected ? 'active' : ''}`}
-                                            onClick={() => setSelectedDate(day)}
+                                            onClick={() => setSelectedDate(dayItem.dateValue)}
                                             style={{ cursor: 'pointer' }}
                                         >
-                                            <p>{day}</p>
+                                            <p>{dayItem.day}</p>
                                         </div>
                                     );
                                 })}
@@ -79,7 +98,7 @@ export default function ScheduleSection(){
                         {filteredSchedules.length > 0 ? (
                             filteredSchedules.map((schedule) => (
                                 <div key={schedule.id} className="schedule-item">
-                                    <div className="schedule-date-badge">{schedule.date}</div>
+                                    <div className="schedule-date-badge">{schedule.day}</div>
                                     <div className="schedule-info">
                                         <h4>{schedule.title}</h4>
                                         <p>{schedule.memo}</p>

@@ -1,19 +1,19 @@
-import { Link } from "react-router-dom";
 import logo from "../assets/Logo-image.svg";
 import "./signuplogin.css";
 import { useState } from "react";
 import { api } from "../api/axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import "./signuplogin.css";
+import { createUser, isUserIdAvailable } from "../utils/localStorage.js";
 
 function Signup() {
+    const navigate = useNavigate();
     const [userid, setUserid] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
     const [isChecked, setIsChecked] = useState(false);
     const [isAvailable, setIsAvailable] = useState(null);
-
-    const navigate = useNavigate();
 
     const xmrtn = (e) => {
         const value = e.target.value;
@@ -134,7 +134,7 @@ function Signup() {
                                 type="password"
                                 value={password ?? ""}
                                 onChange={(e) => setPassword(e.target.value)}
-                                id="password"
+                                id="password2"
                                 name="password"
                                 required
                                 placeholder="비밀번호를 입력해주세요."

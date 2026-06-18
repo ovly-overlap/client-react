@@ -2,17 +2,35 @@ import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import prevIcon from "../../assets/prev-icon.svg"
 import coloredHeartIcon from "../../assets/colored-heart-icon.svg"
-import SearchBar from "../../components/Searchbar";
+import SearchBar from "../../components/SearchBar";
 import btsLogo from "../../assets/BTS-Logo.png"
 import FandomCard from "./components/FandomCard";
+import { getCurrentUser, updateCurrentUser } from "../../utils/localStorage.js";
+
+const mockFandom = {
+    id: "bts",
+    name: "BTS",
+    logo: btsLogo,
+};
 
 export default function FavGroupsPage() {
     const location = useLocation();
+    const currentUser = getCurrentUser();
     
     const isMyProfile = location.state?.isMyProfile ?? true; 
     const userName = location.state?.userName ?? "나";
 
-    const [isFandomExist, setIsFandomExist] = useState(true);
+    const [favGroups, setFavGroups] = useState(() => currentUser?.favGroups ?? []);
+    const isFandomExist = favGroups.length > 0;
+
+    const handleAddFandom = () => {
+        const nextFavGroups = favGroups.some((group) => group.id === mockFandom.id)
+            ? favGroups
+            : [...favGroups, mockFandom];
+
+        setFavGroups(nextFavGroups);
+        updateCurrentUser({ favGroups: nextFavGroups });
+    };
 
     return (
         <>
@@ -35,11 +53,11 @@ export default function FavGroupsPage() {
 
                 {isFandomExist ? (
                     <div style={style.fandomGrid}>
-                        {Array.from({ length: 9 }).map((_, index) => (
+                        {favGroups.map((group) => (
                             <FandomCard 
-                                key={index} 
-                                logo={btsLogo} 
-                                name="BTS" 
+                                key={group.id} 
+                                logo={group.logo} 
+                                name={group.name} 
                             />
                         ))}
                     </div>
@@ -50,6 +68,11 @@ export default function FavGroupsPage() {
                         </p>
                         {isMyProfile && (
                             <p style={style.noScheduleMsg2}>관심있는 팬덤을 검색해서 추가해보세요.</p>
+                        )}
+                        {isMyProfile && (
+                            <button type="button" style={style.addMockBtn} onClick={handleAddFandom}>
+                                BTS 추가하기
+                            </button>
                         )}
                     </div>
                 )}
@@ -163,5 +186,16 @@ const style = {
         margin: 0,
         fontSize: "14px",
         color: "var(--gray-1)",
+    },
+    addMockBtn: {
+        marginTop: "24px",
+        border: "none",
+        borderRadius: "30px",
+        backgroundColor: "var(--button-3)",
+        color: "var(--white)",
+        cursor: "pointer",
+        fontSize: "16px",
+        fontWeight: "bold",
+        padding: "12px 28px",
     },
 }

@@ -1,93 +1,114 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Calendar.css';
-import CalendarImg from "../../../assets/BTS-Logo.png";
+import CalendarImg1 from "../../../assets/BTS-Logo.png";
+import CalendarImg2 from "../../../assets/BTS-Logo.png"; 
 import ArrowIcon from "../../../assets/left-arrow-icon.svg";
 
 const Calendar = () => {
+  const [currentDate, setCurrentDate] = useState(new Date()); 
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth();
+
+  const today = new Date();
+
+  // 2. 이전 달 / 다음 달 이동 함수
+  const handlePrevMonth = () => {
+    setCurrentDate(new Date(currentYear, currentMonth - 1, 1));
+  };
+
+  const handleNextMonth = () => {
+    setCurrentDate(new Date(currentYear, currentMonth + 1, 1));
+  };
+
+  const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay(); // 0(일) ~ 6(토)
+  const totalDaysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+  const weekdays = ['월', '화', '수', '목', '금', '토', '일'];
+  
+  const emptyCellsCount = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
+
+  const eventDays = [
+    { year: 2026, month: 0, day: 10, img: CalendarImg1 }, // 1월 10일 -> BTS 로고
+    { year: 2026, month: 0, day: 21, img: CalendarImg1 }, // 1월 21일 -> BTS 로고
+    { year: 2026, month: 5, day: 17, img: CalendarImg2 }, // 6월 17일 -> 타임라인 아이콘
+  ]; 
+
   return (
-    // 🎯 흰색 카드 전체를 밖에서 한 번 더 감싸주는 투명한 컨테이너입니다.
     <div className="calendar-wrapper">
       
-      {/* ➡️ [위치 이동] 흰색 카드(.ovly-calendar-card) 바깥쪽 위로 헤더를 뺐습니다! */}
       <div className="calendar-control-header">
-        <button className="arrow-btn">
+        <button className="arrow-btn" onClick={handlePrevMonth}>
           <img src={ArrowIcon} alt="이전 달" className="arrow-svg" />
         </button>
         
-        <span className="year-month-text">2026년 1월</span>
+        <span className="year-month-text">{`${currentYear}년 ${currentMonth + 1}월`}</span>
         
-        <button className="arrow-btn">
+        <button className="arrow-btn" onClick={handleNextMonth}>
           <img src={ArrowIcon} alt="다음 달" className="arrow-svg next" />
         </button>
       </div>
 
-      {/* ⬇️ 순수한 요일과 날짜만 담기는 흰색 테두리 카드 박스 */}
       <div className="ovly-calendar-card">
         <div className="calendar-main-box">
           
           <div className="calendar-weekday-header">
-            <div className="weekday">월</div>
-            <div className="weekday">화</div>
-            <div className="weekday">수</div>
-            <div className="weekday">목</div>
-            <div className="weekday">금</div>
-            <div className="weekday sat">토</div>
-            <div className="weekday sun">일</div>
+            {weekdays.map((day, index) => (
+              <div 
+                key={day} 
+                className={`weekday ${index === 5 ? 'sat' : index === 6 ? 'sun' : ''}`}
+              >
+                {day}
+              </div>
+            ))}
           </div>
 
           <div className="calendar-days-grid">
-            <div className="day-cell empty"></div>
-            <div className="day-cell empty"></div>
-            <div className="day-cell empty"></div>
+            
+            {[...Array(emptyCellsCount)].map((_, i) => (
+              <div key={`empty-${i}`} className="day-cell">
+                <span className="day-text"></span>
+              </div>
+            ))}
 
-            <div className="day-cell"><span className="day-text">1</span></div>
-            <div className="day-cell"><span className="day-text">2</span></div>
-            <div className="day-cell sat"><span className="day-text">3</span></div>
-            <div className="day-cell sun"><span className="day-text">4</span></div>
-            <div className="day-cell"><span className="day-text">5</span></div>
-            <div className="day-cell"><span className="day-text">6</span></div>
-            <div className="day-cell"><span className="day-text">7</span></div>
-            <div className="day-cell"><span className="day-text">8</span></div>
-            <div className="day-cell"><span className="day-text">9</span></div>
+            {[...Array(totalDaysInMonth)].map((_, i) => {
+              const dayNumber = i + 1;
+              
+              const dayOfWeek = new Date(currentYear, currentMonth, dayNumber).getDay();
+              const isSat = dayOfWeek === 6;
+              const isSun = dayOfWeek === 0;
 
-            <div 
-              className="day-cell has-bg-image" 
-              style={{ backgroundImage: `url(${CalendarImg})` }}
-            >
-              <span className="day-text">10</span>
-            </div>
+              const isToday = 
+                today.getFullYear() === currentYear &&
+                today.getMonth() === currentMonth &&
+                today.getDate() === dayNumber;
 
-            <div className="day-cell sun highlighted-day">
-              <span className="day-text">11</span>
-            </div>
+              const matchedEvent = eventDays.find(
+                (event) => 
+                  event.year === currentYear && 
+                  event.month === currentMonth && 
+                  event.day === dayNumber
+              );
 
-            <div className="day-cell"><span className="day-text">12</span></div>
-            <div className="day-cell"><span className="day-text">13</span></div>
-            <div className="day-cell"><span className="day-text">14</span></div>
-            <div className="day-cell"><span className="day-text">15</span></div>
-            <div className="day-cell"><span className="day-text">16</span></div>
-            <div className="day-cell sat"><span className="day-text">17</span></div>
-            <div className="day-cell sun"><span className="day-text">18</span></div>
-            <div className="day-cell"><span className="day-text">19</span></div>
-            <div className="day-cell"><span className="day-text">20</span></div>
+              const hasBgImage = !!matchedEvent;
 
-            <div 
-              className="day-cell has-bg-image" 
-              style={{ backgroundImage: `url(${CalendarImg})` }}
-            >
-              <span className="day-text">21</span>
-            </div>
-
-            <div className="day-cell"><span className="day-text">22</span></div>
-            <div className="day-cell"><span className="day-text">23</span></div>
-            <div className="day-cell sat"><span className="day-text">24</span></div>
-            <div className="day-cell sun"><span className="day-text">25</span></div>
-            <div className="day-cell"><span className="day-text">26</span></div>
-            <div className="day-cell"><span className="day-text">27</span></div>
-            <div className="day-cell"><span className="day-text">28</span></div>
-            <div className="day-cell"><span className="day-text">29</span></div>
-            <div className="day-cell"><span className="day-text">30</span></div>
-            <div className="day-cell sat"><span className="day-text">31</span></div>
+              return (
+                <div 
+                  key={`day-${dayNumber}`}
+                  className={`day-cell 
+                    ${isSat ? 'sat' : ''} 
+                    ${isSun ? 'sun' : ''} 
+                    ${isToday ? 'highlighted-day' : ''} 
+                    ${hasBgImage ? 'has-bg-image' : ''}
+                  `}
+                  style={hasBgImage ? { 
+                    backgroundImage: `url(${matchedEvent.img})`,
+                    backgroundColor: 'transparent'
+                  } : {}}
+                >
+                  <span className="day-text">{dayNumber}</span>
+                </div>
+              );
+            })}
           </div>
 
         </div>

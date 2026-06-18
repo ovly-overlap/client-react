@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/Logo-image.svg";
 import "./signuplogin.css";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { api } from "../api/axios";
+import { loginUser } from "../utils/localStorage.js";
+import { api } from "../api/axios.js";
 
 function Login() {
     const [username, setUsername] = useState("");
@@ -40,57 +40,62 @@ function Login() {
                 <div className="card">
                     <form className="signupForm" onSubmit={handleSubmit}>
                         <div className="upupup">
-                            <img src={logo} alt="ovlylogo" className="LOGO" />
-                            <span className="title">ovly</span>
+                            <div className="upupupMention">
+                                <img
+                                    src={logo}
+                                    alt="ovlylogo"
+                                    className="LOGO"
+                                />
+                                <div className="title">ovly</div>
+                            </div>
                             <p className="subtitle">
                                 최애 아티스트와 함께하는 특별한 공간
                             </p>
                         </div>
-                        <br />
-                        <div>
-                            <label className="ididid" htmlFor="uaserid">
-                                아이디
-                            </label>
-                            <br />
-                            <input
-                                type="text"
-                                // id="userid2"
-                                // name="userid2"
-                                id="username"
-                                name="username"
-                                required
-                                placeholder="아이디를 입력해주세요."
-                                value={username ?? ""}
-                                onChange={(e) => setUsername(e.target.value)}
-                            />
+                        <div className="idPassSection">
+                            <div className="idSection">
+                                <label className="ididid" html96For="uaserid">
+                                    아이디
+                                </label>
+                                <input
+                                    type="text"
+                                    id="userid2"
+                                    name="userid2"
+                                    required
+                                    placeholder="아이디를 입력해주세요."
+                                    value={username ?? ""}
+                                    onChange={(e) =>
+                                        setUsername(e.target.value)
+                                    }
+                                />
+                            </div>
+                            <div className="passSection">
+                                <label className="ididid" htmlFor="password">
+                                    비밀번호
+                                </label>
+                                <input
+                                    type="password"
+                                    id="password2"
+                                    name="password2"
+                                    required
+                                    placeholder="비밀번호를 입력해주세요."
+                                    value={password ?? ""}
+                                    onChange={(e) =>
+                                        setPassword(e.target.value)
+                                    }
+                                />
+                            </div>
                         </div>
-                        <br />
-                        <div>
-                            <label className="ididid" htmlFor="password">
-                                비밀번호
-                            </label>
-                            <br />
-                            <input
-                                type="password"
-                                // id="password2"
-                                // name="password2"
-                                id="password"
-                                name="password"
-                                required
-                                placeholder="비밀번호를 입력해주세요."
-                                value={password ?? ""}
-                                onChange={(e) => setPassword(e.target.value)}
-                                autoComplete="current-password"
-                            />
+                        {/* {error && <p className="errorMsg">{error}</p>} */}
+                        <div className="loginButton">
+                            <button className="start" type="submit">
+                                로그인
+                            </button>
+                            <p>
+                                아직 계정이 없으신가요?{" "}
+                                <Link to="/signup">회원가입</Link>
+                            </p>
                         </div>
-                        <br />
-                        <button className="start" type="submit">
-                            로그인
-                        </button>
-                        <p>
-                            이미 계정이 있으신가요?{" "}
-                            <Link to="/signup">회원가입</Link>
-                        </p>
                     </form>
                 </div>
             </div>

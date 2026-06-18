@@ -1,16 +1,17 @@
-import { useState } from "react";
 import CheckIcon from "../../../assets/check-icon.svg";
 import CheckboxCheckIcon from "../../../assets/checkbox-check-icon.svg"
+import { getTodayMissionProgress } from "../../../utils/localStorage.js";
 
 export default function MissionContainer() {
+    const missionProgress = getTodayMissionProgress();
 
-    const [missions, setMissions] = useState([
-        { id: 1, mission: "아티스트 스케줄 추가하기", isCompleted: false },
-        { id: 2, mission: "뉴스 시청하기", isCompleted: false },
-        { id: 3, mission: "오늘의 일기 작성하기", isCompleted: false },
-        { id: 4, mission: "친구 팔로우하기", isCompleted: true }, 
-        { id: 5, mission: "게시물에 댓글 남기기", isCompleted: false },
-    ]);
+    const missions = [
+        { id: 1, mission: "아티스트 스케줄 추가하기", isCompleted: missionProgress.scheduleAdded },
+        { id: 2, mission: "뉴스 시청하기", isCompleted: missionProgress.newsViewed },
+        { id: 3, mission: "오늘의 일기 작성하기", isCompleted: missionProgress.diaryWritten },
+        { id: 4, mission: "친구 팔로우하기", isCompleted: missionProgress.friendFollowed }, 
+        { id: 5, mission: "게시물에 댓글 남기기", isCompleted: missionProgress.commentWritten },
+    ];
 
     return (
         <div style={styles.missionContainer}>
@@ -31,7 +32,7 @@ export default function MissionContainer() {
                                     disabled 
                                 />
                                 <div style={styles.customCheck}>
-                                    {item.isCompleted && <img src={CheckboxCheckIcon}/>}
+                                    {item.isCompleted && <img src={CheckboxCheckIcon} alt="완료" />}
                                 </div>
                                 <label 
                                     htmlFor={`mission-${item.id}`} 
