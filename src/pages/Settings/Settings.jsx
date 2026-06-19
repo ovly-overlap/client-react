@@ -151,8 +151,8 @@ const handleSave = () => {
               </div>
           </div>
           <div className='logOutSection'>
-            <button type='button' className='logOutButton'>로그아웃</button>
-            <Link to="/login" className='deleteAccoutButton'>탈퇴하기</Link>
+            <Link to="/login" type='button' className='logOutButton'>로그아웃</Link>
+            <Link to="/signup" className='deleteAccoutButton'>탈퇴하기</Link>
           </div>
       </div>
     </>

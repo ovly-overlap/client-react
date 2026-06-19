@@ -213,6 +213,7 @@ textarea::placeholder {
     font-weight: bold;
     padding: 18px 80px;
     border-radius: 15px;
+    text-decoration: none;
 }
 .deleteAccoutButton{
     color:var(--red);
