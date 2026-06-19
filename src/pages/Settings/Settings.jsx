@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './Settings.css'
 import exampleProfile from '../../assets/example-profile.svg'
 import downIcon from '../../assets/down-icons.svg'
@@ -115,7 +116,7 @@ const handleSave = () => {
               </div>
           </div> 
         </div>
-{/* 
+        {/* 
         <div className='screen-theme-card'>
           <p className='setting-title'>화면 테마</p>
             <form className='screen-theme'>
@@ -148,6 +149,10 @@ const handleSave = () => {
                   );
                 })}
               </div>
+          </div>
+          <div className='logOutSection'>
+            <button type='button' className='logOutButton'>로그아웃</button>
+            <Link to="/login" className='deleteAccoutButton'>탈퇴하기</Link>
           </div>
       </div>
     </>
