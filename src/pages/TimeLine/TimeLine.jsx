@@ -14,11 +14,31 @@ const REPORT_REASONS = [
 ];
 
 const INITIAL_FRIENDS = [
-    { id: 1, name: "Jin라면먹고싶다", isFollowing: true },
-    { id: 2, name: "으아내정신", isFollowing: false },
-    { id: 3, name: "성호어깨에치여사망", isFollowing: false },
-    { id: 4, name: "성호어깨에치여사망", isFollowing: true },
-    { id: 5, name: "성호어깨에치여사망", isFollowing: false },
+    {
+        id: 1,
+        name: "Jin라면먹고싶다",
+        username: "Jin라면먹고싶다",
+        isFollowing: true,
+    },
+    { id: 2, name: "으아내정신", username: "으아내정신", isFollowing: false },
+    {
+        id: 3,
+        name: "성호어깨에치여사망",
+        username: "성호어깨에치여사망",
+        isFollowing: false,
+    },
+    {
+        id: 4,
+        name: "똥싸개",
+        username: "똥싸개",
+        isFollowing: true,
+    },
+    {
+        id: 5,
+        name: "주라미",
+        username: "주라미",
+        isFollowing: true,
+    },
 ];
 
 const INITIAL_SEARCHES = ["망개떡", "우나기", "ChristmasTree"];
@@ -94,6 +114,44 @@ const INITIAL_POSTS = [
                 time: "30분 전",
                 text: "저도 꼭 가고 싶어요ㅠㅠ 티케팅 파이팅!",
                 likes: 5,
+                isMine: true,
+                replies: [],
+            },
+        ],
+    },
+    {
+        id: 3,
+        username: "주라미",
+        time: "2분 전",
+        content:
+            "지민 I LOVE YOU SO MUCH HAHA!!",
+        images: [post1, post1, post1],
+        likedUsers: [MOCK_USERS[0], MOCK_USERS[1], MOCK_USERS[2]],
+        comments: [
+            {
+                id: 301,
+                user: "으아내정신",
+                time: "1시간 전",
+                text: "I love you, riwoo my dear darling S2",
+                likes: 0,
+                isMine: false,
+                replies: [
+                    {
+                        id: 3011,
+                        user: "망개떡",
+                        time: "30분 전",
+                        text: "저도 동감해요!",
+                        likes: 0,
+                        isMine: false,
+                    },
+                ],
+            },
+            {
+                id: 302,
+                user: "류류",
+                time: "1일 전",
+                text: "제발 지민 옷 손민수하고 싶다 저 왼쪽 사진",
+                likes: 0,
                 isMine: false,
                 replies: [],
             },
@@ -121,18 +179,9 @@ export default function TimeLine() {
     const selectedPost = posts.find((p) => p.id === selectedPostId);
     const likeTargetPost = posts.find((p) => p.id === likeModalPostId);
 
-    const followingNames = friends
-        .filter((friend) => friend.isFollowing)
-        .map((friend) => friend.name);
-
-    const visiblePosts =
-        activeTab === "recommend"
-            ? posts.filter((post) => !blockedUsers.includes(post.username))
-            : posts.filter(
-                  (post) =>
-                      followingNames.includes(post.username) &&
-                      !blockedUsers.includes(post.username)
-              );
+    const visiblePosts = posts.filter(
+        (post) => !blockedUsers.includes(post.username)
+    );
 
     const getCommentsCount = (postItem) => {
         if (!postItem || !postItem.comments) return 0;
@@ -266,6 +315,13 @@ export default function TimeLine() {
         );
         setCommentInput("");
     };
+    const followingPosts = posts.filter(
+        (post) =>
+            friends.some(
+                (friend) =>
+                    friend.isFollowing && friend.username === post.username
+            ) && !blockedUsers.includes(post.username)
+    );
 
     // 대댓글 등록
     const handleReplySubmit = (e, commentId) => {
@@ -362,123 +418,115 @@ export default function TimeLine() {
 
             <div className="timeline-wrapper">
                 <div className="timeline-posts">
-                    {activeTab === "following" && visiblePosts.length === 0 ? (
-                        <div className="empty-following">
-                            <h3>팔로우한 계정이 없습니다.</h3>
-                            <p>관심있는 유저를 팔로우해보세요.</p>
-                        </div>
-                    ) : (
-                        visiblePosts.map((item) => (
-                            <div
-                                key={item.id}
-                                className="post"
-                                onClick={() => handlePostClick(item)}
-                                style={{ cursor: "pointer" }}
-                            >
-                                <div className="post-top2">
-                                    <div className="post-profile">
-                                        <img src={profile} alt="" />
-                                        <div>
-                                            <h4>{item.username}</h4>
-                                            <span>{item.time}</span>
-                                        </div>
-                                    </div>
-                                    <div
-                                        className="more"
-                                        onClick={(e) =>
-                                            openReportModal(e, item.id)
-                                        }
-                                    >
-                                        ⋯
+                    {(activeTab === "recommend"
+                        ? visiblePosts
+                        : followingPosts
+                    ).map((item) => (
+                        <div
+                            key={item.id}
+                            className="post"
+                            onClick={() => handlePostClick(item)}
+                            style={{ cursor: "pointer" }}
+                        >
+                            <div className="post-top2">
+                                <div className="post-profile">
+                                    <img src={profile} alt="" />
+                                    <div>
+                                        <h4>{item.username}</h4>
+                                        <span>{item.time}</span>
                                     </div>
                                 </div>
-
-                                <div className="post-center">
-                                    <p>{item.content}</p>
-                                    <div
-                                        className={`post-images ${
-                                            item.images &&
-                                            item.images.length === 1
-                                                ? "one"
-                                                : item.images &&
-                                                    item.images.length === 2
-                                                  ? "two"
-                                                  : ""
-                                        }`}
-                                    >
-                                        {item.images &&
-                                            item.images
-                                                .slice(0, 3)
-                                                .map((imgSrc, index) => {
-                                                    if (
-                                                        index === 2 &&
-                                                        item.images.length > 3
-                                                    ) {
-                                                        return (
-                                                            <div
-                                                                key={index}
-                                                                className="last-image"
-                                                            >
-                                                                <img
-                                                                    src={imgSrc}
-                                                                    alt=""
-                                                                />
-                                                                <span>
-                                                                    +
-                                                                    {item.images
-                                                                        .length -
-                                                                        3}
-                                                                </span>
-                                                            </div>
-                                                        );
-                                                    }
-                                                    return (
-                                                        <img
-                                                            key={index}
-                                                            src={imgSrc}
-                                                            alt=""
-                                                        />
-                                                    );
-                                                })}
-                                    </div>
-                                </div>
-
-                                <div className="post-bottom">
-                                    <div
-                                        className="post-stat"
-                                        onClick={(e) => e.stopPropagation()}
-                                    >
-                                        <img
-                                            src={HeartIcon}
-                                            alt="좋아요"
-                                            className={`stat-icon ${checkIfILiked(item) ? "liked" : ""}`}
-                                            onClick={(e) =>
-                                                handleLikeToggle(e, item.id)
-                                            }
-                                            style={{ cursor: "pointer" }}
-                                        />
-                                        <span
-                                            onClick={(e) =>
-                                                openLikeModal(e, item.id)
-                                            }
-                                            style={{ cursor: "pointer" }}
-                                        >
-                                            {item.likedUsers.length.toLocaleString()}
-                                        </span>
-                                    </div>
-
-                                    <div className="post-stat">
-                                        <img
-                                            src={CommentIcon}
-                                            alt="댓글"
-                                            className="stat-icon"
-                                        />
-                                        {getCommentsCount(item)}
-                                    </div>
+                                <div
+                                    className="more"
+                                    onClick={(e) => openReportModal(e, item.id)}
+                                >
+                                    ⋯
                                 </div>
                             </div>
-                        ))
-                    )}
+
+                            <div className="post-center">
+                                <p>{item.content}</p>
+                                <div
+                                    className={`post-images ${
+                                        item.images && item.images.length === 1
+                                            ? "one"
+                                            : item.images &&
+                                                item.images.length === 2
+                                              ? "two"
+                                              : ""
+                                    }`}
+                                >
+                                    {item.images &&
+                                        item.images
+                                            .slice(0, 3)
+                                            .map((imgSrc, index) => {
+                                                if (
+                                                    index === 2 &&
+                                                    item.images.length > 3
+                                                ) {
+                                                    return (
+                                                        <div
+                                                            key={index}
+                                                            className="last-image"
+                                                        >
+                                                            <img
+                                                                src={imgSrc}
+                                                                alt=""
+                                                            />
+                                                            <span>
+                                                                +
+                                                                {item.images
+                                                                    .length - 3}
+                                                            </span>
+                                                        </div>
+                                                    );
+                                                }
+                                                return (
+                                                    <img
+                                                        key={index}
+                                                        src={imgSrc}
+                                                        alt=""
+                                                    />
+                                                );
+                                            })}
+                                </div>
+                            </div>
+
+                            <div className="post-bottom">
+                                <div
+                                    className="post-stat"
+                                    onClick={(e) => e.stopPropagation()}
+                                >
+                                    <img
+                                        src={HeartIcon}
+                                        alt="좋아요"
+                                        className={`stat-icon ${checkIfILiked(item) ? "liked" : ""}`}
+                                        onClick={(e) =>
+                                            handleLikeToggle(e, item.id)
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                    />
+                                    <span
+                                        onClick={(e) =>
+                                            openLikeModal(e, item.id)
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                    >
+                                        {item.likedUsers.length.toLocaleString()}
+                                    </span>
+                                </div>
+
+                                <div className="post-stat">
+                                    <img
+                                        src={CommentIcon}
+                                        alt="댓글"
+                                        className="stat-icon"
+                                    />
+                                    {getCommentsCount(item)}
+                                </div>
+                            </div>
+                        </div>
+                    ))}
                 </div>
 
                 <div className="timeline-right">
