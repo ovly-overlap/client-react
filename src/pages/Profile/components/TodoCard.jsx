@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import checkboxCheckIcon from "../../../assets/checkbox-check-icon.svg";
+import sleepIcon from "../../../assets/sleep-icon.svg";
 import { getTodayKey } from "../../../utils/localStorage.js";
 
 const getTodayValue = () => getTodayKey();
@@ -110,7 +111,10 @@ export default function TodoCard({ todos, setTodos, showInput, setShowInput, isM
             `}</style>
 
             {todos.length === 0 && !showInput ? (
-                <div style={style.emptyText}>작성된 할 일이 없어요.</div>
+                <div style={style.emptyTodo}>
+                    <img src={sleepIcon} alt="sleep-icon" />
+                    <div style={style.emptyText}>작성된 할 일이 없어요.</div>
+                </div>
             ) : (
                 <ul style={style.todoList}>
                     {todos.map((todo) => (
@@ -229,14 +233,21 @@ const style = {
         boxSizing: 'border-box',
         display: 'flex',
         flexDirection: 'column',
+        alignItems:'center',
+        justifyContent:'center',
+    },
+    emptyTodo: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap:'10px',
     },
     emptyText: {
         flex: 1,
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',
-        color: 'var(--gray-3)',
-        fontSize: '14px',
+        justifyContent: 'center',   
+        fontSize: '20px', color: 'var(--black)', letterSpacing: '1px', fontWeight: '500' 
     },
     todoList: {
         listStyle: 'none',
