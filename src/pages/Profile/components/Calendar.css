@@ -155,7 +155,7 @@
   top: 0; left: 0; right: 0; bottom: 0;
   border-radius: 14px;
   padding: 2.5px; 
-  background: linear-gradient(#616FF4, #F46FE7); 
+  background: var(--gray-2); 
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -163,9 +163,56 @@
 }
   
 .day-cell.highlighted-day .day-text {
-  background: linear-gradient(#616FF4, #F46FE7);
+  background: var(--gray-2);
   background-clip: text;
   -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.day-cell.selected-day {
+  z-index: 1;
+}
+
+.day-cell.selected-day:not(.has-bg-image) {
+  background: var(--light-gray);
+}
+
+.day-cell.selected-day::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 14px;
+  padding: 2.5px;
+
+  background: linear-gradient(
+    #616FF4 0%,
+    #F46FE7 100%
+  );
+
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+
+  pointer-events: none;
+}
+
+.day-cell.selected-day .day-text {
+  background: linear-gradient(
+    135deg,
+    #616FF4 0%,
+    #F46FE7 100%
+  );
+
+  background-clip: text;
+  -webkit-background-clip: text;
+
   color: transparent;
   -webkit-text-fill-color: transparent;
 }
