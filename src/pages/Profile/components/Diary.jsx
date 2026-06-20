@@ -2,6 +2,8 @@ import { useState } from "react";
 import { getCurrentUser, getTodayKey, markMissionCompleted, updateCurrentUser } from "../../../utils/localStorage.js";
 import DiaryIcon from "../../../assets/diray-icon.svg";
 import DummyPost from "../../../assets/dummy-post.png";
+import UpdateIcon from "../../../assets/update-icon.svg";
+import DeleteIcon from "../../../assets/delete-icon.svg";
 
 export default function Diary() {
     const currentUser = getCurrentUser();
