@@ -54,7 +54,7 @@ function App() {
         };
         checkAuth();
     }, []);
-
+    
     return (
         <BrowserRouter>
             <Nav />
