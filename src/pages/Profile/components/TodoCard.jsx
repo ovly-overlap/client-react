@@ -7,7 +7,6 @@ import { getTodayKey } from "../../../utils/localStorage.js";
 const getTodayValue = () => getTodayKey();
 
 export default function TodoCard({ todos, setTodos, showInput, setShowInput, isMyProfile=false }) {
-    // TODO : useRef
     const [openMenuId, setOpenMenuId] = useState(null);
     const [editingId, setEditingId] = useState(null);
     const [editValue, setEditValue] = useState('');
@@ -15,6 +14,13 @@ export default function TodoCard({ todos, setTodos, showInput, setShowInput, isM
     const [menuCoords, setMenuCoords] = useState({ top: 0, left: 0 });
     const [memoEditingId, setMemoEditingId] = useState(null);
     const [memoInputValue, setMemoInputValue] = useState('');
+
+    const isCardEmpty = todos.length === 0 && !showInput;
+    const dynamicTodoCardStyle = {
+        ...style.todoCard,
+        alignItems: isCardEmpty ? 'center' : 'stretch',
+        justifyContent: isCardEmpty ? 'center' : 'flex-start',
+    };
 
     const toggleDone = (id) => {
         if (!isMyProfile) return;
@@ -45,7 +51,7 @@ export default function TodoCard({ todos, setTodos, showInput, setShowInput, isM
     };
 
     const addTodo = () => {
-
+        if (!inputValue.trim()) return; 
         setTodos([
             ...todos,
             {
@@ -102,8 +108,16 @@ export default function TodoCard({ todos, setTodos, showInput, setShowInput, isM
         }
     };
 
+    const handleInputBlur = () => {
+        if (!inputValue.trim()) {
+            resetAddInput(); 
+        } else {
+            addTodo(); 
+        }
+    };
+
     return (
-        <div style={style.todoCard} onClick={() => { setOpenMenuId(null); }}>
+        <div style={dynamicTodoCardStyle} onClick={() => { setOpenMenuId(null); }}>
             <style>{`
                 .todo-item-row .kebab-btn { opacity: 0; transition: opacity 0.15s; }
                 .todo-item-row:hover .kebab-btn,
@@ -215,7 +229,7 @@ export default function TodoCard({ todos, setTodos, showInput, setShowInput, isM
                         placeholder="TODO 추가하기"
                         value={inputValue}
                         onChange={e => setInputValue(e.target.value)}
-                        onKeyDown={handleAdd}
+                        onKeyDown={handleAdd}onBlur={handleInputBlur}
                         style={style.addInput}
                     />
                 </div>
@@ -223,6 +237,7 @@ export default function TodoCard({ todos, setTodos, showInput, setShowInput, isM
         </div>
     );
 }
+
 const style = {
     todoCard: {
         border: '3px solid var(--outline-3)',
@@ -233,8 +248,6 @@ const style = {
         boxSizing: 'border-box',
         display: 'flex',
         flexDirection: 'column',
-        alignItems:'center',
-        justifyContent:'center',
     },
     emptyTodo: {
         display: 'flex',
@@ -243,11 +256,10 @@ const style = {
         gap:'10px',
     },
     emptyText: {
-        flex: 1,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',   
-        fontSize: '20px', color: 'var(--black)', letterSpacing: '1px', fontWeight: '500' 
+        fontSize: '20px', 
+        color: 'var(--black)', 
+        letterSpacing: '1px', 
+        fontWeight: '500' 
     },
     todoList: {
         listStyle: 'none',
