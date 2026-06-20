@@ -60,7 +60,7 @@ const INITIAL_POSTS = [
         username: "링링",
         time: "2분 전",
         content:
-            "아 진짜 리우 너무 잘생겼어요 미친!! 게다가 오늘 보넥도 상타서 진짜 너무 좋아요❤️",
+            "아 진짜 리우 너무 잘생겼어요 미친!! 게다가 오늘 보넥도 상 타서 진짜 너무 좋아요❤️",
         images: [post1, post1, post1],
         likedUsers: [MOCK_USERS[0], MOCK_USERS[1], MOCK_USERS[2]],
         comments: [
@@ -98,7 +98,7 @@ const INITIAL_POSTS = [
         username: "아레아레RM",
         time: "15분 전",
         content:
-            "컴백 너무 기대돼요! X투X 이번벤드에는 티케팅 성공해서 꼭 보러가고 싶어요! 다들 콘서트때 봬요~🍩",
+            "컴백 너무 기대돼요! 투바투 이번 콘서트에는 티켓팅 성공해서 꼭 보러가고 싶어요! 다들 콘서트때 봬요~",
         images: [],
         likedUsers: [
             MOCK_USERS[3],
@@ -112,7 +112,7 @@ const INITIAL_POSTS = [
                 id: 201,
                 user: "망개떡",
                 time: "30분 전",
-                text: "저도 꼭 가고 싶어요ㅠㅠ 티케팅 파이팅!",
+                text: "저도 꼭 가고 싶어요ㅠㅠ 티켓팅 파이팅!",
                 likes: 5,
                 isMine: true,
                 replies: [],
@@ -124,7 +124,7 @@ const INITIAL_POSTS = [
         username: "주라미",
         time: "2분 전",
         content:
-            "지민 I LOVE YOU SO MUCH HAHA!!",
+            "JIMIN I LOVE YOU SO MUCH",
         images: [post1, post1, post1],
         likedUsers: [MOCK_USERS[0], MOCK_USERS[1], MOCK_USERS[2]],
         comments: [
