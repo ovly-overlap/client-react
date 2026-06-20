@@ -32,9 +32,9 @@ const Calendar = () => {
     const emptyCellsCount = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
 
     const eventDays = [
-        { year: 2026, month: 0, day: 10, img: CalendarImg1 }, // 1월 10일 -> BTS 로고
-        { year: 2026, month: 0, day: 21, img: CalendarImg1 }, // 1월 21일 -> BTS 로고
-        { year: 2026, month: 5, day: 17, img: CalendarImg2 }, // 6월 17일 -> 타임라인 아이콘
+        // { year: 2026, month: 0, day: 10, img: CalendarImg1 }, // 1월 10일 -> BTS 로고
+        // { year: 2026, month: 0, day: 21, img: CalendarImg1 }, // 1월 21일 -> BTS 로고
+        // { year: 2026, month: 5, day: 17, img: CalendarImg2 }, // 6월 17일 -> 타임라인 아이콘
     ];
     const [selectedDay, setSelectedDay] = useState(null);
 
@@ -126,10 +126,9 @@ const Calendar = () => {
                                     style={
                                         hasBgImage
                                             ? {
-                                                  backgroundImage: `url(${matchedEvent.img})`,
-                                                  backgroundColor:
-                                                      "transparent",
-                                              }
+                                                backgroundImage: `url(${matchedEvent.img})`,
+                                                backgroundColor: "transparent",
+                                            }
                                             : {}
                                     }
                                 >
