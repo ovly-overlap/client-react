@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import ProfileHeader from "./components/ProfileHeader.jsx";
 import Todo from "./components/Todo.jsx";
@@ -11,6 +12,12 @@ export default function ProfilePage() {
     const userName = location.state?.userName ?? currentUser?.id ?? "guest";
     const introduce = currentUser?.introduce ?? "로그인하면 자기소개가 표시돼요.";
     const favGroups = currentUser?.favGroups ?? [];
+    const today = new Date();
+    const [selectedDay, setSelectedDay] = useState({
+        year: today.getFullYear(),
+        month: today.getMonth(),
+        day: today.getDate()
+    });
 
     return (
         <>
@@ -18,10 +25,10 @@ export default function ProfilePage() {
             <ProfileHeader isMyProfile={isMyProfile} userName={userName} introduce={introduce} favGroups={favGroups} />
             <div style={style.calendarTodoDiary}>
               <div style={style.todoDiary}> 
-                <Todo isMyProfile={isMyProfile}/>
+                <Todo isMyProfile={isMyProfile} selectedDay={selectedDay}/>
                 {isMyProfile && <Diary />}
               </div>
-              <Calendar />
+              <Calendar selectedDay={selectedDay} setSelectedDay={setSelectedDay}/>
             </div>
         </div>
     </>

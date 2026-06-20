@@ -6,7 +6,7 @@ import { getTodayKey } from "../../../utils/localStorage.js";
 
 const getTodayValue = () => getTodayKey();
 
-export default function TodoCard({ todos, setTodos, showInput, setShowInput, isMyProfile=false }) {
+export default function TodoCard({ todos, allTodos, setTodos, showInput, setShowInput, isMyProfile=false, selectedDateKey}) {
     const [openMenuId, setOpenMenuId] = useState(null);
     const [editingId, setEditingId] = useState(null);
     const [editValue, setEditValue] = useState('');
@@ -24,7 +24,7 @@ export default function TodoCard({ todos, setTodos, showInput, setShowInput, isM
 
     const toggleDone = (id) => {
         if (!isMyProfile) return;
-        setTodos(todos.map(t => t.id === id ? { ...t, done: !t.done } : t));
+        setTodos(allTodos.map(t => t.id === id ? { ...t, done: !t.done } : t));
     };
 
     const deleteTodo = (id) => {
@@ -53,11 +53,11 @@ export default function TodoCard({ todos, setTodos, showInput, setShowInput, isM
     const addTodo = () => {
         if (!inputValue.trim()) return; 
         setTodos([
-            ...todos,
+            ...allTodos,
             {
                 id: Date.now(),
                 label: inputValue.trim(),
-                createdAt: getTodayKey(),
+                createdAt: selectedDateKey,
                 done: false,
                 memo: '',
             },
@@ -65,9 +65,11 @@ export default function TodoCard({ todos, setTodos, showInput, setShowInput, isM
         resetAddInput();
     };
 
-    const handleAdd = (e) => {
+    const handleAdd = (e, id) => {
         if (e.key === 'Enter') {
-            addTodo();
+            setTodos(allTodos.map(t => t.id === id ? { ...t, memo: memoInputValue.trim() } : t));
+            setMemoEditingId(null);
+            setMemoInputValue('');
         }
         if (e.key === 'Escape') {
             resetAddInput();

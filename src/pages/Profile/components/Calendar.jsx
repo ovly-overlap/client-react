@@ -4,14 +4,13 @@ import CalendarImg1 from "../../../assets/BTS-Logo.png";
 import CalendarImg2 from "../../../assets/BTS-Logo.png";
 import ArrowIcon from "../../../assets/left-arrow-icon.svg";
 
-const Calendar = () => {
-    const [currentDate, setCurrentDate] = useState(new Date());
+export default function Calendar({ selectedDay, setSelectedDay }) {
+    const [currentDate, setCurrentDate] = useState(new Date()); 
     const currentYear = currentDate.getFullYear();
     const currentMonth = currentDate.getMonth();
-
     const today = new Date();
 
-    // 2. 이전 달 / 다음 달 이동 함수
+    // 이전 달 / 다음 달 이동 함수
     const handlePrevMonth = () => {
         setCurrentDate(new Date(currentYear, currentMonth - 1, 1));
     };
@@ -28,15 +27,13 @@ const Calendar = () => {
     ).getDate();
 
     const weekdays = ["월", "화", "수", "목", "금", "토", "일"];
-
     const emptyCellsCount = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
 
     const eventDays = [
-        // { year: 2026, month: 0, day: 10, img: CalendarImg1 }, // 1월 10일 -> BTS 로고
-        // { year: 2026, month: 0, day: 21, img: CalendarImg1 }, // 1월 21일 -> BTS 로고
-        // { year: 2026, month: 5, day: 17, img: CalendarImg2 }, // 6월 17일 -> 타임라인 아이콘
+        // { year: 2026, month: 0, day: 10, img: CalendarImg1 }, 
+        // { year: 2026, month: 0, day: 21, img: CalendarImg1 }, 
+        // { year: 2026, month: 5, day: 17, img: CalendarImg2 }, 
     ];
-    const [selectedDay, setSelectedDay] = useState(null);
 
     return (
         <div className="calendar-wrapper">
@@ -112,29 +109,25 @@ const Calendar = () => {
                                         })
                                     }
                                     className={`day-cell
-                                    ${isSat ? "sat" : ""}
-                                    ${isSun ? "sun" : ""}
+                                    ${isSat ? "sat" : ""} ${isSun ? "sun" : ""}
                                     ${isToday ? "highlighted-day" : ""}
-                                    ${hasBgImage ? "has-bg-image" : ""}
                                     ${
                                         selectedDay?.year === currentYear &&
                                         selectedDay?.month === currentMonth &&
                                         selectedDay?.day === dayNumber
                                             ? "selected-day"
                                             : ""
-                                    }                                  `}
+                                    }`}
                                     style={
                                         hasBgImage
                                             ? {
                                                 backgroundImage: `url(${matchedEvent.img})`,
                                                 backgroundColor: "transparent",
-                                            }
+                                                }
                                             : {}
                                     }
                                 >
-                                    <span className="day-text">
-                                        {dayNumber}
-                                    </span>
+                                    <span className="day-text">{dayNumber}</span>
                                 </div>
                             );
                         })}
@@ -143,6 +136,4 @@ const Calendar = () => {
             </div>
         </div>
     );
-};
-
-export default Calendar;
+}
