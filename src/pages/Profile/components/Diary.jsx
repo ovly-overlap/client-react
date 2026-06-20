@@ -22,23 +22,18 @@ export default function Diary() {
         setImages(images.filter((_, index) => index !== indexToRemove));
     };
 
-    // 💡 수정 버튼 클릭 처리
     const handleEdit = () => {
-        // 기존에 등록된 텍스트와 이미지를 상태에 다시 세팅하고 모달을 엽니다.
         setDiaryText(todayDiary?.text ?? "");
         setImages(todayDiary?.images ?? []);
         setIsModalOpen(true);
     };
 
-    // 💡 삭제 버튼 클릭 처리
     const handleDelete = () => {
         if (!window.confirm("오늘 작성한 일기를 삭제하시겠습니까?")) return;
 
-        // 현재 날짜의 일기만 제외하고 다시 저장
         const nextDiaries = (currentUser.diaries ?? []).filter((diary) => diary.date !== todayKey);
         updateCurrentUser({ diaries: nextDiaries });
 
-        // 상태 초기화
         setDiaryText("");
         setImages([]);
         alert("일기가 삭제되었습니다.");
@@ -46,6 +41,7 @@ export default function Diary() {
 
     const handleSave = () => {
         const trimmedText = diaryText.trim();
+
         if (!trimmedText || !currentUser) {
             alert("오늘의 일기를 입력해주세요.");
             return;
@@ -63,12 +59,11 @@ export default function Diary() {
 
         updateCurrentUser({ diaries: nextDiaries });
         markMissionCompleted("diaryWritten");
-        setDiaryText(trimmedText);
+
         alert("오늘의 일기가 저장되었습니다.");
         setIsModalOpen(false);
     };
 
-    // 일기 작성하기 버튼을 처음 누를 때(새 일기) 상태 깨끗하게 비워주기
     const handleOpenNewModal = () => {
         setDiaryText("");
         setImages([]);
