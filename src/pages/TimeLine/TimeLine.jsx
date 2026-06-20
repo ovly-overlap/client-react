@@ -1,6 +1,9 @@
 import { useState } from "react";
 import profile from "../../assets/profile-icon.svg";
 import post1 from "../../assets/riwoo.png";
+import post2 from "../../assets/riwoo2.jpg";
+import post3 from "../../assets/riwoo3.jpg";
+import post4 from "../../assets/post4.png"
 import "./TimeLine.css";
 import SearchModal from "../TimeLine/SearchModal";
 import HeartIcon from "../../assets/heart-icon.svg";
@@ -18,7 +21,7 @@ const INITIAL_FRIENDS = [
         id: 1,
         name: "Jin라면먹고싶다",
         username: "Jin라면먹고싶다",
-        isFollowing: true,
+        isFollowing: false,
     },
     { id: 2, name: "으아내정신", username: "으아내정신", isFollowing: false },
     {
@@ -31,17 +34,17 @@ const INITIAL_FRIENDS = [
         id: 4,
         name: "똥싸개",
         username: "똥싸개",
-        isFollowing: true,
+        isFollowing: false,
     },
     {
         id: 5,
         name: "주라미",
         username: "주라미",
-        isFollowing: true,
+        isFollowing: false,
     },
 ];
 
-const INITIAL_SEARCHES = ["망개떡", "우나기", "ChristmasTree"];
+const INITIAL_SEARCHES = ["주라미"];
 
 const MOCK_USERS = [
     { id: 1, name: "성호어깨에치여사망", isFollowing: true },
@@ -61,32 +64,22 @@ const INITIAL_POSTS = [
         time: "2분 전",
         content:
             "아 진짜 리우 너무 잘생겼어요 미친!! 게다가 오늘 보넥도 상 타서 진짜 너무 좋아요❤️",
-        images: [post1, post1, post1],
+        images: [post1, post2, post3],
         likedUsers: [MOCK_USERS[0], MOCK_USERS[1], MOCK_USERS[2]],
         comments: [
-            {
-                id: 101,
-                user: "으아내정신",
-                time: "1시간 전",
-                text: "I love you, riwoo my dear darling S2",
-                likes: 0,
-                isMine: false,
-                replies: [
-                    {
-                        id: 1011,
-                        user: "망개떡",
-                        time: "30분 전",
-                        text: "저도 동감해요!",
-                        likes: 0,
-                        isMine: false,
-                    },
-                ],
-            },
+                {
+                    id: 1011,
+                    user: "망개떡",
+                    time: "30분 전",
+                    text: "오....",
+                    likes: 0,
+                    isMine: false,
+                },
             {
                 id: 102,
                 user: "류류",
                 time: "1일 전",
-                text: "제발 리우 옷 손민수하고 싶다 저 왼쪽 사진",
+                text: "제발 리우 옷 손민수하고 싶다",
                 likes: 0,
                 isMine: false,
                 replies: [],
@@ -95,10 +88,10 @@ const INITIAL_POSTS = [
     },
     {
         id: 2,
-        username: "아레아레RM",
+        username: "Jo연주",
         time: "15분 전",
         content:
-            "컴백 너무 기대돼요! 투바투 이번 콘서트에는 티켓팅 성공해서 꼭 보러가고 싶어요! 다들 콘서트때 봬요~",
+            "보넥도 좋아하는 사람?????",
         images: [],
         likedUsers: [
             MOCK_USERS[3],
@@ -107,50 +100,31 @@ const INITIAL_POSTS = [
             MOCK_USERS[6],
             MOCK_USERS[7],
         ],
-        comments: [
-            {
-                id: 201,
-                user: "망개떡",
-                time: "30분 전",
-                text: "저도 꼭 가고 싶어요ㅠㅠ 티켓팅 파이팅!",
-                likes: 5,
-                isMine: true,
-                replies: [],
-            },
-        ],
+        comments: [],
     },
     {
         id: 3,
         username: "주라미",
         time: "2분 전",
         content:
-            "JIMIN I LOVE YOU SO MUCH",
-        images: [post1, post1, post1],
+            "혹시 방탄 좋아하는 사람 있나용???",
+        images: [post4],
         likedUsers: [MOCK_USERS[0], MOCK_USERS[1], MOCK_USERS[2]],
         comments: [
             {
                 id: 301,
                 user: "으아내정신",
                 time: "1시간 전",
-                text: "I love you, riwoo my dear darling S2",
+                text: "저요!!!!!",
                 likes: 0,
                 isMine: false,
-                replies: [
-                    {
-                        id: 3011,
-                        user: "망개떡",
-                        time: "30분 전",
-                        text: "저도 동감해요!",
-                        likes: 0,
-                        isMine: false,
-                    },
-                ],
+                replies: [],
             },
             {
                 id: 302,
-                user: "류류",
+                user: "아이티쇼언제끝나",
                 time: "1일 전",
-                text: "제발 지민 옷 손민수하고 싶다 저 왼쪽 사진",
+                text: "저도 방탄 좋아해요",
                 likes: 0,
                 isMine: false,
                 replies: [],
@@ -452,8 +426,8 @@ export default function TimeLine() {
                                             ? "one"
                                             : item.images &&
                                                 item.images.length === 2
-                                              ? "two"
-                                              : ""
+                                                ? "two"
+                                                : ""
                                     }`}
                                 >
                                     {item.images &&

@@ -8,14 +8,8 @@ const dummyUsers = [
     { id: 1, name: "Jin라면먹고싶다", avatar: IMG },
     { id: 2, name: "망개떡", avatar: IMG },
     { id: 3, name: "우나기", avatar: IMG },
-    { id: 4, name: "ChristmasTree", avatar: IMG },
-    { id: 5, name: "지민", avatar: IMG },
-    { id: 6, name: "지민귀여워", avatar: IMG },
-    { id: 7, name: "지민이랑결혼하고싶다", avatar: IMG },
-    { id: 8, name: "테스트유저5", avatar: IMG },
-    { id: 9, name: "테스트유저5", avatar: IMG },
-    { id: 10, name: "테스트유저5", avatar: IMG },
-    { id: 11, name: "테스트유저5", avatar: IMG },
+    { id: 4, name: "Jo연주", avatar: IMG },
+    { id: 7, name: "지민이 아내", avatar: IMG },
 ];
 
 function SearchModal({ isOpen, onClose, onUserSelect }) {
