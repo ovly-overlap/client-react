@@ -4,12 +4,14 @@
   align-items: center;
   width: 90%;
   max-width: 480px;
-  min-height: 650px;   /* 최소 높이만 지정 */
-  height: auto;        /* 고정 높이를 풀어서 내용물이 넘쳐도 스크롤 안 생기게 함 */
+  min-height: 650px; 
+  height: auto;    
   background-color: white;
   justify-content: center;
-  padding: 40px 0;     /* 위아래 여백 살짝 주기 */
+  padding: 20px 0;    
   box-sizing: border-box;
+  border: 2px solid var(--outline-3);
+  border-radius: 15px;
 }
 
 .upupup {
@@ -33,7 +35,7 @@
 .title {
   font-size: 32px;
   font-weight: bold;
-  line-height: 1;      /* 불필요한 위아래 공백 제거 */
+  line-height: 1;     
 }
 
 .subtitle {
@@ -65,16 +67,12 @@ body {
   border: none;
 }
 
-/* ::placeholder{
-  padding-left: 15px;
-} */
 .doublecheck {
   cursor:pointer;
   border: none;
   border-radius: 60px;
   width: 21%;
   height: 40px;
-  /* outline: 2px solid var(--button-3); */
   margin-left: 10px;
   background-color: var(--button-3);
   color: var(--white);
@@ -98,6 +96,9 @@ body {
   gap:30px;
 }
 .signupForm{
+  display: flex;
+  flex-direction: column;
+  gap:30px;
   width: 80%;
 }
 
@@ -122,8 +123,8 @@ body {
 
 #password2 {
   border-radius: 20px;
-  width: 100%;             /* 89% -> 100%로 변경 */
-  box-sizing: border-box;  /* 패딩 때문에 삐져나가는 것 방지 */
+  width: 100%;         
+  box-sizing: border-box;
   height: 38px;
   border: none;
   outline: 2px solid var(--outline-3);
@@ -142,7 +143,7 @@ body {
 .start {
   border-radius: 20px;
   margin-top: 10px;
-  width: 100%;             /* 89% -> 100%로 변경 */
+  width: 100%;           
   height: 38px;
   outline: 2px solid var(--outline-3);
   border: none;
@@ -167,8 +168,8 @@ form:valid .start {
 
 #userid2 {
   border-radius: 20px;
-  width: 100%;             /* 89% -> 100%로 변경 */
-  box-sizing: border-box;  /* 패딩 때문에 삐져나가는 것 방지 */
+  width: 100%;        
+  box-sizing: border-box;  
   height: 38px;
   outline: 2px solid var(--outline-3);
   border: none;
