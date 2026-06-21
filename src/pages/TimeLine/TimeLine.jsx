@@ -14,14 +14,6 @@ const REPORT_REASONS = [
     "부적절한 내용 및 기타",
 ];
 
-const INITIAL_FRIENDS = [
-    { id: 1, name: "Jin라면먹고싶다", isFollowing: true },
-    { id: 2, name: "으아내정신", isFollowing: false },
-    { id: 3, name: "성호어깨에치여사망", isFollowing: false },
-    { id: 4, name: "성호어깨에치여사망", isFollowing: true },
-    { id: 5, name: "성호어깨에치여사망", isFollowing: false },
-];
-
 const INITIAL_SEARCHES = ["망개떡", "우나기", "ChristmasTree"];
 
 const MOCK_USERS = [
@@ -95,8 +87,42 @@ const INITIAL_POSTS = [
                 time: "30분 전",
                 text: "저도 꼭 가고 싶어요ㅠㅠ 티케팅 파이팅!",
                 likes: 5,
+            },
+        ],
+    },
+    {
+        id: 3,
+        username: "주라미",
+        time: "2분 전",
+        content:
+            "지민 I LOVE YOU SO MUCH HAHA!!",
+        images: [post1, post1, post1],
+        likedUsers: [MOCK_USERS[0], MOCK_USERS[1], MOCK_USERS[2]],
+        comments: [
+            {
+                id: 301,
+                user: "으아내정신",
+                time: "1시간 전",
+                text: "I love you, riwoo my dear darling S2",
+                likes: 0,
                 isMine: false,
-                replies: [],
+                replies: [
+                    {
+                        id: 3011,
+                        user: "망개떡",
+                        time: "30분 전",
+                        text: "저도 동감해요!",
+                        likes: 0,
+                        isMine: false,
+                    },
+                ],
+            },
+            {
+                id: 302,
+                user: "류류",
+                time: "1일 전",
+                text: "제발 지민 옷 손민수하고 싶다 저 왼쪽 사진",
+                likes: 0,
             },
         ],
     },
@@ -122,9 +148,9 @@ const parseTimelinePage = (data) => {
 
 export default function TimeLine() {
     const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-    // const [posts, setPosts] = useState(INITIAL_POSTS);
-    const [activeTab, setActiveTab] = useState("suggest");
-    // const [friends, setFriends] = useState(INITIAL_FRIENDS);
+    const [posts, setPosts] = useState(INITIAL_POSTS);
+    const [activeTab, setActiveTab] = useState("recommend");
+    const [friends, setFriends] = useState(INITIAL_FRIENDS);
     const [searchHistory, setSearchHistory] = useState(INITIAL_SEARCHES);
     const [blockedUsers, setBlockedUsers] = useState([]);
     const [selectedPostId, setSelectedPostId] = useState(null);
@@ -295,11 +321,58 @@ export default function TimeLine() {
         setLikeModalPostId(postId);
     };
 
-    const openReportModal = (e, postId) => {
+    // 실시간 변경 사항이 모달 내부 컴포넌트까지 완벽히 감지하도록 posts가 바뀔 때마다 동기화 수행
+    const selectedPost = posts.find((p) => p.id === selectedPostId);
+    const likeTargetPost = posts.find((p) => p.id === likeModalPostId);
+
+    const visiblePosts = posts.filter(
+        (post) => !blockedUsers.includes(post.username)
+    );
+
+    const getCommentsCount = (postItem) => {
+        if (!postItem || !postItem.comments) return 0;
+        // 부모 댓글 수 + 자식 대댓글 수의 총합을 구하여 아이콘 숫자가 비지 않도록 처리
+        return postItem.comments.reduce((acc, current) => {
+            const replyCount = current.replies ? current.replies.length : 0;
+            return acc + 1 + replyCount;
+        }, 0);
+    };
+
+    const checkIfILiked = (postItem) => {
+        if (!postItem || !postItem.likedUsers) return false;
+        return postItem.likedUsers.some((user) => user.id === "me");
+    };
+
+    const handlePostClick = (postItem) => {
+        setSelectedPostId(postItem.id);
+        setCommentInput("");
+    };
+
+    const handleLikeToggle = (e, postId) => {
         e.stopPropagation();
-        setReportModalPostId(postId);
-        setSelectedReason("");
-        setShowBlockConfirm(false);
+        const myAccount = { id: "me", name: "나(User)", isFollowing: false };
+
+        setPosts((prevPosts) =>
+            prevPosts.map((postItem) => {
+                if (postItem.id === postId) {
+                    const hasLiked = postItem.likedUsers.some(
+                        (u) => u.id === "me"
+                    );
+                    return {
+                        ...postItem,
+                        likedUsers: hasLiked
+                            ? postItem.likedUsers.filter((u) => u.id !== "me")
+                            : [...postItem.likedUsers, myAccount],
+                    };
+                }
+                return postItem;
+            })
+        );
+    };
+
+    const openLikeModal = (e, postId) => {
+        e.stopPropagation();
+        setLikeModalPostId(postId);
     };
 
     const handleFollowToggle = async (friendId) => {
@@ -451,6 +524,121 @@ export default function TimeLine() {
                         ...postItem,
                         // 게시글의 전체 댓글 수를 1 올려줍니다.
                         commentCount: (postItem.commentCount || 0) + 1,
+                    }
+                })
+            );
+        } catch(err){
+            console.log("대댓글 관련 오류");
+        }
+    }
+                
+
+    const handleFollowToggle = (id) => {
+        setFriends((prev) =>
+            prev.map((friend) =>
+                friend.id === id
+                    ? { ...friend, isFollowing: !friend.isFollowing }
+                    : friend
+            )
+        );
+    };
+
+    const handleAddSearchHistory = (userName) => {
+        setSearchHistory((prev) => {
+            const filtered = prev.filter((item) => item !== userName);
+            return [userName, ...filtered];
+        });
+    };
+    const handleLikeUserFollow = (userId) => {
+        setPosts((prevPosts) =>
+            prevPosts.map((postItem) => ({
+                ...postItem,
+                likedUsers: postItem.likedUsers.map((user) =>
+                    user.id === userId
+                        ? { ...user, isFollowing: !user.isFollowing }
+                        : user
+                ),
+            }))
+        );
+    };
+
+    const handleClearSearchHistory = () => {
+        setSearchHistory([]);
+    };
+
+    const handleRemoveSearchItem = (targetIndex) => {
+        setSearchHistory((prev) =>
+            prev.filter((_, index) => index !== targetIndex)
+        );
+    };
+
+    const handleBlockUser = () => {
+        const targetPost = posts.find((post) => post.id === reportModalPostId);
+        if (!targetPost) return;
+
+        setBlockedUsers((prev) => [...prev, targetPost.username]);
+        setReportModalPostId(null);
+
+        if (selectedPostId === targetPost.id) {
+            setSelectedPostId(null);
+        }
+    };
+
+    // 부모 댓글 등록
+    const handleCommentSubmit = (e) => {
+        e.preventDefault();
+        if (!commentInput.trim() || !selectedPostId) return;
+
+        const newComment = {
+            id: Date.now(),
+            user: "나(User)",
+            time: "방금 전",
+            text: commentInput,
+            likes: 0,
+            isMine: true,
+            replies: [],
+        };
+
+        setPosts((prevPosts) =>
+            prevPosts.map((postItem) => {
+                if (postItem.id === selectedPostId) {
+                    return {
+                        ...postItem,
+                        comments: [newComment, ...postItem.comments],
+                    };
+                }
+                return postItem;
+            })
+        );
+        setCommentInput("");
+    };
+    const followingPosts = posts.filter(
+        (post) =>
+            friends.some(
+                (friend) =>
+                    friend.isFollowing && friend.username === post.username
+            ) && !blockedUsers.includes(post.username)
+    );
+
+    // 대댓글 등록
+    const handleReplySubmit = (e, commentId) => {
+        e.preventDefault();
+        if (!commentInput.trim() || !selectedPostId) return;
+
+        const newReply = {
+            id: Date.now(),
+            user: "나(User)",
+            time: "방금 전",
+            text: commentInput,
+            likes: 0,
+            isMine: true,
+        };
+
+        setPosts((prevPosts) =>
+            prevPosts.map((postItem) => {
+                if (postItem.id === selectedPostId) {
+                    return {
+                        ...postItem,
                         comments: postItem.comments.map((comment) => {
                             if (comment.id === commentId) {
                                 return {
@@ -480,55 +668,32 @@ export default function TimeLine() {
         isReply = false,
         parentCommentId = null
     ) => {
-        if (!confirmDelete) return;
+        setPosts((prevPosts) =>
+            prevPosts.map((postItem) => {
+                if (postItem.id !== selectedPostId) return postItem;
 
-        try {
-            if (isReply) {
-                // 💡 대댓글 삭제 API 호출 예시
-                await api.delete(`/comments/${replyId}`);
-            } else {
-                // 💡 일반 부모 댓글 삭제 API 호출 예시
-                await api.delete(`/comments`);
-            }
+                const updatedComments = postItem.comments.map((comment) => {
+                    if (isReply && comment.id === parentCommentId) {
+                        return {
+                            ...comment,
+                            replies: (comment.replies || []).filter(
+                                (reply) => reply.id !== commentId
+                            ),
+                        };
+                    }
+                    return comment;
+                });
 
-            // 서버 삭제 성공 시 프론트엔드 상태 반영
-            setPosts((prevPosts) =>
-                prevPosts.map((postItem) => {
-                    if (postItem.id !== selectedPostId) return postItem;
-
-                    // 1. 깊은 구조 안에서 삭제된 댓글/대댓글 제외하기
-                    const updatedComments = postItem.comments.map((comment) => {
-                        if (isReply && comment.id === parentCommentId) {
-                            return {
-                                ...comment,
-                                replies: (comment.replies || []).filter(
-                                    (reply) => reply.id !== commentId
-                                ),
-                            };
-                        }
-                        return comment;
-                    });
-
-                    // 2. 최종 post 객체 리턴 (일반 댓글 삭제면 껍데기까지 filter로 날려버림)
-                    return {
-                        ...postItem,
-                        // 삭제되었으므로 카운트 하나 감소 (UX 디테일)
-                        commentCount: Math.max(
-                            0,
-                            (postItem.commentCount || 1) - 1
-                        ),
-                        comments: isReply
-                            ? updatedComments
-                            : updatedComments.filter(
-                                  (comment) => comment.id !== commentId
-                              ),
-                    };
-                })
-            );
-        } catch (err) {
-            console.error("댓글 삭제 실패:", err);
-            alert("댓글을 삭제하는 데 실패했습니다.");
-        }
+                return {
+                    ...postItem,
+                    comments: isReply
+                        ? updatedComments
+                        : updatedComments.filter(
+                              (comment) => comment.id !== commentId
+                          ),
+                };
+            })
+        );
     };
 
     return (
@@ -684,6 +849,115 @@ export default function TimeLine() {
                             {isLoading ? "게시글을 더 불러오는 중..." : ""}
                         </div>
                     )}
+                    {(activeTab === "recommend"
+                        ? visiblePosts
+                        : followingPosts
+                    ).map((item) => (
+                        <div
+                            key={item.id}
+                            className="post"
+                            onClick={() => handlePostClick(item)}
+                            style={{ cursor: "pointer" }}
+                        >
+                            <div className="post-top2">
+                                <div className="post-profile">
+                                    <img src={profile} alt="" />
+                                    <div>
+                                        <h4>{item.username}</h4>
+                                        <span>{item.time}</span>
+                                    </div>
+                                </div>
+                                <div
+                                    className="more"
+                                    onClick={(e) => openReportModal(e, item.id)}
+                                >
+                                    ⋯
+                                </div>
+                            </div>
+
+                            <div className="post-center">
+                                <p>{item.content}</p>
+                                <div
+                                    className={`post-images ${
+                                        item.images && item.images.length === 1
+                                            ? "one"
+                                            : item.images &&
+                                                item.images.length === 2
+                                              ? "two"
+                                              : ""
+                                    }`}
+                                >
+                                    {item.images &&
+                                        item.images
+                                            .slice(0, 3)
+                                            .map((imgSrc, index) => {
+                                                if (
+                                                    index === 2 &&
+                                                    item.images.length > 3
+                                                ) {
+                                                    return (
+                                                        <div
+                                                            key={index}
+                                                            className="last-image"
+                                                        >
+                                                            <img
+                                                                src={imgSrc}
+                                                                alt=""
+                                                            />
+                                                            <span>
+                                                                +
+                                                                {item.images
+                                                                    .length - 3}
+                                                            </span>
+                                                        </div>
+                                                    );
+                                                }
+                                                return (
+                                                    <img
+                                                        key={index}
+                                                        src={imgSrc}
+                                                        alt=""
+                                                    />
+                                                );
+                                            })}
+                                </div>
+                            </div>
+
+                            <div className="post-bottom">
+                                <div
+                                    className="post-stat"
+                                    onClick={(e) => e.stopPropagation()}
+                                >
+                                    <img
+                                        src={HeartIcon}
+                                        alt="좋아요"
+                                        className={`stat-icon ${checkIfILiked(item) ? "liked" : ""}`}
+                                        onClick={(e) =>
+                                            handleLikeToggle(e, item.id)
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                    />
+                                    <span
+                                        onClick={(e) =>
+                                            openLikeModal(e, item.id)
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                    >
+                                        {item.likedUsers.length.toLocaleString()}
+                                    </span>
+                                </div>
+
+                                <div className="post-stat">
+                                    <img
+                                        src={CommentIcon}
+                                        alt="댓글"
+                                        className="stat-icon"
+                                    />
+                                    {getCommentsCount(item)}
+                                </div>
+                            </div>
+                        </div>
+                    ))}
                 </div>
 
                 <div className="timeline-right">
@@ -746,11 +1020,22 @@ export default function TimeLine() {
                                     }
                                     className={
                                         friend?.isFollowing
+                            <div key={friend.id} className="friend-user">
+                                <div className="friend-left">
+                                    <img src={profile} alt="" />
+                                    <p>{friend.name}</p>
+                                </div>
+                                <button
+                                    onClick={() =>
+                                        handleFollowToggle(friend.id)
+                                    }
+                                    className={
+                                        friend.isFollowing
                                             ? "following-btn"
                                             : ""
                                     }
                                 >
-                                    {friend?.isFollowing ? "팔로잉" : "팔로우"}
+                                    {friend.isFollowing ? "팔로잉" : "팔로우"}
                                 </button>
                             </div>
                         ))}
@@ -761,8 +1046,9 @@ export default function TimeLine() {
             <SearchModal
                 isOpen={isSearchModalOpen}
                 onClose={() => setIsSearchModalOpen(false)}
-            />
-
+                onUserSelect={handleAddSearchHistory}
+                friends={friends}
+                onFollowToggle={handleFollowToggle}
             {/* 게시물 상세 + 댓글 레이아웃 모달 */}
             {selectedPost && (
                 <div
@@ -779,18 +1065,10 @@ export default function TimeLine() {
                         <div className="modal-left">
                             <div className="post-top2">
                                 <div className="post-profile">
-                                    <img
-                                        src={
-                                            selectedPost?.author
-                                                ?.profileImageUrl
-                                        }
-                                        alt=""
-                                    />
+                                    <img src={profile} alt="" />
                                     <div>
-                                        <h4>
-                                            {selectedPost?.author?.username}
-                                        </h4>
-                                        <span>{selectedPost?.timeAgo}</span>
+                                        <h4>{selectedPost.username}</h4>
+                                        <span>{selectedPost.time}</span>
                                     </div>
                                 </div>
                                 <div
@@ -810,6 +1088,11 @@ export default function TimeLine() {
                                 <div className="modal-image-grid">
                                     {selectedPost?.uploadedImageUrls &&
                                         selectedPost?.uploadedImageUrls.map(
+                                    {selectedPost.content}
+                                </p>
+                                <div className="modal-image-grid">
+                                    {selectedPost.images &&
+                                        selectedPost.images.map(
                                             (imgSrc, idx) => (
                                                 <div
                                                     key={idx}
@@ -1250,35 +1533,7 @@ export default function TimeLine() {
                                 likeTargetPost.likeCount ??
                                 likeTargetPost.likedUsers.length
                             ).toLocaleString()}
-                        </div>
-                        <div className="like-public-text">
-                            좋아요를 누른 모든 사용자가 공개됩니다.
-                        </div>
-                        <div className="like-user-list">
-                            {likeTargetPost.likedUsers.map((user) => (
-                                <div key={user.id} className="like-user-item">
-                                    <div className="like-user-info">
-                                        <img src={profile} alt="" />
-                                        <p>{user.name}</p>
-                                    </div>
-                                    <button
-                                        onClick={() =>
-                                            handleLikeUserFollow(user.id)
-                                        }
-                                        className={
-                                            user.isFollowing
-                                                ? "status-following"
-                                                : "status-follow"
-                                        }
-                                    >
-                                        {user.isFollowing ? "팔로잉" : "팔로우"}
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            )}
+                            {likeTargetPost.likedUsers.length.toLocaleString()}
 
             {/* 신고/차단 관련 모달 */}
             {reportModalPostId && (

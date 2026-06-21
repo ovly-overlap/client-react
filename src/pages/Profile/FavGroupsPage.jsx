@@ -69,11 +69,6 @@ export default function FavGroupsPage() {
                         {isMyProfile && (
                             <p style={style.noScheduleMsg2}>관심있는 팬덤을 검색해서 추가해보세요.</p>
                         )}
-                        {isMyProfile && (
-                            <button type="button" style={style.addMockBtn} onClick={handleAddFandom}>
-                                BTS 추가하기
-                            </button>
-                        )}
                     </div>
                 )}
             </div>
@@ -99,6 +94,7 @@ const style = {
         alignItems: "center",
         width: "100%",
         gap:"30px",
+        paddingBottom: "50px",
     },
     favGroupHeader: {
         display: "flex",

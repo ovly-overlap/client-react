@@ -16,12 +16,13 @@ export default function ProfilePage() {
         <>
         <div style={style.profileSection}>
             <ProfileHeader isMyProfile={isMyProfile} userName={userName} introduce={introduce} favGroups={favGroups} />
-            <Todo isMyProfile={isMyProfile}/>
-            {isMyProfile && <Diary />}
-            <div style={style.contentLayout}>
+            <div style={style.calendarTodoDiary}>
+              <div style={style.todoDiary}> 
+                <Todo isMyProfile={isMyProfile}/>
+                {isMyProfile && <Diary />}
+              </div>
               <Calendar />
             </div>
-          
         </div>
     </>
   );
@@ -29,12 +30,23 @@ export default function ProfilePage() {
 
 const style = {
   profileSection: {
-    margin: "40px 0px 0px 287px",
+    display: "flex",
+    flexDirection: "column",
+    gap: "40px",
+    marginLeft: "240px",
+    padding: "40px 50px",
+    alignItems: "stretch",
   },
-  contentLayout: {
-    display: 'flex',
-    flexDirection: 'row',     
-    alignItems: 'flex-start',
-    gap: '40px'
-}
+  calendarTodoDiary: {
+    display: "flex",
+    flexDirection: "row",
+    gap: "35px",
+    justifyContent: "flex-start",
+  },
+  todoDiary: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "30px",
+    flex: 1,
+  },
 };

@@ -25,11 +25,21 @@ export default function NewsContainer() {
 }
 
 const style = {
+    newsContainer: {
+        display: "flex",
+        flexDirection: "column",
+        gap: "15px",
+        width: "100%",
+        maxWidth: "1200px",
+        margin: "0 auto",
+    },
     newsHeader: {
         display: "flex",
         gap: "15px",
         alignItems: "center",
         overflow: "hidden",
+        width: "100%",
+        justifyContent: "space-between",
     },
     title: {
         fontWeight: "bold",
