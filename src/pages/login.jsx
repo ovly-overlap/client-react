@@ -55,7 +55,7 @@ function Login() {
                         </div>
                         <div className="idPassSection">
                             <div className="idSection">
-                                <label className="ididid" html96For="uaserid">
+                                <label className="ididid" htmlFor="userid">
                                     아이디
                                 </label>
                                 <input
