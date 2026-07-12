@@ -8,18 +8,29 @@ import axios from "axios";
 // src/api/axios.js (또는 api가 정의된 파일)
 
 export const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
-    withCredentials: true,
-    headers: {
-        "Content-Type": "application/json; charset=UTF-8;",
-        accept: "application/json",
-    },
+  baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json; charset=UTF-8;",
+    accept: "application/json",
+  },
 });
 
 api.interceptors.request.use((config) => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
+  const token = localStorage.getItem("accessToken");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
+
+axios.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response?.status === 401) {
+      // 토큰 재발급
+    }
+
+    return Promise.reject(error);
+  }
+);

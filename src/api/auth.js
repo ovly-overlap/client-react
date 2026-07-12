@@ -1,26 +1,25 @@
 import { api } from "./axios";
-import { useQuery } from "@tanstack/react-query";
 
 export const getMe = async () => {
-    const token = localStorage.getItem("accessToken");
-    const response = await api.get("/auth/me", {
-        headers: { Authorization: `Bearer ${token}` },
-    });
+  const token = localStorage.getItem("accessToken");
+  const response = await api.get("/auth/me", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 
-    return response;
+  return response.data;
 };
 
 export const login = async (username, password) => {
-    const response = await api.post("/auth/login", {
-        username,
-        password,
-    });
+  const response = await api.post("/auth/login", {
+    username,
+    password,
+  });
 
-    return response.data;
+  return response.data;
 };
 
 export const logout = async () => {
-    const response = await api.post("/auth/logout");
+  const response = await api.post("/auth/logout");
 
-    return response.data;
+  return response.data;
 };
