@@ -1,11 +1,12 @@
 .setting-section{
-    padding-left:240px;
+    margin-left:240px;
     display: flex;
     flex-direction: column; 
-    align-items: flex-start; 
+    align-items: center; 
+    padding: 70px 30px;
+    gap:40px;
 }
 .profile-card{
-    margin: 3% auto auto auto;
     background-color: var(--white);
     border-radius: 15px;
     border: 3px var(--outline-3) solid;
@@ -136,7 +137,6 @@ textarea::placeholder {
     border: 3px var(--outline-3) solid;
     width: 95%;
     background-color: var(--white);
-    margin: 37px auto 5% auto;
 }
 .faq-card .setting-title {
     height: 80px;
@@ -198,4 +198,25 @@ textarea::placeholder {
 .faq-container .answer::before{
     content: "A. ";
     padding-right: 6px;
+}
+.logOutSection{
+    display: flex;
+    flex-direction: column;
+    gap:20px;
+    align-items: center;
+}
+.logOutButton{
+    background-color: var(--outline-3);
+    border:none;
+    color: var(--gray-1);
+    font-size: 20px;
+    font-weight: bold;
+    padding: 18px 80px;
+    border-radius: 15px;
+    text-decoration: none;
+}
+.deleteAccoutButton{
+    color:var(--red);
+    font-size: 20px;
+    font-weight: 500;
 }

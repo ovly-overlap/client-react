@@ -6,31 +6,39 @@ import { markMissionCompleted } from "../../../utils/localStorage.js";
 export default function NewsContainer() {
 
     return (
-    <div className="news-container">
+    <div style={style.newsContainer}>
         <div style={style.newsHeader}>
             <img src={NewsIcon} alt="news-icon" />
             <p style={style.title}>실시간 뉴스</p>
-        </div>
-        <div style={style.newsBox}>
             <Link
                 to="/idol-news"
                 style={style.newsBoxButton}
                 onClick={() => markMissionCompleted("newsViewed")}
             >
-                    모두보기
+                모두보기
             </Link>
-            <NewsCard />
         </div>
+        <NewsCard />
     </div>
     );
 }
 
 const style = {
+    newsContainer: {
+        display: "flex",
+        flexDirection:'column',
+        gap:"15px",
+        width: '100%',
+        maxWidth: '1200px',
+        margin: '0 auto',
+    },
     newsHeader: {
         display: "flex",
         gap: "15px",
         alignItems: "center",
         overflow: "hidden",
+        width: '100%',
+        justifyContent: "space-between"
     },
     title: {
         fontWeight: "bold",

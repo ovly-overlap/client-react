@@ -1,4 +1,5 @@
-import { useLocation, useParams } from "react-router-dom";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import ProfileHeader from "./components/ProfileHeader.jsx";
 import Todo from "./components/Todo.jsx";
 import Diary from "./components/Diary.jsx";
@@ -15,6 +16,12 @@ export default function ProfilePage() {
   const introduce =
     currentUser?.introduce ?? "설정에서 자기소개를 설정해주세요";
   const favGroups = currentUser?.favGroups ?? [];
+  const today = new Date();
+  const [selectedDay, setSelectedDay] = useState({
+    year: today.getFullYear(),
+    month: today.getMonth(),
+    day: today.getDate(),
+  });
 
   const { data: me } = useUser();
   const userId = currentUser.id;
@@ -27,10 +34,16 @@ export default function ProfilePage() {
     <>
       <div style={style.profileSection}>
         <ProfileHeader isMyProfile={isMyProfile} profile={profile?.profile} />
-        <Todo isMyProfile={isMyProfile} schedules={profile?.schedules} />
-        {isMyProfile && <Diary />}
-        <div style={style.contentLayout}>
-          <Calendar />
+        <div style={style.calendarTodoDiary}>
+          <div style={style.todoDiary}>
+            <Todo
+              isMyProfile={isMyProfile}
+              schedules={profile?.schedules}
+              selectedDay={selectedDay}
+            />
+            {isMyProfile && <Diary />}
+          </div>
+          <Calendar selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
         </div>
       </div>
     </>
@@ -39,12 +52,23 @@ export default function ProfilePage() {
 
 const style = {
   profileSection: {
-    margin: "40px 0px 0px 287px",
+    display: "flex",
+    flexDirection: "column",
+    gap: "40px",
+    marginLeft: "240px",
+    padding: "40px 50px",
+    alignItems: "stretch",
   },
-  contentLayout: {
+  calendarTodoDiary: {
     display: "flex",
     flexDirection: "row",
-    alignItems: "flex-start",
-    gap: "40px",
+    gap: "35px",
+    justifyContent: "flex-start",
+  },
+  todoDiary: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "30px",
+    flex: 1,
   },
 };

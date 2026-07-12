@@ -6,12 +6,17 @@ import {
   updateCurrentUser,
 } from "../../../utils/localStorage.js";
 
-export default function Todo({ isMyProfile = false, schedules }) {
+export default function Todo({ isMyProfile = false, selectedDay, schedules }) {
   const currentUser = getCurrentUser();
   const currentUserId = currentUser?.id;
   const [showInput, setShowInput] = useState(false);
-  //   const [todos, setTodos] = useState(() => currentUser?.todos ?? []);
-  const [todos, setTodos] = useState(schedules);
+  const [todos, setTodos] = useState(() => currentUser?.todos ?? []);
+  const formattedMonth = String(selectedDay.month + 1).padStart(2, "0");
+  const formattedDay = String(selectedDay.day).padStart(2, "0");
+  const selectedDateKey = `${selectedDay.year}-${formattedMonth}-${formattedDay}`;
+  const filteredTodos = todos.filter(
+    (todo) => todo.createdAt === selectedDateKey
+  );
 
   useEffect(() => {
     if (isMyProfile && currentUserId) {
@@ -30,11 +35,13 @@ export default function Todo({ isMyProfile = false, schedules }) {
         )}
       </div>
       <TodoCard
-        todos={todos}
+        todos={filteredTodos}
+        allTodos={todos}
         setTodos={setTodos}
         showInput={showInput}
         setShowInput={setShowInput}
         isMyProfile={isMyProfile}
+        selectedDateKey={selectedDateKey}
       />
     </div>
   );
