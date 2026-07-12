@@ -1,9 +1,19 @@
 import { Navigate, Outlet } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { getMe } from "../api/auth.js";
 
-export default function ProtectedRoute({ user, loading }) {
-    // 1. App.jsx에서 getMe()를 아직 부르고 있는 '로딩 중'일 때는 아무것도 하지 않고 대기합니다.
-    if (loading) {
-        return null; // 혹은 <div>로딩 중...</div>
+export default function ProtectedRoute() {
+    const hasToken = !!localStorage.getItem("accessToken");
+
+    const { data: user, isLoading } = useQuery({
+        queryKey: ["me"],
+        queryFn: getMe,
+        retry: false,
+        enabled: hasToken,
+    });
+
+    if (isLoading) {
+        return <div>Loading...</div>;
     }
 
     if (!user) {

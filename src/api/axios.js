@@ -7,13 +7,13 @@ import axios from "axios";
 
 // src/api/axios.js (또는 api가 정의된 파일)
 
-// export const api = axios.create({
-//     baseURL: import.meta.env.VITE_API_URL,
-//     withCredentials: true,
-// });
 export const api = axios.create({
-    baseURL: "http://localhost:3000",
-    withCredentials: false,
+    baseURL: import.meta.env.VITE_API_URL,
+    withCredentials: true,
+    headers: {
+        "Content-Type": "application/json; charset=UTF-8;",
+        accept: "application/json",
+    },
 });
 
 api.interceptors.request.use((config) => {

@@ -1,4 +1,5 @@
 import { api } from "./axios";
+import { useQuery } from "@tanstack/react-query";
 
 export const getMe = async () => {
     const token = localStorage.getItem("accessToken");
