@@ -1,6 +1,6 @@
-import CalendarIcon from '../../../assets/calendar-icon.svg'
-import { useState } from 'react'
-import { getCurrentUser } from '../../../utils/localStorage.js';
+import { useState } from "react";
+import CalendarIcon from "../../../assets/calendar-icon.svg"; 
+import { getCurrentUser } from "../../../utils/localStorage.js"; 
 
 const toDateValue = (date) => {
     const year = date.getFullYear();
@@ -10,6 +10,7 @@ const toDateValue = (date) => {
 };
 
 const parseDateValue = (dateValue) => {
+    if (!dateValue) return new Date();
     const [year, month, day] = dateValue.split('-').map(Number);
     return new Date(year, month - 1, day);
 };
@@ -19,6 +20,7 @@ const getCurrentScheduleDates = () => {
     const year = today.getFullYear();
     const month = today.getMonth() + 1;
     const currentDayOfWeek = today.getDay();
+    
     const daysToSubtract = currentDayOfWeek === 0 ? 6 : currentDayOfWeek - 1;
     const monday = new Date(today);
     monday.setDate(today.getDate() - daysToSubtract);
@@ -49,12 +51,13 @@ export default function ScheduleSection(){
     const [{ currentYearMonth, weekDays, todayDate, weekStart, weekEnd }] = useState(getCurrentScheduleDates);
     const [selectedDate, setSelectedDate] = useState(todayDate);
     const currentUser = getCurrentUser();
+    
     const scheduleData = (currentUser?.todos ?? [])
-        .filter((todo) => todo.date && todo.date >= weekStart && todo.date <= weekEnd)
+        .filter((todo) => todo.createdAt && todo.createdAt >= weekStart && todo.createdAt <= weekEnd)
         .map((todo) => ({
             id: todo.id,
-            date: todo.date,
-            day: parseDateValue(todo.date).getDate(),
+            date: todo.createdAt, 
+            day: parseDateValue(todo.createdAt).getDate(), 
             title: todo.label,
             memo: todo.memo || '프로필 해야 할 일',
         }));
@@ -78,7 +81,6 @@ export default function ScheduleSection(){
                                 {weekDays.map((dayItem, index) => {
                                     const isScheduled = hasSchedule(dayItem.dateValue);
                                     const isSelected = selectedDate === dayItem.dateValue;
-
                                     return (
                                         <div 
                                             key={index} 
@@ -93,8 +95,7 @@ export default function ScheduleSection(){
                             </div>
                         </div>
                     </div>
-
-                    <div className="schedule-list-container">
+                <div className="schedule-list-container">
                         {filteredSchedules.length > 0 ? (
                             filteredSchedules.map((schedule) => (
                                 <div key={schedule.id} className="schedule-item">
@@ -112,8 +113,9 @@ export default function ScheduleSection(){
                             </div>
                         )}
                     </div>
+                    </div>
                 </div>
-            </div>
+        </div>
 
             <style>{`
                 .schedule{
@@ -249,7 +251,6 @@ export default function ScheduleSection(){
                     color:var(--gray-2);
                 }
             `}</style>
-        </div> 
         </>
     )
 }
